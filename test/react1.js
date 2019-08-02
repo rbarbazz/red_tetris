@@ -1,18 +1,19 @@
-import chai from "chai"
 import React from 'react'
-import equalJSX from 'chai-equal-jsx'
-import {createRenderer} from 'react-addons-test-utils'
+import chai, {expect} from 'chai'
+import { h } from 'preact';
+import assertJsx from 'preact-jsx-chai';
+import ShallowRenderer from 'react-test-renderer/shallow';
 import {Tetris, Board} from '../src/client/components/test'
 
 chai.should()
-chai.use(equalJSX)
+chai.use(assertJsx);
 
 describe('Fake react test', function(){
   it('works', function(){
-    const renderer = createRenderer()
+    const renderer = new ShallowRenderer()
     renderer.render(React.createElement(Tetris))
     const output = renderer.getRenderOutput()
-    output.should.equalJSX(<Board/>)
+    expect(output).to.deep.equal(<Board/>)
   })
 
 })
