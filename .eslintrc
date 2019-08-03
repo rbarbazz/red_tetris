@@ -2,8 +2,5 @@
 	"extends": "airbnb",
 	"env": {
 		"browser": true
-	},
-	"rules": {
-		"react/no-multi-comp": [0, { "ignoreStateless": true }]
 	}
 }

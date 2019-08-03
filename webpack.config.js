@@ -1,21 +1,25 @@
-var path = require('path');
+const path = require('path');
 
 module.exports = {
-  entry: './src/client/index.js',
-
+  entry: './src/client/index.jsx',
   output: {
     path: path.join(__dirname, 'build'),
-    filename: 'bundle.js'
+    filename: 'bundle.js',
   },
-
   module: {
-    rules: [{
-      test: /\.js$/,
-      exclude: /node_modules/,
-      loader: 'babel-loader',
-      query:{
-        presets: ["@babel/preset-env", "@babel/preset-react"]
-      }
-    }]
-  }
+    rules: [
+      {
+        test: /\.(js|jsx)$/i,
+        exclude: /node_modules/,
+        loader: 'babel-loader',
+      },
+      {
+        test: /\.css$/i,
+        use: ['style-loader', 'css-loader'],
+      },
+    ],
+  },
+  resolve: {
+    extensions: ['*', '.js', '.jsx'],
+  },
 };
