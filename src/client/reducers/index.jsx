@@ -1,10 +1,7 @@
-import alert from './alert';
+import { combineReducers } from 'redux';
 import board from './board';
 
 
-const reducer = (state = {}, action) => ({
-  alert: alert(state.alert, action),
-  board: board(state.board, action),
-});
+const reducer = combineReducers({ board });
 
 export default reducer;

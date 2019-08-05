@@ -1,24 +1,48 @@
 import React from 'react';
-import _ from 'lodash';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
-export const colorArray = [
-  'green',
-];
+export const colors = {
+  0: 'white',
+  1: 'green',
+};
 
-export const Board = () => (
-  <div className="board-container">
-    <Tetrimino color={_.sample(colorArray)} />
-  </div>
-);
+const mapStateToProps = state => ({ board: state.board });
 
-export const Tetrimino = (props) => {
-  const { color } = props;
+const Board = (props) => {
+  const { board } = props;
+
   return (
-    <div className={`tetrimino ${color}`}>
-      <div className="sub-block" />
-      <div className="sub-block" />
-      <div className="sub-block" />
-      <div className="sub-block" />
+    <div className="board-container">
+      {
+        board.map((num, index) => (
+          <Block
+            key={`block${index.toString()}`}
+            num={num}
+          />
+        ))
+      }
     </div>
   );
 };
+
+Board.propTypes = {
+  board: PropTypes.arrayOf(PropTypes.number).isRequired,
+};
+
+export default connect(mapStateToProps, null)(Board);
+
+const Block = (props) => {
+  const { num } = props;
+  const color = colors[num];
+
+  return (
+    <div className={`block ${color}`} />
+  );
+};
+
+Block.propTypes = {
+  num: PropTypes.number.isRequired,
+};
+
+export { Block };

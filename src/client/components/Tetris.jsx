@@ -1,12 +1,7 @@
 import React from 'react';
 import './Tetris.css';
-import { Board } from './Board';
+import Board from './Board';
 
-const Tetris = () => {
-  return (
-    <Board />
-  );
-};
-
+const Tetris = () => <Board />;
 
 export default Tetris;

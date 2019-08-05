@@ -8,11 +8,9 @@ import { storeStateMiddleWare } from './middleware/storeStateMiddleWare';
 import reducer from './reducers';
 import App from './containers/app';
 
-const initialState = {};
 
 const store = createStore(
   reducer,
-  initialState,
   applyMiddleware(thunk, createLogger()),
 );
 

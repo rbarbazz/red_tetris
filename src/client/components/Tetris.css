@@ -13,13 +13,17 @@ html, body {
 .green {
 	background-color: #B3ED99;
 }
+.white {
+	background-color: white;
+}
 .board-container {
 	background-color: white;
-	width: 500px;
-	height: 1000px;
+	flex-wrap: wrap;
+    display: flex;
+	width: 400px;
+	height: 800px;
 }
-.sub-block {
-	border: solid 1px white;
-	width: 50px;
-	height: 50px;
+.block {
+	width: 40px;
+	height: 40px;
 }
