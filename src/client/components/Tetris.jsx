@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+
 import './Tetris.css';
 import Board from './Board';
 import Lobby from './Lobby';

@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import io from 'socket.io-client';
+
 import Tetris from '../components/Tetris';
 import ping from '../actions/server';
 
