@@ -10,14 +10,33 @@ html, body {
 	justify-content: center;
 	align-items: center;
 }
-.green {
-	background-color: #B3ED99;
-}
 .white {
 	background-color: white;
 }
+.green {
+	background-color: #9bcb3c;
+}
+.red {
+	background-color: #db3951;
+}
+.yellow {
+	background-color: #f7de1c;
+}
+.black {
+	background-color: #1c1124;
+}
+.purple {
+	background-color: #614ad3;
+}
+.orange {
+	background-color: #ff6337;
+}
+.blue {
+	background-color: #1cb3c8;
+}
 .board-container {
 	background-color: white;
+	border: solid 5px black;
 	flex-wrap: wrap;
     display: flex;
 	width: 400px;

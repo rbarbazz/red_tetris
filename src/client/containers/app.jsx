@@ -1,44 +1,30 @@
-import React, { useEffect } from 'react';
-import { connect } from 'react-redux';
+import React from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import io from 'socket.io-client';
 import Tetris from '../components/Tetris';
-import { board } from '../actions/board';
-
-
-const getRandomInt = () => {
-  return Math.floor(Math.random() * Math.floor(200));
-};
+import ping from '../actions/server';
 
 const mapDispatchToProps = dispatch => ({
-  randColor: boardArr => dispatch(board(boardArr)),
+  pingServer: () => dispatch(ping()),
 });
 
-
 const App = (props) => {
-  const { randColor } = props;
+  const { pingServer } = props;
+  const socket = io('http://0.0.0.0:3004/');
 
-  useEffect(() => {
-    const keyDownHandler = (event) => {
-      const boardArr = new Array(200).fill(0);
-      boardArr[getRandomInt()] = 1;
-      if (event.keyCode === 32) {
-        randColor(boardArr);
-      }
-    };
-
-    window.addEventListener('keydown', keyDownHandler);
-    return () => {
-      window.removeEventListener('keydown', keyDownHandler);
-    };
+  socket.on('action', (action) => {
+    if (action.type === 'pong') {
+      console.log('pong');
+    }
   });
+  socket.emit('action', pingServer());
 
-  return (
-    <Tetris />
-  );
+  return (<Tetris />);
 };
 
 App.propTypes = {
-  randColor: PropTypes.func.isRequired,
+  pingServer: PropTypes.func.isRequired,
 };
 
 export default connect(null, mapDispatchToProps)(App);

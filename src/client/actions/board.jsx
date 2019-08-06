@@ -1,6 +1,5 @@
-export const RAND_COLOR = 'RAND_COLOR';
+export const BOARD_SPACE = 'BOARD/SPACE';
 
-export const board = boardArr => ({
-  type: RAND_COLOR,
-  boardArr,
+export const boardSpace = () => ({
+  type: BOARD_SPACE,
 });
