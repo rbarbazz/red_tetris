@@ -12,7 +12,11 @@ import App from './containers/app';
 
 const store = createStore(
   reducer,
-  applyMiddleware(thunk, socketMiddleWare('http://0.0.0.0:3004/'), createLogger()),
+  applyMiddleware(
+    thunk,
+    socketMiddleWare('http://0.0.0.0:3004/'),
+    createLogger(),
+  ),
 );
 
 ReactDom.render((

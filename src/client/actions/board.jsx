@@ -1,5 +1,8 @@
-export const BOARD_SPACE = 'BOARD/SPACE';
+export const MOVE_TETRIMINO = 'MOVE_TETRIMINO';
+export const NEXT_BOARD = 'NEXT_BOARD';
 
-export const boardSpace = () => ({
-  type: BOARD_SPACE,
+// Send input move to the server
+export const moveTetrimino = (key, event) => ({
+  type: MOVE_TETRIMINO,
+  payload: { key, event },
 });

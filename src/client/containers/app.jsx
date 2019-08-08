@@ -6,19 +6,19 @@ import Tetris from '../components/Tetris';
 import ping from '../actions/server';
 
 const mapDispatchToProps = dispatch => ({
-  pingServer: () => dispatch(ping()),
+  initialPing: () => dispatch(ping()),
 });
 
 const App = (props) => {
-  const { pingServer } = props;
+  const { initialPing } = props;
 
-  pingServer();
+  initialPing();
 
   return (<Tetris />);
 };
 
 App.propTypes = {
-  pingServer: PropTypes.func.isRequired,
+  initialPing: PropTypes.func.isRequired,
 };
 
 export default connect(null, mapDispatchToProps)(App);

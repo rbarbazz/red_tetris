@@ -31,10 +31,19 @@ const initEngine = (io) => {
   io.on('connection', (socket) => {
     loginfo(`Socket connected: ${socket.id}`);
     socket.on('action', (action) => {
-      if (action.type === 'server/ping') {
-        socket.emit('action', { type: 'pong' });
-      } else {
-        loginfo(`Action received ${action.type}`);
+      loginfo(`Action received: ${JSON.stringify(action, null, 2)}`);
+      if (action.type === 'CLIENT_PING') {
+        socket.emit('action', { type: 'SERVER_PONG' });
+      } else if (action.type === 'MOVE_TETRIMINO' && action.payload.event === 'keydown') {
+        socket.emit('action', {
+          type: 'NEXT_BOARD',
+          payload: { board: new Array(200).fill().map(() => Math.round(Math.random() * 7)) },
+        });
+      } else if (action.type === 'SUBMIT_PLAYER_NAME') {
+        socket.emit('action', {
+          type: 'VALIDATE_PLAYER_NAME',
+          payload: { playerName: action.payload.playerName },
+        });
       }
     });
   });

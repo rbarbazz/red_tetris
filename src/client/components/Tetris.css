@@ -1,3 +1,4 @@
+/* General */
 html, body {
 	height: 100%;
 	margin: 0;
@@ -34,9 +35,19 @@ html, body {
 .blue {
 	background-color: #1cb3c8;
 }
+/* Lobby */
+.lobby-container form {
+	display: flex;
+	flex-direction: column;
+}
+
+/* Game */
+.game-container {
+	display: flex;
+	justify-content: space-between;
+}
 .board-container {
 	background-color: white;
-	border: solid 5px black;
 	flex-wrap: wrap;
     display: flex;
 	width: 400px;
@@ -45,4 +56,22 @@ html, body {
 .block {
 	width: 40px;
 	height: 40px;
+}
+.stats-container {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: space-between;
+	height: 800px;
+	width: 400px;
+}
+.spectrum-container {
+	background-color: white;
+	width: 50%;
+	height: 50%;
+}
+.score-container {
+	background-color: white;
+	width: 80%;
+	height: 40%;
 }
