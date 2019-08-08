@@ -27,16 +27,18 @@ const initApp = (app, params, cb) => {
   })
 }
 
-const initEngine = io => {
-  io.on('connection', function(socket){
-    loginfo("Socket connected: " + socket.id)
+const initEngine = (io) => {
+  io.on('connection', (socket) => {
+    loginfo(`Socket connected: ${socket.id}`);
     socket.on('action', (action) => {
-      if(action.type === 'server/ping'){
-        socket.emit('action', {type: 'pong'})
+      if (action.type === 'server/ping') {
+        socket.emit('action', { type: 'pong' });
+      } else {
+        loginfo(`Action received ${action.type}`);
       }
-    })
-  })
-}
+    });
+  });
+};
 
 export function create(params){
   const promise = new Promise( (resolve, reject) => {

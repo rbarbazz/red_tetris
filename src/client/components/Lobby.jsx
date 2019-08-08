@@ -19,7 +19,11 @@ const Lobby = (props) => {
 
   return (
     <div className="lobby-container">
-      <form onSubmit={submitPlayerName}>
+      <form onSubmit={(event) => {
+        event.preventDefault();
+        submitPlayerName();
+      }}
+      >
         <input
           type="text"
           onChange={handlePlayerName}
