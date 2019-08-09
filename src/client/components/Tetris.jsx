@@ -4,11 +4,12 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import './Tetris.css';
-import Board from './Board';
-import Lobby from './Lobby';
+import ConnectedBoard from './Board';
+import ConnectedLobby from './Lobby';
 import Spectrum from './Spectrum';
 import Score from './Score';
 import * as boardActions from '../actions/board';
+
 
 const mapStateToProps = state => ({ tetris: state.tetris });
 
@@ -18,8 +19,7 @@ const mapDispatchToProps = dispatch => (
   }, dispatch)
 );
 
-const Tetris = (props) => {
-  const { tetris, moveTetrimino } = props;
+export const Tetris = ({ tetris, moveTetrimino }) => {
   const { currentStep } = tetris;
 
   useEffect(() => {
@@ -41,7 +41,7 @@ const Tetris = (props) => {
     case 'game':
       return (
         <div className="game-container">
-          <Board />
+          <ConnectedBoard />
           <div className="stats-container">
             <Spectrum />
             <Score />
@@ -49,15 +49,21 @@ const Tetris = (props) => {
         </div>
       );
     default:
-      return (<Lobby />);
+      return (<ConnectedLobby />);
   }
 };
 
 Tetris.propTypes = {
-  moveTetrimino: PropTypes.func.isRequired,
+  moveTetrimino: PropTypes.func,
   tetris: PropTypes.shape({
     currentStep: PropTypes.string,
-  }).isRequired,
+  }),
+};
+Tetris.defaultProps = {
+  moveTetrimino: boardActions.moveTetrimino,
+  tetris: {
+    currentStep: 'lobby',
+  },
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Tetris);

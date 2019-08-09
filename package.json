@@ -10,8 +10,8 @@
     "client-dev": "webpack-dev-server --colors --hot --inline --host 0.0.0.0 --port 8080",
     "srv-dev": "DEBUG=tetris:* babel-watch -w src src/server/main.js",
     "srv-dist": "DEBUG=tetris:* babel src --out-dir dist",
-    "test": "mocha --require @babel/register --reporter spec",
-    "coverage": "NODE_ENV=test nyc --include src --all -r text -r lcov -r text --require @babel/register mocha "
+    "test": "mocha",
+    "coverage": "NODE_ENV=test nyc -e .jsx --include src --all -r text -r lcov --require @babel/register mocha "
   },
   "dependencies": {
     "prop-types": "^15.7.2",
@@ -34,8 +34,9 @@
     "babel-plugin-__coverage__": "^11.0.0",
     "babel-watch": "^7.0.0",
     "chai": "^4.2.0",
-    "chai-as-promised": "^7.1.1",
     "css-loader": "^3.1.0",
+    "enzyme": "^3.10.0",
+    "enzyme-adapter-react-16": "^1.14.0",
     "eslint": "^5.3.0",
     "eslint-config-airbnb": "^17.1.1",
     "eslint-plugin-babel": "^5.3.0",
@@ -44,8 +45,6 @@
     "eslint-plugin-react": "^7.14.3",
     "mocha": "^6.2.0",
     "nyc": "^14.1.1",
-    "preact": "^8.4.2",
-    "preact-jsx-chai": "^2.3.2",
     "react-test-renderer": "^16.8.6",
     "style-loader": "^0.23.1",
     "webpack": "^4.39.0",
@@ -53,11 +52,6 @@
     "webpack-dev-middleware": "^3.7.0",
     "webpack-dev-server": "^3.7.2",
     "webpack-hot-middleware": "^2.25.0"
-  },
-  "nyc": {
-    "exclude": [
-      "build"
-    ]
   },
   "babel": {
     "presets": [

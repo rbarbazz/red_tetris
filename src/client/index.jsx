@@ -7,7 +7,7 @@ import thunk from 'redux-thunk';
 
 import socketMiddleWare from './middleware/socketMiddleWare';
 import reducer from './reducers';
-import App from './containers/app';
+import ConnectedApp from './containers/App';
 
 
 const store = createStore(
@@ -21,6 +21,6 @@ const store = createStore(
 
 ReactDom.render((
   <Provider store={store}>
-    <App />
+    <ConnectedApp />
   </Provider>
 ), document.getElementById('root'));

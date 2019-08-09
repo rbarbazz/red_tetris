@@ -2,23 +2,24 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import Tetris from '../components/Tetris';
+import ConnectedTetris from '../components/Tetris';
 import ping from '../actions/server';
+
 
 const mapDispatchToProps = dispatch => ({
   initialPing: () => dispatch(ping()),
 });
 
-const App = (props) => {
-  const { initialPing } = props;
-
+export const App = ({ initialPing }) => {
   initialPing();
-
-  return (<Tetris />);
+  return (<ConnectedTetris />);
 };
 
 App.propTypes = {
-  initialPing: PropTypes.func.isRequired,
+  initialPing: PropTypes.func,
+};
+App.defaultProps = {
+  initialPing: ping,
 };
 
 export default connect(null, mapDispatchToProps)(App);

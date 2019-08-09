@@ -13,42 +13,37 @@ export const colors = {
   7: 'blue',
 };
 
-const mapStateToProps = state => ({ board: state.board });
+export const Block = ({ color }) => (
+  <div className={`block ${color}`} />
+);
 
-const Board = (props) => {
-  const { board } = props;
-
-  return (
-    <div className="board-container">
-      {
-        board.map((num, index) => (
-          <Block
-            key={`block${index.toString()}`}
-            num={num}
-          />
-        ))
-      }
-    </div>
-  );
+Block.propTypes = {
+  color: PropTypes.string,
+};
+Block.defaultProps = {
+  color: 'white',
 };
 
+const mapStateToProps = state => ({ board: state.board });
+
+export const Board = ({ board }) => (
+  <div className="board-container">
+    {
+      board.map((num, index) => (
+        <Block
+          key={`block${index.toString()}`}
+          color={colors[num]}
+        />
+      ))
+    }
+  </div>
+);
+
 Board.propTypes = {
-  board: PropTypes.arrayOf(PropTypes.number).isRequired,
+  board: PropTypes.arrayOf(PropTypes.number),
+};
+Board.defaultProps = {
+  board: new Array(200).fill(0),
 };
 
 export default connect(mapStateToProps, null)(Board);
-
-const Block = (props) => {
-  const { num } = props;
-  const color = colors[num];
-
-  return (
-    <div className={`block ${color}`} />
-  );
-};
-
-Block.propTypes = {
-  num: PropTypes.number.isRequired,
-};
-
-export { Block };
