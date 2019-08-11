@@ -12,7 +12,6 @@ import * as boardActions from '../actions/board';
 
 
 const mapStateToProps = state => ({ tetris: state.tetris });
-
 const mapDispatchToProps = dispatch => (
   bindActionCreators({
     ...boardActions,

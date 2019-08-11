@@ -12,6 +12,7 @@ const mapDispatchToProps = dispatch => ({
 
 export const App = ({ initialPing }) => {
   initialPing();
+
   return (<ConnectedTetris />);
 };
 

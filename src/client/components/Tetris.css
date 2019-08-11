@@ -36,30 +36,23 @@ html, body {
 	background-color: #1cb3c8;
 }
 /* Lobby */
-.lobby-container {
-	align-items: center;
-	background-color: white;
-	border-radius: 4px;
-	box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	max-width: 800px;
-	min-height: 500px;
-	width: 50%;
-}
 .username-input-container,
 .room-selection-container {
+	border-radius: 4px;
+	box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+	background-color: white;
 	align-items: center;
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
+	padding: 40px;
+	width: 305px;
 }
 .input-label {
 	color: #5195FE;
 	font-family: 'Open Sans', sans-serif;
-	font-size: 22px;
-	margin: 20px 0;
+	font-size: 24px;
+	margin: 0 0 20px;
 	text-transform: uppercase;
 }
 input {
@@ -68,6 +61,7 @@ input {
 	cursor: pointer;
 	font-family: 'Open Sans', sans-serif;
 	font-size: 14px;
+	margin: 0 0 20px;
 	outline: none;
 	padding: 10px;
 	width: calc(100% - 20px);
@@ -81,24 +75,12 @@ button {
 	font-family: 'Open Sans', sans-serif;
 	font-size: 18px;
 	font-weight: 600;
-	margin-top: 23px;
-	padding: 15px 25px;
+	padding: 13px 22px;
 	text-transform: uppercase;
+	width: 100%;
 }
 button:disabled {
 	opacity: 0.7;
-}
-select {
-	-moz-appearance: none;
-	-webkit-appearance: none;
-	appearance: none;
-	border-radius: 5px;
-	border: solid 3px #5195FE;
-	cursor: pointer;
-	font-family: 'Open Sans', sans-serif;
-	font-size: 16px;
-	outline: none;
-	padding: 10px 20px;
 }
 
 /* Game */
