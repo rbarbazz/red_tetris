@@ -20,11 +20,11 @@ const mapDispatchToProps = dispatch => (
 );
 
 export const Tetris = ({ tetris, moveTetrimino }) => {
-  const { currentStep } = tetris;
+  const { tetrisCurrentStep } = tetris;
 
   useEffect(() => {
     const keyDownHandler = (event) => {
-      if ([32, 37, 38, 39, 40].includes(event.keyCode) && currentStep === 'game') {
+      if ([32, 37, 38, 39, 40].includes(event.keyCode) && tetrisCurrentStep === 'game') {
         moveTetrimino(event.code, event.type);
       }
     };
@@ -37,7 +37,7 @@ export const Tetris = ({ tetris, moveTetrimino }) => {
     };
   });
 
-  switch (currentStep) {
+  switch (tetrisCurrentStep) {
     case 'game':
       return (
         <div className="game-container">
@@ -56,13 +56,13 @@ export const Tetris = ({ tetris, moveTetrimino }) => {
 Tetris.propTypes = {
   moveTetrimino: PropTypes.func,
   tetris: PropTypes.shape({
-    currentStep: PropTypes.string,
+    tetrisCurrentStep: PropTypes.string,
   }),
 };
 Tetris.defaultProps = {
   moveTetrimino: boardActions.moveTetrimino,
   tetris: {
-    currentStep: 'lobby',
+    tetrisCurrentStep: 'lobby',
   },
 };
 

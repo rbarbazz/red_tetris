@@ -1,8 +1,15 @@
-import { STORE_PLAYER_NAME, VALIDATE_PLAYER_NAME } from '../actions/lobby';
+import {
+  STORE_PLAYER_NAME,
+  VALIDATE_PLAYER_NAME,
+  STORE_ROOM,
+  VALIDATE_ROOM,
+} from '../actions/lobby';
 
 const initialState = {
-  currentStep: 'lobby',
+  tetrisCurrentStep: 'lobby',
+  lobbyCurrentStep: 'playerNameSelection',
   playerName: '',
+  roomSelected: '',
 };
 
 const reducer = (state = initialState, action) => {
@@ -13,9 +20,20 @@ const reducer = (state = initialState, action) => {
       });
     case VALIDATE_PLAYER_NAME:
       return Object.assign({}, state, {
-        currentStep: 'game',
+        lobbyCurrentStep: 'roomSelection',
         playerName: action.payload.playerName,
+        currentRoomList: action.payload.currentRoomList,
       });
+    case STORE_ROOM:
+      return Object.assign({}, state, {
+        roomSelected: action.payload.roomSelected,
+      });
+    case VALIDATE_ROOM:
+      return Object.assign({}, state, {
+        tetrisCurrentStep: 'game',
+        roomSelected: action.payload.roomSelected,
+      });
+
     default:
       return state;
   }

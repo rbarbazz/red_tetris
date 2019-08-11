@@ -29,9 +29,9 @@ describe('React', () => {
       expect(wrapper.exists()).to.equal(true);
     });
 
-    it('should render <Tetris tetris={currentStep: \'game\'} />', () => {
+    it('should render <Tetris tetris={tetrisCurrentStep: \'game\'} />', () => {
       const tetris = {
-        currentStep: 'game',
+        tetrisCurrentStep: 'game',
       };
       const wrapper = shallow(<Tetris tetris={tetris} />);
 

@@ -42,7 +42,17 @@ const initEngine = (io) => {
       } else if (action.type === 'SUBMIT_PLAYER_NAME') {
         socket.emit('action', {
           type: 'VALIDATE_PLAYER_NAME',
-          payload: { playerName: action.payload.playerName },
+          payload: {
+            playerName: action.payload.playerName,
+            currentRoomList: ['room1', 'room2', 'room3'],
+          },
+        });
+      } else if (action.type === 'SUBMIT_ROOM') {
+        socket.emit('action', {
+          type: 'VALIDATE_ROOM',
+          payload: {
+            roomSelected: action.payload.roomSelected,
+          },
         });
       }
     });

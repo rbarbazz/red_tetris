@@ -1,7 +1,12 @@
 import io from 'socket.io-client';
 
 import { SERVER_PONG } from '../actions/server';
-import { STORE_PLAYER_NAME, VALIDATE_PLAYER_NAME } from '../actions/lobby';
+import {
+  STORE_PLAYER_NAME,
+  VALIDATE_PLAYER_NAME,
+  STORE_ROOM,
+  VALIDATE_ROOM,
+} from '../actions/lobby';
 import { NEXT_BOARD } from '../actions/board';
 
 const clientOnlyActions = [
@@ -9,6 +14,8 @@ const clientOnlyActions = [
   STORE_PLAYER_NAME,
   VALIDATE_PLAYER_NAME,
   NEXT_BOARD,
+  STORE_ROOM,
+  VALIDATE_ROOM,
 ];
 
 const socketMiddleWare = url => (
