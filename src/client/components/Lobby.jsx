@@ -63,6 +63,7 @@ export const Lobby = ({
                 <button
                   type="submit"
                   onClick={() => submitRoom(roomName)}
+                  disabled={roomName === ''}
                 >
                   {currentRoomList.includes(roomName) ? 'Enter' : 'Create'}
                 </button>

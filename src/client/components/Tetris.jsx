@@ -6,8 +6,8 @@ import { connect } from 'react-redux';
 import './Tetris.css';
 import ConnectedBoard from './Board';
 import ConnectedLobby from './Lobby';
-import Spectrum from './Spectrum';
-import Score from './Score';
+import ConnectedSpectrum from './Spectrum';
+import ConnectedScore from './Score';
 import * as boardActions from '../actions/board';
 
 
@@ -43,8 +43,8 @@ export const Tetris = ({
         <div className="game-container">
           <ConnectedBoard />
           <div className="stats-container">
-            <Spectrum />
-            <Score />
+            <ConnectedScore />
+            <ConnectedSpectrum />
           </div>
         </div>
       );

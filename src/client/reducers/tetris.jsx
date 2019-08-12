@@ -15,6 +15,16 @@ const initialState = {
   lobbyCurrentStep: 'playerNameSelection',
   playerName: '',
   roomName: '',
+  score: 0,
+  spectrums: [
+    new Array(200).fill().map(() => Math.round(Math.random() * 7)),
+    new Array(200).fill().map(() => Math.round(Math.random() * 7)),
+    new Array(200).fill().map(() => Math.round(Math.random() * 7)),
+    new Array(200).fill().map(() => Math.round(Math.random() * 7)),
+    new Array(200).fill().map(() => Math.round(Math.random() * 7)),
+    new Array(200).fill().map(() => Math.round(Math.random() * 7)),
+    new Array(200).fill().map(() => Math.round(Math.random() * 7)),
+  ],
 };
 
 const reducer = (state = initialState, action) => {
