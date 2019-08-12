@@ -51,7 +51,15 @@ const initEngine = (io) => {
         socket.emit('action', {
           type: 'VALIDATE_ROOM',
           payload: {
-            roomSelected: action.payload.roomSelected,
+            roomName: action.payload.roomName,
+          },
+        });
+      } else if (action.type === 'SUBMIT_HASH_BASED_DATA') {
+        socket.emit('action', {
+          type: 'VALIDATE_HASH_BASED_DATA',
+          payload: {
+            playerName: action.payload.playerName,
+            roomName: action.payload.roomName,
           },
         });
       }

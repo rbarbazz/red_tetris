@@ -8,14 +8,17 @@ import {
   VALIDATE_ROOM,
 } from '../actions/lobby';
 import { NEXT_BOARD } from '../actions/board';
+import { DISPLAY_LOBBY, VALIDATE_HASH_BASED_DATA } from '../actions/tetris';
 
 const clientOnlyActions = [
+  DISPLAY_LOBBY,
   SERVER_PONG,
   STORE_PLAYER_NAME,
   VALIDATE_PLAYER_NAME,
   NEXT_BOARD,
   STORE_ROOM,
   VALIDATE_ROOM,
+  VALIDATE_HASH_BASED_DATA,
 ];
 
 const socketMiddleWare = url => (

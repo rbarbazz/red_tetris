@@ -17,10 +17,10 @@ export const submitPlayerName = playerName => ({
 
 export const handleRoomSelection = event => ({
   type: STORE_ROOM,
-  payload: { roomSelected: event.target.value },
+  payload: { roomName: event.target.value },
 });
 
-export const submitRoom = roomSelected => ({
+export const submitRoom = roomName => ({
   type: SUBMIT_ROOM,
-  payload: { roomSelected },
+  payload: { roomName },
 });

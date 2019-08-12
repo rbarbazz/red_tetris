@@ -11,25 +11,26 @@ import Score from './Score';
 import * as boardActions from '../actions/board';
 
 
-const mapStateToProps = state => ({ tetris: state.tetris });
+const mapStateToProps = state => ({ tetrisCurrentStep: state.tetris.tetrisCurrentStep });
 const mapDispatchToProps = dispatch => (
   bindActionCreators({
     ...boardActions,
   }, dispatch)
 );
 
-export const Tetris = ({ tetris, moveTetrimino }) => {
-  const { tetrisCurrentStep } = tetris;
-
+export const Tetris = ({
+  tetrisCurrentStep,
+  moveTetrimino,
+}) => {
   useEffect(() => {
     const keyDownHandler = (event) => {
       if ([32, 37, 38, 39, 40].includes(event.keyCode) && tetrisCurrentStep === 'game') {
         moveTetrimino(event.code, event.type);
       }
     };
-
     window.addEventListener('keydown', keyDownHandler);
     window.addEventListener('keyup', keyDownHandler);
+
     return () => {
       window.removeEventListener('keydown', keyDownHandler);
       window.removeEventListener('keyup', keyDownHandler);
@@ -47,22 +48,32 @@ export const Tetris = ({ tetris, moveTetrimino }) => {
           </div>
         </div>
       );
-    default:
+    case 'lobby':
       return (<ConnectedLobby />);
+    default:
+      return (
+        <div className="loading-icon">
+          <div />
+          <div />
+          <div />
+          <div />
+          <div />
+          <div />
+          <div />
+          <div />
+          <div />
+        </div>
+      );
   }
 };
 
 Tetris.propTypes = {
   moveTetrimino: PropTypes.func,
-  tetris: PropTypes.shape({
-    tetrisCurrentStep: PropTypes.string,
-  }),
+  tetrisCurrentStep: PropTypes.string,
 };
 Tetris.defaultProps = {
   moveTetrimino: boardActions.moveTetrimino,
-  tetris: {
-    tetrisCurrentStep: 'lobby',
-  },
+  tetrisCurrentStep: 'loading',
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Tetris);

@@ -4,7 +4,7 @@ html, body {
 	margin: 0;
 }
 #root {
-	background-color: #b4c6d5;
+	background-color: #090821;
 	min-height: 100%;
 	min-width: 100%;
 	display: flex;
@@ -35,6 +35,43 @@ html, body {
 .blue {
 	background-color: #1cb3c8;
 }
+.loading-icon {
+	width: 3em;
+	height: 3em;
+	display: grid;
+	grid-template-rows: repeat(3, 1fr);
+	grid-template-columns: repeat(3, 1fr);
+	justify-items: center;
+	align-items: center;
+}
+.loading-icon > div {
+	width: 0.5em;
+	height: 0.5em;
+	background-color: #fa4659;
+	animation: fade 1s alternate ease-in-out infinite;
+}
+.loading-icon > div:nth-of-type(2),
+.loading-icon > div:nth-of-type(4) {
+	animation-delay: 165ms;
+}
+.loading-icon > div:nth-of-type(3),
+.loading-icon > div:nth-of-type(5),
+.loading-icon > div:nth-of-type(7) {
+	animation-delay: 330ms;
+}
+.loading-icon > div:nth-of-type(6),
+.loading-icon > div:nth-of-type(8) {
+	animation-delay: 495ms;
+}
+.loading-icon > div:nth-of-type(9) {
+	animation-delay: 660ms;
+}
+@keyframes fade {
+	to {
+		opacity: 0.2;
+	}
+}
+
 /* Lobby */
 .username-input-container,
 .room-selection-container {
@@ -46,30 +83,32 @@ html, body {
 	flex-direction: column;
 	justify-content: center;
 	padding: 40px;
-	width: 305px;
+	width: 325px;
 }
 .input-label {
-	color: #5195FE;
+	color: #fa4659;
 	font-family: 'Open Sans', sans-serif;
 	font-size: 24px;
+	letter-spacing: 1px;
 	margin: 0 0 20px;
 	text-transform: uppercase;
 }
 input {
 	border-radius: 5px;
-	border: solid 3px #5195FE;
+	border: solid 3px #fa4659;
 	cursor: pointer;
 	font-family: 'Open Sans', sans-serif;
 	font-size: 14px;
 	margin: 0 0 20px;
 	outline: none;
 	padding: 10px;
-	width: calc(100% - 20px);
+	width: calc(100% - 26px);
 }
 button {
-	background-color: #5195FE;
-	border-radius: 26px;
-	border: none;
+	background-color: #fa4659;
+	border: solid 1px white;
+	border-bottom: 4px solid #da051c;
+	border-radius: 10px;
 	color: white;
 	cursor: pointer;
 	font-family: 'Open Sans', sans-serif;
@@ -77,10 +116,15 @@ button {
 	font-weight: 600;
 	padding: 13px 22px;
 	text-transform: uppercase;
+	transition: 0.1s;
 	width: 100%;
 }
 button:disabled {
 	opacity: 0.7;
+}
+button:hover:enabled {
+	border-bottom-width: 0;
+	margin-top: 4px;
 }
 
 /* Game */
