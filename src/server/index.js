@@ -37,7 +37,9 @@ const initEngine = (io) => {
       } else if (action.type === 'MOVE_TETRIMINO' && action.payload.event === 'keydown') {
         socket.emit('action', {
           type: 'NEXT_BOARD',
-          payload: { board: new Array(200).fill().map(() => Math.round(Math.random() * 7)) },
+          payload: {
+            board: [...new Array(75).fill(0), ...new Array(125).fill().map(() => Math.round(Math.random() * 1))],
+          },
         });
       } else if (action.type === 'SUBMIT_PLAYER_NAME') {
         socket.emit('action', {

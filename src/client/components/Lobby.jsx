@@ -32,19 +32,28 @@ export const Lobby = ({
     {lobbyCurrentStep === 'playerNameSelection'
       && (
       <div key="username-input-container" className="username-input-container">
-        <div className="player-name-label input-label">Provide your username</div>
-        <input
-          type="text"
-          onChange={handlePlayerName}
-          value={playerName}
-        />
-        <button
-          type="submit"
-          disabled={playerName === ''}
-          onClick={() => submitPlayerName(playerName)}
-        >
-          Submit
-        </button>
+        <div className="input-label">
+          <div className="three-dots-container">
+            <div />
+            <div />
+            <div />
+          </div>
+          Provide your username
+        </div>
+        <div className="input-submit-container">
+          <input
+            type="text"
+            onChange={handlePlayerName}
+            value={playerName}
+          />
+          <button
+            type="submit"
+            disabled={playerName === ''}
+            onClick={() => submitPlayerName(playerName)}
+          >
+            Submit
+          </button>
+        </div>
       </div>
       )
     }
@@ -54,19 +63,28 @@ export const Lobby = ({
           {currentRoomList.length > 0
             && (
               <div key="room-selection-container" className="room-selection-container">
-                <div className="room-list-label input-label">Provide a room name</div>
-                <input
-                  type="text"
-                  onChange={handleRoomSelection}
-                  value={roomName}
-                />
-                <button
-                  type="submit"
-                  onClick={() => submitRoom(roomName)}
-                  disabled={roomName === ''}
-                >
-                  {currentRoomList.includes(roomName) ? 'Enter' : 'Create'}
-                </button>
+                <div className="input-label">
+                  <div className="three-dots-container">
+                    <div />
+                    <div />
+                    <div />
+                  </div>
+                  Provide a room name
+                </div>
+                <div className="input-submit-container">
+                  <input
+                    type="text"
+                    onChange={handleRoomSelection}
+                    value={roomName}
+                  />
+                  <button
+                    type="submit"
+                    onClick={() => submitRoom(roomName)}
+                    disabled={roomName === ''}
+                  >
+                    {currentRoomList.includes(roomName) ? 'Enter' : 'Create'}
+                  </button>
+                </div>
               </div>
             )
           }

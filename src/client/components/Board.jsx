@@ -4,13 +4,7 @@ import { connect } from 'react-redux';
 
 export const colors = {
   0: 'white',
-  1: 'green',
-  2: 'red',
-  3: 'yellow',
-  4: 'black',
-  5: 'purple',
-  6: 'orange',
-  7: 'blue',
+  1: 'red',
 };
 
 export const Block = ({ color }) => (

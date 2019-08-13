@@ -17,13 +17,13 @@ const initialState = {
   roomName: '',
   score: 0,
   spectrums: [
-    new Array(200).fill().map(() => Math.round(Math.random() * 7)),
-    new Array(200).fill().map(() => Math.round(Math.random() * 7)),
-    new Array(200).fill().map(() => Math.round(Math.random() * 7)),
-    new Array(200).fill().map(() => Math.round(Math.random() * 7)),
-    new Array(200).fill().map(() => Math.round(Math.random() * 7)),
-    new Array(200).fill().map(() => Math.round(Math.random() * 7)),
-    new Array(200).fill().map(() => Math.round(Math.random() * 7)),
+    [...new Array(75).fill(0), ...new Array(125).fill().map(() => Math.round(Math.random() * 1))],
+    [...new Array(75).fill(0), ...new Array(125).fill().map(() => Math.round(Math.random() * 1))],
+    [...new Array(75).fill(0), ...new Array(125).fill().map(() => Math.round(Math.random() * 1))],
+    [...new Array(75).fill(0), ...new Array(125).fill().map(() => Math.round(Math.random() * 1))],
+    [...new Array(75).fill(0), ...new Array(125).fill().map(() => Math.round(Math.random() * 1))],
+    [...new Array(75).fill(0), ...new Array(125).fill().map(() => Math.round(Math.random() * 1))],
+    [...new Array(75).fill(0), ...new Array(125).fill().map(() => Math.round(Math.random() * 1))],
   ],
 };
 
