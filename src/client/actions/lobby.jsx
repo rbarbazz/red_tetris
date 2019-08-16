@@ -5,9 +5,9 @@ export const STORE_ROOM = 'STORE_ROOM';
 export const SUBMIT_ROOM = 'SUBMIT_ROOM';
 export const VALIDATE_ROOM = 'VALIDATE_ROOM';
 
-export const handlePlayerName = event => ({
+export const handlePlayerName = playerName => ({
   type: STORE_PLAYER_NAME,
-  payload: { playerName: event.target.value },
+  payload: { playerName },
 });
 
 export const submitPlayerName = playerName => ({
@@ -15,9 +15,9 @@ export const submitPlayerName = playerName => ({
   payload: { playerName },
 });
 
-export const handleRoomSelection = event => ({
+export const handleRoomSelection = roomName => ({
   type: STORE_ROOM,
-  payload: { roomName: event.target.value },
+  payload: { roomName },
 });
 
 export const submitRoom = roomName => ({

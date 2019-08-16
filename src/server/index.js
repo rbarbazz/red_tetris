@@ -46,7 +46,7 @@ const initEngine = (io) => {
           type: 'VALIDATE_PLAYER_NAME',
           payload: {
             playerName: action.payload.playerName,
-            currentRoomList: ['room1', 'room2', 'room3'],
+            currentRoomList: ['room1', 'room2', 'room3', 'room4', 'room5'],
           },
         });
       } else if (action.type === 'SUBMIT_ROOM') {

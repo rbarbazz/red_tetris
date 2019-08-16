@@ -43,7 +43,7 @@ export const Lobby = ({
         <div className="input-submit-container">
           <input
             type="text"
-            onChange={handlePlayerName}
+            onChange={event => handlePlayerName(event.target.value)}
             value={playerName}
           />
           <button
@@ -59,36 +59,48 @@ export const Lobby = ({
     }
     {lobbyCurrentStep === 'roomSelection'
       && (
-        <React.Fragment>
-          {currentRoomList.length > 0
-            && (
-              <div key="room-selection-container" className="room-selection-container">
-                <div className="input-label">
-                  <div className="three-dots-container">
-                    <div />
-                    <div />
-                    <div />
+        <div key="room-selection-container" className="room-selection-container">
+          <div className="input-label">
+            <div className="three-dots-container">
+              <div />
+              <div />
+              <div />
+            </div>
+            Provide a room name
+          </div>
+          <div className="input-submit-container">
+            {currentRoomList.length > 0
+              && (
+                <div className="room-list-container">
+                  <div className="room-list-title">Existing rooms</div>
+                  <div className="room-list-items-container">
+                    {currentRoomList.map((roomItem, index) => (
+                      <div
+                        value={roomItem}
+                        className="room-item"
+                        key={`room-item-${index.toString()}`}
+                        onClick={(event) => handleRoomSelection(event.target.textContent)}
+                      >
+                        {roomItem}
+                      </div>
+                    ))}
                   </div>
-                  Provide a room name
                 </div>
-                <div className="input-submit-container">
-                  <input
-                    type="text"
-                    onChange={handleRoomSelection}
-                    value={roomName}
-                  />
-                  <button
-                    type="submit"
-                    onClick={() => submitRoom(roomName)}
-                    disabled={roomName === ''}
-                  >
-                    {currentRoomList.includes(roomName) ? 'Enter' : 'Create'}
-                  </button>
-                </div>
-              </div>
-            )
-          }
-        </React.Fragment>
+              )}
+            <input
+              type="text"
+              onChange={event => handleRoomSelection(event.target.value)}
+              value={roomName}
+            />
+            <button
+              type="submit"
+              onClick={() => submitRoom(roomName)}
+              disabled={roomName === ''}
+            >
+              {currentRoomList.includes(roomName) ? 'Enter' : 'Create'}
+            </button>
+          </div>
+        </div>
       )
     }
   </React.Fragment>

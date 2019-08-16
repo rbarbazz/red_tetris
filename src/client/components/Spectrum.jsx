@@ -11,12 +11,12 @@ export const Spectrum = ({ spectrums }) => (
   <div className="spectrums-container">
     {spectrums.map((spectrum, spectrumIndex) => (
       <div
-        key={`block${spectrumIndex.toString()}`}
+        key={`spectrum-${spectrumIndex.toString()}`}
         className="spectrum-container"
       >
         {spectrum.map((num, blockIndex) => (
           <Block
-            key={`block${blockIndex.toString()}`}
+            key={`spectrum-${spectrumIndex.toString()}-block-${blockIndex.toString()}`}
             color={num > 0 ? 'red' : 'white'}
           />
         ))}

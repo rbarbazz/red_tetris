@@ -83,13 +83,57 @@ html, body {
 	box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
 	display: flex;
 	flex-direction: column;
-	min-width: 450px;
+    max-width: 450px;
+	width: 90%;
 }
 .input-submit-container {
 	padding: 0 40px 40px 40px;
 	display: flex;
     flex-direction: column;
     align-items: center;
+}
+.room-list-container {
+	background-color: #454545;
+	border-radius: 5px;
+	display: flex;
+	flex-direction: column;
+	margin: 40px 0 0;
+	max-height: 180px;
+	max-width: 360px;
+}
+.room-list-items-container::-webkit-scrollbar-track {
+	background-color: #454545;
+}
+.room-list-items-container::-webkit-scrollbar {
+	background-color: #454545;
+	width: 10px;
+}
+.room-list-items-container::-webkit-scrollbar-thumb {
+	background-color: #eb4d4b;	
+}
+.room-list-items-container {
+	display: flex;
+	flex-wrap: wrap;
+	overflow: auto;
+}
+.room-item {
+	color: #eb4d4b;
+	cursor: pointer;
+	font-family: 'Open Sans', sans-serif;
+	font-size: 20px;
+	font-weight: 600;
+	letter-spacing: 1px;
+	padding: 10px 20px;
+	width: calc(33.33% - 40px);
+}
+.room-list-title {
+	color: #d3d0d0;
+	font-family: 'Open Sans', sans-serif;
+	font-size: 18px;
+	letter-spacing: 1px;
+	margin: 10px 0;
+	padding: 0 10px;
+	text-align: center;
 }
 .input-label {
 	background-color: #454545;
@@ -143,40 +187,65 @@ button:hover:enabled {
 
 /* Game */
 .game-container {
-	display: flex;
-	flex-direction: column;
-	justify-content: space-between;
 	background-color: #383838;
 	border-radius: 5px;
 	box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+    max-width: 900px;
+	width: 95%;
 }
 .board-stats-container {
 	display: flex;
-	padding: 0 50px 50px;
+	padding: 0 50px 30px;
+	justify-content: space-between;
+}
+.window-size-error {
+	display: none;
 }
 
 /* Board */
 .board-container {
 	background-color: #383838;
-	flex-wrap: wrap;
     display: flex;
-	width: 400px;
-	height: 800px;
+	flex-wrap: wrap;
+	height: 600px;
+	position: relative;
+	width: 300px;
 }
 .block {
-	width: 40px;
-	height: 40px;
+	width: 30px;
+	height: 30px;
 }
+.board-waiting-screen {
+	background-color: #454545;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 100%;
+	position: absolute;
+	width: 100%;
+}
+.board-waiting-message {
+	color: #eb4d4b;
+	font-family: 'Open Sans', sans-serif;
+	font-size: 20px;
+	letter-spacing: 1px;
+	font-weight: 600;
+}
+
+/* Score */
 .stats-container {
 	display: flex;
 	flex-direction: column;
 	align-items: flex-end;
-	height: 800px;
-	width: 400px;
+	height: 600px;
 	justify-content: space-evenly;
+	width: 350px;
 }
 .score-container {
-	width: 320px;
+	width: 100%;
 }
 .player-base-info {
 	align-items: center;
@@ -218,20 +287,95 @@ button:hover:enabled {
 	color: #eb4d4b;
 	letter-spacing: 2px;
 }
+
+/* Spectrums */
 .spectrums-container {
 	display: flex;
 	flex-wrap: wrap;
-	width: 320px;
+	overflow: auto;
 }
 .spectrum-container {
 	background-color: white;
 	flex-wrap: wrap;
-	height: 160px;
+	height: 120px;
 	margin: 10px 13px;
-	width: 80px;
+	width: 60px;
     display: flex;
 }
 .spectrum-container .block{
-	height: 8px;
-	width: 8px;
+	height: 6px;
+	width: 6px;
+}
+.spectrums-container::-webkit-scrollbar-track {
+	background-color: #454545;
+}
+.spectrums-container::-webkit-scrollbar {
+	background-color: #454545;
+	width: 10px;
+}
+.spectrums-container::-webkit-scrollbar-thumb {
+	background-color: #eb4d4b;	
+}
+
+@media (max-width: 991.98px) {
+	.board-stats-container {
+		padding: 0 20px 30px;
+	}
+}
+@media (max-width: 739.98px) {
+	.stats-container {
+		display: none;
+	}
+	.board-stats-container {
+		justify-content: center;
+	}
+}
+@media (max-width: 499.98px), (max-height: 719.98px) {
+	.stats-container {
+		display: none;
+	}
+	.board-container {
+		display: none;
+	}
+	.window-size-error {
+		color: #eb4d4b;
+		display: block;
+		font-family: 'Open Sans', sans-serif;
+		font-size: 20px;
+		font-weight: 600;
+		margin: auto;
+		text-align: center;
+	}
+	.three-dots-container {
+		display: none;
+	}
+}
+@media (max-width: 419.98px) {
+	.room-list-items-container {
+		flex-wrap: initial;
+		flex-direction: column;
+		justify-content: center;
+	}
+}
+@media (min-width: 800px) and (min-height: 900px) {
+	.stats-container {
+		height: 800px;
+		width: 320px;
+	}
+	.board-container {
+		height: 800px;
+		width: 400px;
+	}
+	.block {
+		height: 40px;
+		width: 40px;
+	}
+	.spectrum-container {
+		height: 160px;
+		width: 80px;
+	}
+	.spectrum-container .block{
+		height: 8px;
+		width: 8px;
+	}
 }

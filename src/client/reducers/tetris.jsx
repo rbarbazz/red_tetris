@@ -11,6 +11,7 @@ import { DISPLAY_LOBBY, VALIDATE_HASH_BASED_DATA } from '../actions/tetris';
 
 const initialState = {
   receivedPong: false,
+  didGameStart: false,
   tetrisCurrentStep: 'loading',
   lobbyCurrentStep: 'playerNameSelection',
   playerName: '',
