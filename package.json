@@ -14,6 +14,7 @@
     "coverage": "NODE_ENV=test nyc -e .jsx --include src --all -r text -r lcov --require @babel/register mocha "
   },
   "dependencies": {
+    "debug": "^4.1.1",
     "prop-types": "^15.7.2",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
