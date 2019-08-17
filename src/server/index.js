@@ -54,6 +54,7 @@ const initEngine = (io) => {
           type: 'VALIDATE_ROOM',
           payload: {
             roomName: action.payload.roomName,
+            isRoomOwner: true,
           },
         });
       } else if (action.type === 'SUBMIT_HASH_BASED_DATA') {
@@ -62,8 +63,11 @@ const initEngine = (io) => {
           payload: {
             playerName: action.payload.playerName,
             roomName: action.payload.roomName,
+            isRoomOwner: true,
           },
         });
+      } else if (action.type === 'OWNER_IS_READY') {
+        socket.emit('action', { type: 'GAME_DID_START' });
       }
     });
   });

@@ -7,11 +7,12 @@ import {
   VALIDATE_ROOM,
 } from '../actions/lobby';
 import { SERVER_PONG } from '../actions/server';
-import { DISPLAY_LOBBY, VALIDATE_HASH_BASED_DATA } from '../actions/tetris';
+import { DISPLAY_LOBBY, VALIDATE_HASH_BASED_DATA, GAME_DID_START } from '../actions/tetris';
 
 const initialState = {
   receivedPong: false,
   didGameStart: false,
+  isRoomOwner: false,
   tetrisCurrentStep: 'loading',
   lobbyCurrentStep: 'playerNameSelection',
   playerName: '',
@@ -65,12 +66,18 @@ const reducer = (state = initialState, action) => {
       return Object.assign({}, state, {
         tetrisCurrentStep: 'game',
         roomName: action.payload.roomName,
+        isRoomOwner: action.payload.isRoomOwner,
       });
     case VALIDATE_HASH_BASED_DATA:
       return Object.assign({}, state, {
         tetrisCurrentStep: 'game',
         playerName: action.payload.playerName,
         roomName: action.payload.roomName,
+        isRoomOwner: action.payload.isRoomOwner,
+      });
+    case GAME_DID_START:
+      return Object.assign({}, state, {
+        didGameStart: true,
       });
     default:
       return state;

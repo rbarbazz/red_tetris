@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { ownerIsReady } from '../actions/tetris';
 
 export const colors = {
   0: 'white',
@@ -21,15 +22,36 @@ Block.defaultProps = {
 const mapStateToProps = state => ({
   board: state.board,
   didGameStart: state.tetris.didGameStart,
+  isRoomOwner: state.tetris.isRoomOwner,
+});
+const mapDispatchToProps = dispatch => ({
+  sendOwnerIsReady: () => dispatch(ownerIsReady()),
 });
 
-export const Board = ({ board, didGameStart }) => (
+export const Board = ({
+  board,
+  didGameStart,
+  isRoomOwner,
+  sendOwnerIsReady,
+}) => (
   <React.Fragment>
     <div className="board-container">
-      {didGameStart
+      {!didGameStart
         && (
           <div className="board-waiting-screen">
-            <div className="board-waiting-message">Waiting for game to start...</div>
+            { isRoomOwner ? (
+              <React.Fragment>
+                <div className="board-waiting-message owner-message">Ready to start?</div>
+                <button
+                  type="submit"
+                  onClick={sendOwnerIsReady}
+                >
+                  Start
+                </button>
+              </React.Fragment>
+            ) : (
+              <div className="board-waiting-message">Waiting for game to start...</div>
+            )}
           </div>
         )
       }
@@ -49,10 +71,14 @@ export const Board = ({ board, didGameStart }) => (
 Board.propTypes = {
   board: PropTypes.arrayOf(PropTypes.number),
   didGameStart: PropTypes.bool,
+  isRoomOwner: PropTypes.bool,
+  sendOwnerIsReady: PropTypes.func,
 };
 Board.defaultProps = {
   board: new Array(200).fill(0),
   didGameStart: false,
+  isRoomOwner: false,
+  sendOwnerIsReady: ownerIsReady,
 };
 
-export default connect(mapStateToProps, null)(Board);
+export default connect(mapStateToProps, mapDispatchToProps)(Board);

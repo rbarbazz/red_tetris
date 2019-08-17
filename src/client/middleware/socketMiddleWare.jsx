@@ -8,7 +8,7 @@ import {
   VALIDATE_ROOM,
 } from '../actions/lobby';
 import { NEXT_BOARD } from '../actions/board';
-import { DISPLAY_LOBBY, VALIDATE_HASH_BASED_DATA } from '../actions/tetris';
+import { DISPLAY_LOBBY, VALIDATE_HASH_BASED_DATA, GAME_DID_START } from '../actions/tetris';
 
 const clientOnlyActions = [
   DISPLAY_LOBBY,
@@ -19,6 +19,7 @@ const clientOnlyActions = [
   STORE_ROOM,
   VALIDATE_ROOM,
   VALIDATE_HASH_BASED_DATA,
+  GAME_DID_START,
 ];
 
 const socketMiddleWare = url => (
