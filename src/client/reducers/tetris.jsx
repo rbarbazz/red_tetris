@@ -9,62 +9,51 @@ import {
 import { DISPLAY_LOBBY, VALIDATE_HASH_BASED_DATA, GAME_DID_START } from '../actions/tetris';
 
 const initialState = {
+  currentStep: 'loading',
   didGameStart: false,
   isRoomOwner: false,
-  lobbyCurrentStep: 'playerNameSelection',
   playerName: '',
   roomName: '',
   score: 0,
   spectrums: Array(7).fill([...Array(125).fill(0), ...Array(75).fill(1)]),
-  tetrisCurrentStep: 'loading',
 };
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case DISPLAY_LOBBY:
-      return Object.assign({}, state, {
-        tetrisCurrentStep: 'lobby',
-      });
+      return { ...state, currentStep: 'playerNameSelection' };
     case STORE_PLAYER_NAME:
-      return Object.assign({}, state, {
-        playerName: action.payload.playerName,
-      });
+      return { ...state, playerName: action.payload.playerName };
     case SUBMIT_PLAYER_NAME:
-      return Object.assign({}, state, {
-        lobbyCurrentStep: 'loading',
-      });
+      return { ...state, currentStep: 'loading' };
     case VALIDATE_PLAYER_NAME:
-      return Object.assign({}, state, {
-        tetrisCurrentStep: 'lobby',
-        lobbyCurrentStep: 'roomSelection',
+      return {
+        ...state,
+        currentStep: 'roomNameSelection',
         playerName: action.payload.playerName,
         currentRoomList: action.payload.currentRoomList,
-      });
+      };
     case STORE_ROOM:
-      return Object.assign({}, state, {
-        roomName: action.payload.roomName,
-      });
+      return { ...state, roomName: action.payload.roomName };
     case SUBMIT_ROOM:
-      return Object.assign({}, state, {
-        lobbyCurrentStep: 'loading',
-      });
+      return { ...state, currentStep: 'loading' };
     case VALIDATE_ROOM:
-      return Object.assign({}, state, {
-        tetrisCurrentStep: 'game',
+      return {
+        ...state,
+        currentStep: 'game',
         roomName: action.payload.roomName,
         isRoomOwner: action.payload.isRoomOwner,
-      });
+      };
     case VALIDATE_HASH_BASED_DATA:
-      return Object.assign({}, state, {
-        tetrisCurrentStep: 'game',
+      return {
+        ...state,
+        currentStep: 'game',
         playerName: action.payload.playerName,
         roomName: action.payload.roomName,
         isRoomOwner: action.payload.isRoomOwner,
-      });
+      };
     case GAME_DID_START:
-      return Object.assign({}, state, {
-        didGameStart: true,
-      });
+      return { ...state, didGameStart: true };
     default:
       return state;
   }

@@ -6,7 +6,7 @@ import * as lobbyActions from '../actions/lobby';
 
 const RoomNameInput = ({
   currentRoomList,
-  handleRoomSelection,
+  handleroomNameSelection,
   roomName,
   submitRoom,
 }) => (
@@ -31,7 +31,7 @@ const RoomNameInput = ({
                   value={roomItem}
                   className="room-item"
                   key={`room-item-${index.toString()}`}
-                  onClick={event => handleRoomSelection(event.target.textContent)}
+                  onClick={event => handleroomNameSelection(event.target.textContent)}
                 >
                   {roomItem}
                 </button>
@@ -41,7 +41,7 @@ const RoomNameInput = ({
         )}
       <input
         type="text"
-        onChange={event => handleRoomSelection(event.target.value)}
+        onChange={event => handleroomNameSelection(event.target.value)}
         value={roomName}
       />
       <button
@@ -57,13 +57,13 @@ const RoomNameInput = ({
 
 RoomNameInput.propTypes = {
   currentRoomList: PropTypes.arrayOf(PropTypes.string),
-  handleRoomSelection: PropTypes.func,
+  handleroomNameSelection: PropTypes.func,
   roomName: PropTypes.string,
   submitRoom: PropTypes.func,
 };
 RoomNameInput.defaultProps = {
   currentRoomList: [],
-  handleRoomSelection: lobbyActions.handleRoomSelection,
+  handleroomNameSelection: lobbyActions.handleroomNameSelection,
   roomName: '',
   submitRoom: lobbyActions.submitRoom,
 };

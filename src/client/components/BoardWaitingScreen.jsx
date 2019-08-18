@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 
 import * as tetrisActions from '../actions/tetris';
 
+
 const BoardWaitingScreen = ({ isRoomOwner, ownerIsReady }) => (
   <div className="board-waiting-screen">
     {isRoomOwner ? (

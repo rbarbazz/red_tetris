@@ -44,7 +44,7 @@ export const Board = ({
         ))
       )}
     </div>
-    <div className="window-size-error">Window too small, please resize to minimum 500x720</div>
+    <div className="window-size-error">Window too small, please resize to minimum 400x740</div>
   </React.Fragment>
 );
 

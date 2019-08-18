@@ -5,7 +5,7 @@ export const STORE_ROOM = 'STORE_ROOM';
 export const SUBMIT_ROOM = 'SUBMIT_ROOM';
 export const VALIDATE_ROOM = 'VALIDATE_ROOM';
 
-export const handlePlayerName = playerName => ({
+export const handlePlayerNameSelection = playerName => ({
   type: STORE_PLAYER_NAME,
   payload: { playerName },
 });
@@ -15,7 +15,7 @@ export const submitPlayerName = playerName => ({
   payload: { playerName },
 });
 
-export const handleRoomSelection = roomName => ({
+export const handleroomNameSelection = roomName => ({
   type: STORE_ROOM,
   payload: { roomName },
 });

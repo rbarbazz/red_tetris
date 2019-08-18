@@ -11,7 +11,7 @@ import LoadingIcon from '../components/LoadingIcon';
 
 const mapStateToProps = state => ({
   currentRoomList: state.tetris.currentRoomList,
-  lobbyCurrentStep: state.tetris.lobbyCurrentStep,
+  currentStep: state.tetris.currentStep,
   playerName: state.tetris.playerName,
   roomName: state.tetris.roomName,
 });
@@ -23,28 +23,28 @@ const mapDispatchToProps = dispatch => (
 
 export const Lobby = ({
   currentRoomList,
-  handlePlayerName,
-  handleRoomSelection,
-  lobbyCurrentStep,
+  handlePlayerNameSelection,
+  handleroomNameSelection,
+  currentStep,
   playerName,
   roomName,
   submitPlayerName,
   submitRoom,
 }) => {
-  switch (lobbyCurrentStep) {
+  switch (currentStep) {
     case 'playerNameSelection':
       return (
         <PlayerNameInput
-          handlePlayerName={handlePlayerName}
+          handlePlayerNameSelection={handlePlayerNameSelection}
           playerName={playerName}
           submitPlayerName={submitPlayerName}
         />
       );
-    case 'roomSelection':
+    case 'roomNameSelection':
       return (
         <RoomNameInput
           currentRoomList={currentRoomList}
-          handleRoomSelection={handleRoomSelection}
+          handleroomNameSelection={handleroomNameSelection}
           roomName={roomName}
           submitRoom={submitRoom}
         />
@@ -56,9 +56,9 @@ export const Lobby = ({
 
 Lobby.propTypes = {
   currentRoomList: PropTypes.arrayOf(PropTypes.string),
-  handlePlayerName: PropTypes.func,
-  handleRoomSelection: PropTypes.func,
-  lobbyCurrentStep: PropTypes.string,
+  currentStep: PropTypes.string,
+  handlePlayerNameSelection: PropTypes.func,
+  handleroomNameSelection: PropTypes.func,
   playerName: PropTypes.string,
   roomName: PropTypes.string,
   submitPlayerName: PropTypes.func,
@@ -66,9 +66,9 @@ Lobby.propTypes = {
 };
 Lobby.defaultProps = {
   currentRoomList: [],
-  handlePlayerName: lobbyActions.handlePlayerName,
-  handleRoomSelection: lobbyActions.handleRoomSelection,
-  lobbyCurrentStep: 'playerName',
+  currentStep: 'playerNameSelection',
+  handlePlayerNameSelection: lobbyActions.handlePlayerNameSelection,
+  handleroomNameSelection: lobbyActions.handleroomNameSelection,
   playerName: '',
   roomName: '',
   submitPlayerName: lobbyActions.submitPlayerName,

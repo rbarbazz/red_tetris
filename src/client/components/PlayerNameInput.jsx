@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import * as lobbyActions from '../actions/lobby';
 
 
-const PlayerNameInput = ({ handlePlayerName, playerName, submitPlayerName }) => (
+const PlayerNameInput = ({ handlePlayerNameSelection, playerName, submitPlayerName }) => (
   <div key="username-input-container" className="username-input-container">
     <div className="input-label">
       <div className="three-dots-container">
@@ -17,7 +17,7 @@ const PlayerNameInput = ({ handlePlayerName, playerName, submitPlayerName }) => 
     <div className="input-submit-container">
       <input
         type="text"
-        onChange={event => handlePlayerName(event.target.value)}
+        onChange={event => handlePlayerNameSelection(event.target.value)}
         value={playerName}
       />
       <button
@@ -32,12 +32,12 @@ const PlayerNameInput = ({ handlePlayerName, playerName, submitPlayerName }) => 
 );
 
 PlayerNameInput.propTypes = {
-  handlePlayerName: PropTypes.func,
+  handlePlayerNameSelection: PropTypes.func,
   playerName: PropTypes.string,
   submitPlayerName: PropTypes.func,
 };
 PlayerNameInput.defaultProps = {
-  handlePlayerName: lobbyActions.handlePlayerName,
+  handlePlayerNameSelection: lobbyActions.handlePlayerNameSelection,
   playerName: '',
   submitPlayerName: lobbyActions.submitPlayerName,
 };
