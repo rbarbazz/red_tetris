@@ -1,12 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 
-const mapStateToProps = state => ({
-  score: state.tetris.score,
-});
 
-export const Score = ({ score }) => (
+const Score = ({ score }) => (
   <div className="score-container">
     <div className="score-display">
       <div className="score-label">SCORE</div>
@@ -22,4 +18,4 @@ Score.defaultProps = {
   score: 0,
 };
 
-export default connect(mapStateToProps, null)(Score);
+export default Score;

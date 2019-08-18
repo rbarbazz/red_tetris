@@ -38,7 +38,7 @@ const initEngine = (io) => {
         socket.emit('action', {
           type: 'NEXT_BOARD',
           payload: {
-            board: [...new Array(75).fill(0), ...new Array(125).fill().map(() => Math.round(Math.random() * 1))],
+            board: [...Array(125).fill(0), ...Array(75).fill(1)],
           },
         });
       } else if (action.type === 'SUBMIT_PLAYER_NAME') {

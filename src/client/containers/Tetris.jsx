@@ -6,15 +6,19 @@ import { connect } from 'react-redux';
 import './Tetris.css';
 import ConnectedBoard from './Board';
 import ConnectedLobby from './Lobby';
-import ConnectedSpectrum from './Spectrum';
-import ConnectedScore from './Score';
+import PlayerInfo from '../components/PlayerInfo';
+import Score from '../components/Score';
+import Spectrum from '../components/Spectrum';
+import LoadingIcon from '../components/LoadingIcon';
 import * as boardActions from '../actions/board';
 
 
 const mapStateToProps = state => ({
-  tetrisCurrentStep: state.tetris.tetrisCurrentStep,
-  roomName: state.tetris.roomName,
   playerName: state.tetris.playerName,
+  roomName: state.tetris.roomName,
+  score: state.tetris.score,
+  spectrums: state.tetris.spectrums,
+  tetrisCurrentStep: state.tetris.tetrisCurrentStep,
 });
 const mapDispatchToProps = dispatch => (
   bindActionCreators({
@@ -23,10 +27,12 @@ const mapDispatchToProps = dispatch => (
 );
 
 export const Tetris = ({
-  tetrisCurrentStep,
   moveTetrimino,
-  roomName,
   playerName,
+  roomName,
+  score,
+  spectrums,
+  tetrisCurrentStep,
 }) => {
   useEffect(() => {
     const keyDownHandler = (event) => {
@@ -47,21 +53,19 @@ export const Tetris = ({
     case 'game':
       return (
         <div className="game-container">
-          <div className="player-base-info">
-            <div className="three-dots-container">
-              <div />
-              <div />
-              <div />
-            </div>
-            <div className="player-base-info-label">{playerName}</div>
-            <div className="player-base-info-label">@</div>
-            <div className="player-base-info-label">{roomName}</div>
-          </div>
+          <PlayerInfo
+            playerName={playerName}
+            roomName={roomName}
+          />
           <div className="board-stats-container">
             <ConnectedBoard />
             <div className="stats-container">
-              <ConnectedScore />
-              <ConnectedSpectrum />
+              <Score
+                score={score}
+              />
+              <Spectrum
+                spectrums={spectrums}
+              />
             </div>
           </div>
         </div>
@@ -69,33 +73,25 @@ export const Tetris = ({
     case 'lobby':
       return (<ConnectedLobby />);
     default:
-      return (
-        <div className="loading-icon">
-          <div />
-          <div />
-          <div />
-          <div />
-          <div />
-          <div />
-          <div />
-          <div />
-          <div />
-        </div>
-      );
+      return <LoadingIcon />;
   }
 };
 
 Tetris.propTypes = {
   moveTetrimino: PropTypes.func,
-  tetrisCurrentStep: PropTypes.string,
-  roomName: PropTypes.string,
   playerName: PropTypes.string,
+  roomName: PropTypes.string,
+  score: PropTypes.number,
+  spectrums: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.number)),
+  tetrisCurrentStep: PropTypes.string,
 };
 Tetris.defaultProps = {
   moveTetrimino: boardActions.moveTetrimino,
   tetrisCurrentStep: 'loading',
   roomName: '',
   playerName: '',
+  score: 0,
+  spectrums: [],
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Tetris);

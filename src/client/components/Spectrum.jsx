@@ -1,13 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { Block } from './Board';
+import Block from './Block';
 
-const mapStateToProps = state => ({
-  spectrums: state.tetris.spectrums,
-});
 
-export const Spectrum = ({ spectrums }) => (
+const Spectrum = ({ spectrums }) => (
   <div className="spectrums-container">
     {spectrums.map((spectrum, spectrumIndex) => (
       <div
@@ -32,4 +28,4 @@ Spectrum.defaultProps = {
   spectrums: [],
 };
 
-export default connect(mapStateToProps, null)(Spectrum);
+export default Spectrum;

@@ -123,8 +123,10 @@ html, body {
 	font-size: 20px;
 	font-weight: 600;
 	letter-spacing: 1px;
-	padding: 10px 20px;
-	width: calc(33.33% - 40px);
+	padding: 10px 0;
+	width: 33.33%;
+	background: none;
+    border: none;
 }
 .room-list-title {
 	color: #d3d0d0;
@@ -161,7 +163,7 @@ input {
 	padding: 10px 15px;
 	width: calc(100% - 26px);
 }
-button {
+button:not(.room-item) {
 	background-color: #eb4d4b;
 	border: solid 1px #383838;
 	border-bottom: 4px solid #c31715;
@@ -177,10 +179,10 @@ button {
 	transition: 0.1s;
 	width: 120px;
 }
-button:disabled {
+button:not(.room-item):disabled {
 	opacity: 0.7;
 }
-button:hover:enabled {
+button:not(.room-item):hover:enabled {
 	border-bottom-width: 0;
 	margin-top: 4px;
 }
@@ -245,10 +247,10 @@ button:hover:enabled {
 	flex-direction: column;
 	align-items: flex-end;
 	height: 600px;
-	justify-content: space-evenly;
 	width: 350px;
 }
 .score-container {
+	margin-bottom: 20px;
 	width: 100%;
 }
 .player-base-info {

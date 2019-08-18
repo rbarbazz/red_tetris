@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import ConnectedTetris from '../components/Tetris';
+import ConnectedTetris from './Tetris';
 import ping from '../actions/server';
 import { displayLobby, submitHashBasedData } from '../actions/tetris';
 
@@ -11,7 +11,7 @@ const hashRegex = /^#(.+)\[(.+)\]$/;
 const matches = hashRegex.exec(window.location.hash);
 
 const mapStateToProps = state => ({
-  receivedPong: state.tetris.receivedPong,
+  receivedPong: state.server.receivedPong,
 });
 const mapDispatchToProps = dispatch => ({
   initialPing: () => dispatch(ping()),
@@ -38,7 +38,7 @@ export const App = ({
     initialDisplayLobby();
   }
 
-  return (<ConnectedTetris />);
+  return <ConnectedTetris />;
 };
 
 App.propTypes = {
