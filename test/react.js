@@ -1,16 +1,11 @@
 /* eslint-disable react/jsx-filename-extension */
 import React from 'react';
-import Adapter from 'enzyme-adapter-react-16';
+import sinon from 'sinon';
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
-import { configure, shallow } from 'enzyme';
-import sinon from 'sinon';
+import { shallow } from 'enzyme';
 
 import './helpers/react';
-import { App } from '../src/client/containers/App';
-import { Tetris } from '../src/client/containers/Tetris';
-import { Lobby } from '../src/client/containers/Lobby';
-import { Board } from '../src/client/containers/Board';
 import Spectrum from '../src/client/components/Spectrum';
 import Score from '../src/client/components/Score';
 import Block from '../src/client/components/Block';
@@ -19,9 +14,11 @@ import LoadingIcon from '../src/client/components/LoadingIcon';
 import PlayerInfo from '../src/client/components/PlayerInfo';
 import PlayerNameInput from '../src/client/components/PlayerNameInput';
 import RoomNameInput from '../src/client/components/RoomNameInput';
+import { App } from '../src/client/containers/App';
+import { Tetris } from '../src/client/containers/Tetris';
+import { Lobby } from '../src/client/containers/Lobby';
+import { Board } from '../src/client/containers/Board';
 
-
-configure({ adapter: new Adapter() });
 
 describe('React', () => {
   describe('Containers', () => {
