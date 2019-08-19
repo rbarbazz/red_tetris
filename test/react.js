@@ -37,6 +37,13 @@ describe('React', () => {
 
         expect(wrapper.exists()).to.equal(true);
       });
+
+      it('should render <App receivedPong matches={Array(3)} />', () => {
+        const matches = ['#room303[Bob]', 'room303', 'Bob'];
+        const wrapper = shallow(<App receivedPong matches={matches} />);
+
+        expect(wrapper.exists()).to.equal(true);
+      });
     });
 
 
@@ -84,6 +91,12 @@ describe('React', () => {
 
       it('should render <Lobby currentStep="roomNameSelection" />', () => {
         const wrapper = shallow(<Lobby currentStep="roomNameSelection" />);
+
+        expect(wrapper.exists()).to.equal(true);
+      });
+
+      it('should render <Lobby currentStep="loading" />', () => {
+        const wrapper = shallow(<Lobby currentStep="loading" />);
 
         expect(wrapper.exists()).to.equal(true);
       });
