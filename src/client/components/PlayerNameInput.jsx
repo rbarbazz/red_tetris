@@ -21,9 +21,9 @@ const PlayerNameInput = ({ handlePlayerNameSelection, playerName, submitPlayerNa
         value={playerName}
       />
       <button
-        type="submit"
         disabled={playerName === ''}
         onClick={() => submitPlayerName(playerName)}
+        type="submit"
       >
         Submit
       </button>

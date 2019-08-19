@@ -10,6 +10,9 @@ import reducer from './reducers';
 import ConnectedApp from './containers/App';
 
 
+const hashRegex = /^#(.+)\[(.+)\]$/;
+const matches = hashRegex.exec(window.location.hash);
+
 const store = createStore(
   reducer,
   applyMiddleware(
@@ -21,6 +24,6 @@ const store = createStore(
 
 ReactDom.render((
   <Provider store={store}>
-    <ConnectedApp />
+    <ConnectedApp matches={matches} />
   </Provider>
 ), document.getElementById('root'));

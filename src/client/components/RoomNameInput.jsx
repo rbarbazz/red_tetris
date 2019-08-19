@@ -8,7 +8,7 @@ const RoomNameInput = ({
   currentRoomList,
   handleroomNameSelection,
   roomName,
-  submitRoom,
+  submitRoomName,
 }) => (
   <div key="room-selection-container" className="room-selection-container">
     <div className="input-label">
@@ -45,9 +45,9 @@ const RoomNameInput = ({
         value={roomName}
       />
       <button
-        type="submit"
-        onClick={() => submitRoom(roomName)}
         disabled={roomName === ''}
+        onClick={() => submitRoomName(roomName)}
+        type="submit"
       >
         {currentRoomList.includes(roomName) ? 'Enter' : 'Create'}
       </button>
@@ -59,13 +59,13 @@ RoomNameInput.propTypes = {
   currentRoomList: PropTypes.arrayOf(PropTypes.string),
   handleroomNameSelection: PropTypes.func,
   roomName: PropTypes.string,
-  submitRoom: PropTypes.func,
+  submitRoomName: PropTypes.func,
 };
 RoomNameInput.defaultProps = {
   currentRoomList: [],
   handleroomNameSelection: lobbyActions.handleroomNameSelection,
   roomName: '',
-  submitRoom: lobbyActions.submitRoom,
+  submitRoomName: lobbyActions.submitRoomName,
 };
 
 export default RoomNameInput;

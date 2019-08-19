@@ -20,7 +20,7 @@ export const handleroomNameSelection = roomName => ({
   payload: { roomName },
 });
 
-export const submitRoom = roomName => ({
+export const submitRoomName = roomName => ({
   type: SUBMIT_ROOM,
   payload: { roomName },
 });

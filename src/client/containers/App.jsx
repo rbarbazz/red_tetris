@@ -1,41 +1,37 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 
 import ConnectedTetris from './Tetris';
-import ping from '../actions/server';
-import { displayLobby, submitHashBasedData } from '../actions/tetris';
+import * as serverActions from '../actions/server';
+import * as tetrisActions from '../actions/tetris';
 
-
-const hashRegex = /^#(.+)\[(.+)\]$/;
-const matches = hashRegex.exec(window.location.hash);
 
 const mapStateToProps = state => ({
   receivedPong: state.server.receivedPong,
 });
-const mapDispatchToProps = dispatch => ({
-  initialPing: () => dispatch(ping()),
-  initialDisplayLobby: () => dispatch(displayLobby()),
-  initialSubmitHashBasedData: (playerName, roomName) => dispatch(
-    submitHashBasedData(playerName, roomName),
-  ),
-});
+const mapDispatchToProps = dispatch => (bindActionCreators({
+  ...serverActions,
+  ...tetrisActions,
+}, dispatch));
 
 export const App = ({
   receivedPong,
-  initialPing,
-  initialDisplayLobby,
-  initialSubmitHashBasedData,
+  ping,
+  displayLobby,
+  submitHashBasedData,
+  matches,
 }) => {
   if (!receivedPong) {
-    initialPing();
+    ping();
   } else if (receivedPong && matches && matches[1] && matches[2]) {
     const playerName = matches[2];
     const roomName = matches[1];
 
-    initialSubmitHashBasedData(playerName, roomName);
+    submitHashBasedData(playerName, roomName);
   } else if (receivedPong) {
-    initialDisplayLobby();
+    displayLobby();
   }
 
   return <ConnectedTetris />;
@@ -43,15 +39,17 @@ export const App = ({
 
 App.propTypes = {
   receivedPong: PropTypes.bool,
-  initialPing: PropTypes.func,
-  initialDisplayLobby: PropTypes.func,
-  initialSubmitHashBasedData: PropTypes.func,
+  ping: PropTypes.func,
+  displayLobby: PropTypes.func,
+  submitHashBasedData: PropTypes.func,
+  matches: PropTypes.arrayOf(PropTypes.string),
 };
 App.defaultProps = {
   receivedPong: false,
-  initialPing: ping,
-  initialDisplayLobby: displayLobby,
-  initialSubmitHashBasedData: submitHashBasedData,
+  ping: serverActions.ping,
+  displayLobby: tetrisActions.displayLobby,
+  submitHashBasedData: tetrisActions.submitHashBasedData,
+  matches: [],
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

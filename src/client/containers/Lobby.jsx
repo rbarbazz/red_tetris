@@ -29,7 +29,7 @@ export const Lobby = ({
   playerName,
   roomName,
   submitPlayerName,
-  submitRoom,
+  submitRoomName,
 }) => {
   switch (currentStep) {
     case 'playerNameSelection':
@@ -46,7 +46,7 @@ export const Lobby = ({
           currentRoomList={currentRoomList}
           handleroomNameSelection={handleroomNameSelection}
           roomName={roomName}
-          submitRoom={submitRoom}
+          submitRoomName={submitRoomName}
         />
       );
     default:
@@ -62,7 +62,7 @@ Lobby.propTypes = {
   playerName: PropTypes.string,
   roomName: PropTypes.string,
   submitPlayerName: PropTypes.func,
-  submitRoom: PropTypes.func,
+  submitRoomName: PropTypes.func,
 };
 Lobby.defaultProps = {
   currentRoomList: [],
@@ -72,7 +72,7 @@ Lobby.defaultProps = {
   playerName: '',
   roomName: '',
   submitPlayerName: lobbyActions.submitPlayerName,
-  submitRoom: lobbyActions.submitRoom,
+  submitRoomName: lobbyActions.submitRoomName,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Lobby);
