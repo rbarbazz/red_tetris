@@ -22,12 +22,12 @@ const clientOnlyActions = [
   GAME_DID_START,
 ];
 
-const socketMiddleWare = url => (
-  (storeAPI) => {
+export default url => (
+  ({ dispatch }) => {
     const socket = io(url);
 
     socket.on('action', (action) => {
-      storeAPI.dispatch({
+      dispatch({
         type: action.type,
         payload: action.payload,
       });
@@ -41,5 +41,3 @@ const socketMiddleWare = url => (
     };
   }
 );
-
-export default socketMiddleWare;

@@ -6,7 +6,7 @@ import containers from './client/containers';
 import components from './client/components';
 import actions from './client/actions';
 import reducers from './client/reducers';
-
+import middleware from './client/middleware';
 
 describe('React', () => {
   containers();
@@ -15,5 +15,6 @@ describe('React', () => {
 
 describe('Redux', () => {
   actions();
+  middleware();
   reducers();
 });
