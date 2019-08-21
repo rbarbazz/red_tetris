@@ -12,14 +12,14 @@ module.exports = {
         test: /\.(js|jsx)$/i,
         exclude: /node_modules/,
         loader: 'babel-loader',
+        resolve: {
+          extensions: ['.js', '.jsx'],
+        },
       },
       {
         test: /\.css$/i,
         use: ['style-loader', 'css-loader'],
       },
     ],
-  },
-  resolve: {
-    extensions: ['*', '.js', '.jsx'],
   },
 };

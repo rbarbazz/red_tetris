@@ -3,6 +3,6 @@ import tetris from './tetris';
 import board from './board';
 import server from './server';
 
-const reducer = combineReducers({ board, tetris, server });
+const reducers = combineReducers({ board, tetris, server });
 
-export default reducer;
+export default reducers;

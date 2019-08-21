@@ -6,7 +6,7 @@ import { createLogger } from 'redux-logger';
 import thunk from 'redux-thunk';
 
 import socketMiddleWare from './middleware/socketMiddleWare';
-import reducer from './reducers';
+import reducers from './reducers';
 import ConnectedApp from './containers/App';
 
 
@@ -14,7 +14,7 @@ const hashRegex = /^#(.+)\[(.+)\]$/;
 const matches = hashRegex.exec(window.location.hash);
 
 const store = createStore(
-  reducer,
+  reducers,
   applyMiddleware(
     thunk,
     socketMiddleWare('http://0.0.0.0:3004/'),
