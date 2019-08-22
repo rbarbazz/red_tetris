@@ -10,10 +10,10 @@ import LoadingIcon from '../components/LoadingIcon';
 
 
 const mapStateToProps = state => ({
-  currentRoomList: state.tetris.currentRoomList,
-  currentStep: state.tetris.currentStep,
-  playerName: state.tetris.playerName,
-  roomName: state.tetris.roomName,
+  currentRoomList: state.lobby.currentRoomList,
+  currentStep: state.lobby.currentStep,
+  playerName: state.lobby.playerName,
+  roomName: state.lobby.roomName,
 });
 const mapDispatchToProps = dispatch => (
   bindActionCreators({

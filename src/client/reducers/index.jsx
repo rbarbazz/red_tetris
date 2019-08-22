@@ -1,8 +1,15 @@
 import { combineReducers } from 'redux';
-import tetris from './tetris';
-import board from './board';
-import server from './server';
 
-const reducers = combineReducers({ board, tetris, server });
+import board from './board';
+import lobby from './lobby';
+import server from './server';
+import tetris from './tetris';
+
+const reducers = combineReducers({
+  board,
+  lobby,
+  server,
+  tetris,
+});
 
 export default reducers;

@@ -16,8 +16,8 @@ import * as boardActions from '../actions/board';
 const mapStateToProps = state => ({
   currentStep: state.tetris.currentStep,
   didGameStart: state.tetris.didGameStart,
-  playerName: state.tetris.playerName,
-  roomName: state.tetris.roomName,
+  playerName: state.lobby.playerName,
+  roomName: state.lobby.roomName,
   score: state.tetris.score,
   spectrums: state.tetris.spectrums,
 });
@@ -72,8 +72,7 @@ export const Tetris = ({
           </div>
         </div>
       );
-    case 'playerNameSelection':
-    case 'roomNameSelection':
+    case 'lobby':
       return (<ConnectedLobby />);
     default:
       return <LoadingIcon />;

@@ -3,6 +3,7 @@ import { describe, it } from 'mocha';
 
 import reducers from '../../src/client/reducers';
 import board from '../../src/client/reducers/board';
+import lobby from '../../src/client/reducers/lobby';
 import tetris from '../../src/client/reducers/tetris';
 import server from '../../src/client/reducers/server';
 import { NEXT_BOARD } from '../../src/client/actions/board';
@@ -62,27 +63,16 @@ export default () => describe('Reducers', () => {
     });
   });
 
-
-  describe('tetris', () => {
+  describe('lobby', () => {
     const initialState = {
-      currentStep: 'loading',
-      didGameStart: false,
-      isRoomOwner: false,
+      currentStep: 'playerNameSelection',
       playerName: '',
       roomName: '',
-      score: 0,
-      spectrums: Array(7).fill([...Array(125).fill(0), ...Array(75).fill(1)]),
+      currentRoomList: [],
     };
 
     it('should return the initial state', () => {
-      expect(tetris(undefined, {})).to.deep.equal(initialState);
-    });
-
-    it('should return the correct state for DISPLAY_LOBBY action', () => {
-      const action = { type: DISPLAY_LOBBY };
-      const expectedState = { ...initialState, currentStep: 'playerNameSelection' };
-
-      expect(tetris(initialState, action)).to.deep.equal(expectedState);
+      expect(lobby(undefined, {})).to.deep.equal(initialState);
     });
 
     it('should return the correct state for STORE_PLAYER_NAME action', () => {
@@ -94,14 +84,14 @@ export default () => describe('Reducers', () => {
       };
       const expectedState = { ...initialState, playerName: action.payload.playerName };
 
-      expect(tetris(initialState, action)).to.deep.equal(expectedState);
+      expect(lobby(initialState, action)).to.deep.equal(expectedState);
     });
 
     it('should return the correct state for SUBMIT_PLAYER_NAME action', () => {
       const action = { type: SUBMIT_PLAYER_NAME };
       const expectedState = { ...initialState, currentStep: 'loading' };
 
-      expect(tetris(initialState, action)).to.deep.equal(expectedState);
+      expect(lobby(initialState, action)).to.deep.equal(expectedState);
     });
 
     it('should return the correct state for VALIDATE_PLAYER_NAME action', () => {
@@ -119,7 +109,7 @@ export default () => describe('Reducers', () => {
         currentRoomList: action.payload.currentRoomList,
       };
 
-      expect(tetris(initialState, action)).to.deep.equal(expectedState);
+      expect(lobby(initialState, action)).to.deep.equal(expectedState);
     });
 
     it('should return the correct state for STORE_ROOM action', () => {
@@ -131,12 +121,67 @@ export default () => describe('Reducers', () => {
       };
       const expectedState = { ...initialState, roomName: action.payload.roomName };
 
-      expect(tetris(initialState, action)).to.deep.equal(expectedState);
+      expect(lobby(initialState, action)).to.deep.equal(expectedState);
     });
 
     it('should return the correct state for SUBMIT_ROOM action', () => {
       const action = { type: SUBMIT_ROOM };
       const expectedState = { ...initialState, currentStep: 'loading' };
+
+      expect(lobby(initialState, action)).to.deep.equal(expectedState);
+    });
+
+    it('should return the correct state for VALIDATE_ROOM action', () => {
+      const action = {
+        type: VALIDATE_ROOM,
+        payload: {
+          roomName: 'room303',
+          isRoomOwner: true,
+        },
+      };
+      const expectedState = {
+        ...initialState,
+        roomName: action.payload.roomName,
+      };
+
+      expect(lobby(initialState, action)).to.deep.equal(expectedState);
+    });
+
+    it('should return the correct state for VALIDATE_HASH_BASED_DATA action', () => {
+      const action = {
+        type: VALIDATE_HASH_BASED_DATA,
+        payload: {
+          playerName: 'Bob',
+          roomName: 'room303',
+          isRoomOwner: true,
+        },
+      };
+      const expectedState = {
+        ...initialState,
+        playerName: action.payload.playerName,
+        roomName: action.payload.roomName,
+      };
+
+      expect(lobby(initialState, action)).to.deep.equal(expectedState);
+    });
+  });
+
+  describe('tetris', () => {
+    const initialState = {
+      currentStep: 'loading',
+      didGameStart: false,
+      isRoomOwner: false,
+      score: 0,
+      spectrums: Array(7).fill([...Array(125).fill(0), ...Array(75).fill(1)]),
+    };
+
+    it('should return the initial state', () => {
+      expect(tetris(undefined, {})).to.deep.equal(initialState);
+    });
+
+    it('should return the correct state for DISPLAY_LOBBY action', () => {
+      const action = { type: DISPLAY_LOBBY };
+      const expectedState = { ...initialState, currentStep: 'lobby' };
 
       expect(tetris(initialState, action)).to.deep.equal(expectedState);
     });
@@ -152,7 +197,6 @@ export default () => describe('Reducers', () => {
       const expectedState = {
         ...initialState,
         currentStep: 'game',
-        roomName: action.payload.roomName,
         isRoomOwner: action.payload.isRoomOwner,
       };
 
@@ -171,8 +215,6 @@ export default () => describe('Reducers', () => {
       const expectedState = {
         ...initialState,
         currentStep: 'game',
-        playerName: action.payload.playerName,
-        roomName: action.payload.roomName,
         isRoomOwner: action.payload.isRoomOwner,
       };
 
