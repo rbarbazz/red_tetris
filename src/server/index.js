@@ -73,7 +73,7 @@ const initEngine = (io) => {
   });
 };
 
-export function create(params){
+export function create(params) {
   const promise = new Promise( (resolve, reject) => {
     const app = require('http').createServer()
     initApp(app, params, () =>{

@@ -1,12 +1,19 @@
 import { expect } from 'chai';
-import { describe, it } from 'mocha';
+import sinon from 'sinon';
+import { applyMiddleware, createStore } from 'redux';
 
-import socketMiddleWare from '../../src/client/middleware/socketMiddleWare';
+import createSocket from '../../src/client/middleware/socketMiddleWare';
+import * as serverActions from '../../src/client/actions/server';
 
 export default () => describe('Middleware', () => {
-  it('should pass the intercepted action to next', () => {
-    const ret = socketMiddleWare('http://0.0.0.0:3004/');
+  const mockConsoleError = sinon.spy(console, 'error');
 
-    expect(ret).to.be.instanceOf(Function);
+  it('should get actions passed through', () => {
+    const store = createStore(() => ({}), applyMiddleware(createSocket()));
+
+    store.dispatch({ type: serverActions.CLIENT_PING });
+    store.dispatch({ type: serverActions.SERVER_PONG });
+    store.dispatch({ type: serverActions.CLIENT_CLOSE });
+    expect(mockConsoleError).to.have.property('callCount', 0);
   });
 });

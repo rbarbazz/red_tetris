@@ -1,7 +1,6 @@
 /* eslint-disable react/jsx-filename-extension */
 import React from 'react';
 import { expect } from 'chai';
-import { describe, it } from 'mocha';
 import { shallow } from 'enzyme';
 
 import { App } from '../../src/client/containers/App';

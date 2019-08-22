@@ -8,4 +8,4 @@ const params = {
   },
 };
 
-module.exports = params;
+export default params;

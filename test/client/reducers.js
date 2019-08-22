@@ -1,5 +1,4 @@
 import { expect } from 'chai';
-import { describe, it } from 'mocha';
 
 import reducers from '../../src/client/reducers';
 import board from '../../src/client/reducers/board';

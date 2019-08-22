@@ -1,5 +1,4 @@
 import { expect } from 'chai';
-import { describe, it } from 'mocha';
 
 import * as boardActions from '../../src/client/actions/board';
 import * as lobbyActions from '../../src/client/actions/lobby';

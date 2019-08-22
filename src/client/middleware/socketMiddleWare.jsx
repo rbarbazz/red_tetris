@@ -1,6 +1,7 @@
 import io from 'socket.io-client';
+import params from '../../../params';
 
-import { SERVER_PONG } from '../actions/server';
+import { SERVER_PONG, CLIENT_PING, CLIENT_CLOSE } from '../actions/server';
 import {
   STORE_PLAYER_NAME,
   VALIDATE_PLAYER_NAME,
@@ -21,23 +22,28 @@ const clientOnlyActions = [
   VALIDATE_HASH_BASED_DATA,
   GAME_DID_START,
 ];
+const { server } = params;
 
-export default url => (
-  ({ dispatch }) => {
-    const socket = io(url);
+export default () => {
+  let socket;
 
-    socket.on('action', (action) => {
-      dispatch({
-        type: action.type,
-        payload: action.payload,
+  return ({ dispatch }) => next => (action) => {
+    if (action.type === CLIENT_PING) {
+      socket = io(server.url);
+
+      // eslint-disable-next-line no-shadow
+      socket.on('action', (action) => {
+        dispatch({
+          type: action.type,
+          payload: action.payload,
+        });
       });
-    });
-
-    return next => (action) => {
-      if (!clientOnlyActions.includes(action.type)) {
-        socket.emit('action', action);
-      }
-      return next(action);
-    };
-  }
-);
+    } else if (action.type === CLIENT_CLOSE) {
+      socket.close();
+    }
+    if (!clientOnlyActions.includes(action.type)) {
+      socket.emit('action', action);
+    }
+    return next(action);
+  };
+};

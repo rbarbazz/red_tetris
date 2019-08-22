@@ -5,7 +5,7 @@ import { Provider } from 'react-redux';
 import { createLogger } from 'redux-logger';
 import thunk from 'redux-thunk';
 
-import socketMiddleWare from './middleware/socketMiddleWare';
+import createSocket from './middleware/socketMiddleWare';
 import reducers from './reducers';
 import ConnectedApp from './containers/App';
 
@@ -17,7 +17,7 @@ const store = createStore(
   reducers,
   applyMiddleware(
     thunk,
-    socketMiddleWare('http://0.0.0.0:3004/'),
+    createSocket(),
     createLogger(),
   ),
 );
