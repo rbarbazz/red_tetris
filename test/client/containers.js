@@ -1,7 +1,8 @@
 /* eslint-disable react/jsx-filename-extension */
 import React from 'react';
+import jsdom from 'jsdom';
 import { expect } from 'chai';
-import { shallow } from 'enzyme';
+import { shallow, mount } from 'enzyme';
 
 import { App } from '../../src/client/containers/App';
 import { Tetris } from '../../src/client/containers/Tetris';
@@ -39,6 +40,20 @@ export default () => describe('Containers', () => {
       expect(wrapper.exists()).to.equal(true);
     });
 
+    it('should mount <Tetris />', () => {
+      const { JSDOM } = jsdom;
+      const { document } = (new JSDOM('')).window;
+      global.document = document;
+      global.window = document.defaultView;
+      const wrapper = mount(<Tetris />);
+      const event = new window.KeyboardEvent('keydown', { keyCode: 37 });
+      window.dispatchEvent(event);
+
+      expect(wrapper.exists()).to.equal(true);
+      wrapper.unmount();
+      expect(wrapper.exists()).to.equal(false);
+    });
+
     it('should render <Tetris currentStep="game" />', () => {
       const wrapper = shallow(<Tetris currentStep="game" />);
 
@@ -48,14 +63,14 @@ export default () => describe('Containers', () => {
       expect(wrapper.exists('.stats-container')).to.equal(true);
     });
 
-    it('should render <Tetris currentStep="playerNameSelection" />', () => {
-      const wrapper = shallow(<Tetris currentStep="playerNameSelection" />);
+    it('should render <Tetris currentStep="roomNameSelection" />', () => {
+      const wrapper = shallow(<Tetris currentStep="lobby" />);
 
       expect(wrapper.exists()).to.equal(true);
     });
 
-    it('should render <Tetris currentStep="roomNameSelection" />', () => {
-      const wrapper = shallow(<Tetris currentStep="roomNameSelection" />);
+    it('should render <Tetris currentStep="playerNameSelection" />', () => {
+      const wrapper = shallow(<Tetris currentStep="loading" />);
 
       expect(wrapper.exists()).to.equal(true);
     });

@@ -6,7 +6,14 @@ import createSocket from '../../src/client/middleware/socketMiddleWare';
 import * as serverActions from '../../src/client/actions/server';
 
 export default () => describe('Middleware', () => {
-  const mockConsoleError = sinon.spy(console, 'error');
+  let mockConsoleError;
+  before(() => {
+    mockConsoleError = sinon.spy(console, 'error');
+  });
+
+  after(() => {
+    mockConsoleError.restore();
+  });
 
   it('should get actions passed through', () => {
     const store = createStore(() => ({}), applyMiddleware(createSocket()));
