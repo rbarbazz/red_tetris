@@ -1,9 +1,9 @@
 import React from 'react';
 import ReactDom from 'react-dom';
+import thunk from 'redux-thunk';
 import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
 import { createLogger } from 'redux-logger';
-import thunk from 'redux-thunk';
 
 import createSocket from './middleware/socketMiddleWare';
 import reducers from './reducers';

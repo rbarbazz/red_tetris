@@ -1,9 +1,10 @@
 /* eslint-disable react/jsx-filename-extension */
 import React from 'react';
 import jsdom from 'jsdom';
+import configureMockStore from 'redux-mock-store';
 import { expect } from 'chai';
 import { shallow, mount } from 'enzyme';
-import configureMockStore from 'redux-mock-store';
+import { Provider } from 'react-redux';
 
 import ConnectedApp, { App } from '../../src/client/containers/App';
 import ConnectedTetris, { Tetris } from '../../src/client/containers/Tetris';
@@ -70,6 +71,37 @@ export default () => describe('Containers', () => {
       expect(wrapper.exists()).to.equal(true);
       wrapper.unmount();
       expect(wrapper.exists()).to.equal(false);
+    });
+
+    it('should mount <Tetris didGameStart currentStep="game" />', () => {
+      const { JSDOM } = jsdom;
+      const { document } = (new JSDOM('')).window;
+      global.document = document;
+      global.window = document.defaultView;
+      const initialState = {
+        lobby: {
+          playerName: '',
+          roomName: '',
+        },
+        tetris: {
+          currentStep: 'loading',
+          didGameStart: false,
+          score: 0,
+          spectrums: [],
+        },
+      };
+      const store = mockStore(initialState);
+      const connectedWrapper = mount(
+        <Provider store={store}>
+          <Tetris currentStep="game" didGameStart />
+        </Provider>,
+      );
+      const event = new window.KeyboardEvent('keydown', { keyCode: 37 });
+      window.dispatchEvent(event);
+
+      expect(connectedWrapper.exists()).to.equal(true);
+      connectedWrapper.unmount();
+      expect(connectedWrapper.exists()).to.equal(false);
     });
 
     it('should render <Tetris currentStep="game" />', () => {

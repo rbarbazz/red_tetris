@@ -13,6 +13,17 @@ import LoadingIcon from '../components/LoadingIcon';
 import * as boardActions from '../actions/board';
 
 
+const useKeyboardEvent = (callback) => {
+  useEffect(() => {
+    window.addEventListener('keydown', callback);
+    window.addEventListener('keyup', callback);
+    return () => {
+      window.removeEventListener('keydown', callback);
+      window.removeEventListener('keyup', callback);
+    };
+  }, [callback]);
+};
+
 const mapStateToProps = state => ({
   currentStep: state.tetris.currentStep,
   didGameStart: state.tetris.didGameStart,
@@ -36,22 +47,10 @@ export const Tetris = ({
   score,
   spectrums,
 }) => {
-  useEffect(() => {
-    const keyDownHandler = (event) => {
-      if ([32, 37, 38, 39, 40].includes(event.keyCode)) {
-        moveTetrimino(event.code, event.type);
-      }
-    };
-
-    if (didGameStart && currentStep === 'game') {
-      window.addEventListener('keydown', keyDownHandler);
-      window.addEventListener('keyup', keyDownHandler);
+  useKeyboardEvent((event) => {
+    if (didGameStart && currentStep === 'game' && [32, 37, 38, 39, 40].includes(event.keyCode)) {
+      moveTetrimino(event.code, event.type);
     }
-
-    return () => {
-      window.removeEventListener('keydown', keyDownHandler);
-      window.removeEventListener('keyup', keyDownHandler);
-    };
   });
 
   switch (currentStep) {
