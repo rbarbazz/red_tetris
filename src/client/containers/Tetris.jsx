@@ -38,12 +38,15 @@ export const Tetris = ({
 }) => {
   useEffect(() => {
     const keyDownHandler = (event) => {
-      if ([32, 37, 38, 39, 40].includes(event.keyCode) && currentStep === 'game' && didGameStart) {
+      if ([32, 37, 38, 39, 40].includes(event.keyCode)) {
         moveTetrimino(event.code, event.type);
       }
     };
-    window.addEventListener('keydown', keyDownHandler);
-    window.addEventListener('keyup', keyDownHandler);
+
+    if (didGameStart && currentStep === 'game') {
+      window.addEventListener('keydown', keyDownHandler);
+      window.addEventListener('keyup', keyDownHandler);
+    }
 
     return () => {
       window.removeEventListener('keydown', keyDownHandler);
@@ -62,12 +65,8 @@ export const Tetris = ({
           <div className="board-stats-container">
             <ConnectedBoard />
             <div className="stats-container">
-              <Score
-                score={score}
-              />
-              <Spectrum
-                spectrums={spectrums}
-              />
+              <Score score={score} />
+              <Spectrum spectrums={spectrums} />
             </div>
           </div>
         </div>

@@ -3,12 +3,15 @@ import React from 'react';
 import jsdom from 'jsdom';
 import { expect } from 'chai';
 import { shallow, mount } from 'enzyme';
+import configureMockStore from 'redux-mock-store';
 
-import { App } from '../../src/client/containers/App';
-import { Tetris } from '../../src/client/containers/Tetris';
-import { Lobby } from '../../src/client/containers/Lobby';
-import { Board } from '../../src/client/containers/Board';
+import ConnectedApp, { App } from '../../src/client/containers/App';
+import ConnectedTetris, { Tetris } from '../../src/client/containers/Tetris';
+import ConnectedLobby, { Lobby } from '../../src/client/containers/Lobby';
+import ConnectedBoard, { Board } from '../../src/client/containers/Board';
 
+
+const mockStore = configureMockStore();
 
 export default () => describe('Containers', () => {
   describe('App', () => {
@@ -29,6 +32,21 @@ export default () => describe('Containers', () => {
       const wrapper = shallow(<App receivedPong matches={matches} />);
 
       expect(wrapper.exists()).to.equal(true);
+    });
+
+    it('should get the correct props from mapStateToProps and mapDispatchToProps', () => {
+      const initialState = {
+        server: {
+          receivedPong: false,
+        },
+      };
+      const store = mockStore(initialState);
+      const connectedWrapper = shallow(<ConnectedApp store={store} />).dive();
+
+      expect(connectedWrapper.props().receivedPong).to.equal(false);
+      expect(connectedWrapper.props().ping).to.be.instanceOf(Function);
+      expect(connectedWrapper.props().submitHashBasedData).to.be.instanceOf(Function);
+      expect(connectedWrapper.props().displayLobby).to.be.instanceOf(Function);
     });
   });
 
@@ -74,6 +92,31 @@ export default () => describe('Containers', () => {
 
       expect(wrapper.exists()).to.equal(true);
     });
+
+    it('should get the correct props from mapStateToProps and mapDispatchToProps', () => {
+      const initialState = {
+        lobby: {
+          playerName: '',
+          roomName: '',
+        },
+        tetris: {
+          currentStep: 'loading',
+          didGameStart: false,
+          score: 0,
+          spectrums: [],
+        },
+      };
+      const store = mockStore(initialState);
+      const connectedWrapper = shallow(<ConnectedTetris store={store} />).dive();
+
+      expect(connectedWrapper.props().playerName).to.equal('');
+      expect(connectedWrapper.props().roomName).to.equal('');
+      expect(connectedWrapper.props().currentStep).to.equal('loading');
+      expect(connectedWrapper.props().didGameStart).to.equal(false);
+      expect(connectedWrapper.props().score).to.equal(0);
+      expect(connectedWrapper.props().spectrums).to.deep.equal([]);
+      expect(connectedWrapper.props().moveTetrimino).to.be.instanceOf(Function);
+    });
   });
 
   describe('Lobby', () => {
@@ -100,6 +143,28 @@ export default () => describe('Containers', () => {
 
       expect(wrapper.exists()).to.equal(true);
     });
+
+    it('should get the correct props from mapStateToProps and mapDispatchToProps', () => {
+      const initialState = {
+        lobby: {
+          currentRoomList: [],
+          currentStep: 'playerNameSelection',
+          playerName: '',
+          roomName: '',
+        },
+      };
+      const store = mockStore(initialState);
+      const connectedWrapper = shallow(<ConnectedLobby store={store} />).dive();
+
+      expect(connectedWrapper.props().currentRoomList).to.deep.equal([]);
+      expect(connectedWrapper.props().currentStep).to.equal('playerNameSelection');
+      expect(connectedWrapper.props().playerName).to.equal('');
+      expect(connectedWrapper.props().roomName).to.equal('');
+      expect(connectedWrapper.props().handlePlayerNameSelection).to.be.instanceOf(Function);
+      expect(connectedWrapper.props().handleroomNameSelection).to.be.instanceOf(Function);
+      expect(connectedWrapper.props().submitPlayerName).to.be.instanceOf(Function);
+      expect(connectedWrapper.props().submitRoomName).to.be.instanceOf(Function);
+    });
   });
 
   describe('Board', () => {
@@ -117,6 +182,23 @@ export default () => describe('Containers', () => {
       expect(wrapper.exists()).to.equal(true);
       expect(wrapper.exists('.board-container')).to.equal(true);
       expect(wrapper.exists('.window-size-error')).to.equal(true);
+    });
+
+    it('should get the correct props from mapStateToProps and mapDispatchToProps', () => {
+      const initialState = {
+        board: Array(200).fill(0),
+        tetris: {
+          didGameStart: false,
+          isRoomOwner: false,
+        },
+      };
+      const store = mockStore(initialState);
+      const connectedWrapper = shallow(<ConnectedBoard store={store} />).dive();
+
+      expect(connectedWrapper.props().board).to.deep.equal(Array(200).fill(0));
+      expect(connectedWrapper.props().didGameStart).to.equal(false);
+      expect(connectedWrapper.props().isRoomOwner).to.equal(false);
+      expect(connectedWrapper.props().ownerIsReady).to.be.instanceOf(Function);
     });
   });
 });

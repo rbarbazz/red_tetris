@@ -17,39 +17,39 @@ const mapDispatchToProps = dispatch => (bindActionCreators({
 }, dispatch));
 
 export const App = ({
-  receivedPong,
-  ping,
   displayLobby,
-  submitHashBasedData,
   matches,
+  ping,
+  receivedPong,
+  submitHashBasedData,
 }) => {
-  if (!receivedPong) {
-    ping();
-  } else if (receivedPong && matches && matches[1] && matches[2]) {
+  if (receivedPong && matches && matches[1] && matches[2]) {
     const playerName = matches[2];
     const roomName = matches[1];
 
     submitHashBasedData(playerName, roomName);
   } else if (receivedPong) {
     displayLobby();
+  } else {
+    ping();
   }
 
   return <ConnectedTetris />;
 };
 
 App.propTypes = {
-  receivedPong: PropTypes.bool,
-  ping: PropTypes.func,
   displayLobby: PropTypes.func,
-  submitHashBasedData: PropTypes.func,
   matches: PropTypes.arrayOf(PropTypes.string),
+  ping: PropTypes.func,
+  receivedPong: PropTypes.bool,
+  submitHashBasedData: PropTypes.func,
 };
 App.defaultProps = {
-  receivedPong: false,
-  ping: serverActions.ping,
   displayLobby: tetrisActions.displayLobby,
-  submitHashBasedData: tetrisActions.submitHashBasedData,
   matches: [],
+  ping: serverActions.ping,
+  receivedPong: false,
+  submitHashBasedData: tetrisActions.submitHashBasedData,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);
