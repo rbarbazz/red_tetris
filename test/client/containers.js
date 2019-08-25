@@ -1,6 +1,5 @@
 /* eslint-disable react/jsx-filename-extension */
 import React from 'react';
-import jsdom from 'jsdom';
 import configureMockStore from 'redux-mock-store';
 import { expect } from 'chai';
 import { shallow, mount } from 'enzyme';
@@ -60,10 +59,6 @@ export default () => describe('Containers', () => {
     });
 
     it('should mount <Tetris />', () => {
-      const { JSDOM } = jsdom;
-      const { document } = (new JSDOM('')).window;
-      global.document = document;
-      global.window = document.defaultView;
       const wrapper = mount(<Tetris />);
       const event = new window.KeyboardEvent('keydown', { keyCode: 37 });
       window.dispatchEvent(event);
@@ -74,10 +69,6 @@ export default () => describe('Containers', () => {
     });
 
     it('should mount <Tetris didGameStart currentStep="game" />', () => {
-      const { JSDOM } = jsdom;
-      const { document } = (new JSDOM('')).window;
-      global.document = document;
-      global.window = document.defaultView;
       const initialState = {
         lobby: {
           playerName: '',
