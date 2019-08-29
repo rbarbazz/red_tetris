@@ -1,77 +1,48 @@
-import debug from 'debug';
-import appData from '../models/Env';
-import Player from '../models/Player';
+import * as dbg from '../../common/devLog';
+import { eventType, msgType } from '../../common/enums';
+import * as comm from '../../common/sockWrapper';
 
-// eslint-disable-next-line no-unused-vars
-const logerror = debug('tetris:error');
-export const loginfo = debug('tetris:info');
-
-function onAction(socket, action) {
-  if (action.type === 'CLIENT_PING') {
-    socket.emit('action', { type: 'SERVER_PONG' });
-  } else if (action.type === 'SUBMIT_PLAYER_NAME') {
-    appData.players[socket.id] = new Player(action.payload.playerName, socket.id);
-    socket.emit('action', {
-      type: 'VALIDATE_PLAYER_NAME',
-      payload: {
-        playerName: appData.players[socket.id].name,
-        currentRoomList: ['room1', 'room2', 'room3', 'room4', 'room5'],
-      },
-    });
-  } else if (action.type === 'MOVE_TETRIMINO' && action.payload.event === 'keydown') {
-    socket.emit('action', {
-      type: 'NEXT_BOARD',
-      payload: {
-        board: [...Array(125).fill(0), ...Array(75).fill(1)],
-      },
-    });
-  } else if (action.type === 'SUBMIT_ROOM') {
-    socket.emit('action', {
-      type: 'VALIDATE_ROOM',
-      payload: {
-        roomName: action.payload.roomName,
-        isRoomOwner: true,
-      },
-    });
-  } else if (action.type === 'SUBMIT_HASH_BASED_DATA') {
-    socket.emit('action', {
-      type: 'VALIDATE_HASH_BASED_DATA',
-      payload: {
-        playerName: action.payload.playerName,
-        roomName: action.payload.roomName,
-        isRoomOwner: true,
-      },
-    });
-  } else if (action.type === 'OWNER_IS_READY') {
-    socket.emit('action', { type: 'GAME_DID_START' });
+function onLobbyEvent(sock, data) {
+  if (data.type === msgType.PINGPONG) {
+    comm.sendRespond(sock, data.type, { msg: 'Hello world !' });
+  } else if (data.type === msgType.CLIENT.CONNECT_WITH_NAME) {
+    comm.sendResponse(sock, data.type, { msg: `Hey ${data.payload.playerName}` });
   }
+}
+
+function onGameEvent(socket, data) {
+  // board: [...Array(125).fill(0), ...Array(75).fill(1)],
 }
 
 export default function dispatchEvent(io) {
   io.on('connect', (socket) => {
-    loginfo(`Connect ${socket.id}`);
-    socket.on('action', (action) => {
-      loginfo(`Action ${socket.id}: ${JSON.stringify(action, null, 2)}`);
-      onAction(socket, action);
+    dbg.info(`Connect ${socket.id}`);
+    socket.on(eventType.LOBBY, (data) => {
+      dbg.info(`Event ${eventType.GAME} from ${socket.id}: ${JSON.stringify(data, null, 2)}`);
+      onLobbyEvent(socket, data);
+    });
+    socket.on(eventType.GAME, (data) => {
+      dbg.info(`Event ${eventType.GAME} from ${socket.id}: ${JSON.stringify(data, null, 2)}`);
+      onGameEvent(socket, data);
     });
     socket.on('disconnect', (reason) => {
-      loginfo(`Disconnect ${socket.id}: ${reason}`);
+      dbg.info(`Event disconnect from ${socket.id}: ${reason}`);
       switch (reason) {
-        case 'server namespace disconnect':
-          break;
+        // Client problem, disconnect it
         case 'client namespace disconnect':
-          break;
         case 'ping timeout':
           break;
+        // Server problem, quit app
+        case 'server namespace disconnect':
         case 'transport close':
-          break;
         case 'transport error':
         default:
           break;
       }
     });
+    // Error in communication with the client, disconnect it
     socket.on('error', (error) => {
-      loginfo(`Error ${socket.id}: ${error.message}`);
+      dbg.info(`Event error from ${socket.id}: ${error.message}`);
     });
   });
 }

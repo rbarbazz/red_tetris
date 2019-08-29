@@ -32,7 +32,7 @@ export default () => {
       socket = io(server.url);
 
       // eslint-disable-next-line no-shadow
-      socket.on('action', (action) => {
+      socket.on('LOBBY', (action) => {
         dispatch({
           type: action.type,
           payload: action.payload,
@@ -42,7 +42,7 @@ export default () => {
       socket.close();
     }
     if (!clientOnlyActions.includes(action.type)) {
-      socket.emit('action', action);
+      socket.emit('LOBBY', action);
     }
     return next(action);
   };
