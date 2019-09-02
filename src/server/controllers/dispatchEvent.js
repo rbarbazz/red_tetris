@@ -1,12 +1,24 @@
 import * as dbg from '../../common/devLog';
-import { eventType, msgType } from '../../common/enums';
+import { eventType, msgType, playerType } from '../../common/enums';
 import * as comm from '../../common/sockWrapper';
 
 function onLobbyEvent(sock, data) {
   if (data.type === msgType.PING) {
     comm.sendRequest(sock, eventType.LOBBY, msgType.PONG, {});
-  } else if (data.type === msgType.CLIENT.CONNECT_WITH_NAME) {
-    comm.sendResponse(sock, data.type, { msg: `Hey ${data.payload.playerName}` });
+  } else if (data.type === msgType.CLIENT.CONNECT_TO_LOBBY) {
+    comm.sendResponse(sock, eventType.LOBBY, data.type, {
+      playerName: data.payload.playerName,
+    }, `Hey ${data.payload.playerName}`);
+    comm.sendRequest(sock, eventType.LOBBY, msgType.CLIENT.LOBBY_DATA, {
+      currentRoomList: ['room1', 'room2', 'room3'],
+    });
+  } else if (data.type === msgType.CLIENT.JOIN_PARTY) {
+    comm.sendResponse(sock, eventType.LOBBY, data.type, {
+      roomName: data.payload.roomName,
+      playerType: playerType.MASTER,
+    }, `Joined/Created room ${data.payload.roomName}`);
+  } else if (data.type === msgType.CLIENT.START_PARTY) {
+    comm.sendResponse(sock, eventType.LOBBY, data.type, {});
   }
 }
 

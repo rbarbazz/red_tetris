@@ -10,12 +10,12 @@ import { SERVER_PONG } from '../../src/client/actions/server';
 import {
   STORE_PLAYER_NAME,
   STORE_ROOM,
-  SUBMIT_PLAYER_NAME,
-  SUBMIT_ROOM,
-  VALIDATE_PLAYER_NAME,
+  CONNECT_TO_LOBBY,
+  JOIN_PARTY_SUCCESS,
+  CONNECT_TO_LOBBY_SUCCESS,
   VALIDATE_ROOM,
 } from '../../src/client/actions/lobby';
-import { DISPLAY_LOBBY, VALIDATE_HASH_BASED_DATA, GAME_DID_START } from '../../src/client/actions/tetris';
+import { DISPLAY_LOBBY, VALIDATE_HASH_BASED_DATA, START_PARTY_SUCCESS } from '../../src/client/actions/tetris';
 
 
 export default () => describe('Reducers', () => {
@@ -86,16 +86,16 @@ export default () => describe('Reducers', () => {
       expect(lobby(initialState, action)).to.deep.equal(expectedState);
     });
 
-    it('should return the correct state for SUBMIT_PLAYER_NAME action', () => {
-      const action = { type: SUBMIT_PLAYER_NAME };
+    it('should return the correct state for CONNECT_TO_LOBBY action', () => {
+      const action = { type: CONNECT_TO_LOBBY };
       const expectedState = { ...initialState, currentStep: 'loading' };
 
       expect(lobby(initialState, action)).to.deep.equal(expectedState);
     });
 
-    it('should return the correct state for VALIDATE_PLAYER_NAME action', () => {
+    it('should return the correct state for CONNECT_TO_LOBBY_SUCCESS action', () => {
       const action = {
-        type: VALIDATE_PLAYER_NAME,
+        type: CONNECT_TO_LOBBY_SUCCESS,
         payload: {
           playerName: 'Bob',
           currentRoomList: ['room1', 'room2', 'room3'],
@@ -123,8 +123,8 @@ export default () => describe('Reducers', () => {
       expect(lobby(initialState, action)).to.deep.equal(expectedState);
     });
 
-    it('should return the correct state for SUBMIT_ROOM action', () => {
-      const action = { type: SUBMIT_ROOM };
+    it('should return the correct state for JOIN_PARTY_SUCCESS action', () => {
+      const action = { type: JOIN_PARTY_SUCCESS };
       const expectedState = { ...initialState, currentStep: 'loading' };
 
       expect(lobby(initialState, action)).to.deep.equal(expectedState);
@@ -135,7 +135,7 @@ export default () => describe('Reducers', () => {
         type: VALIDATE_ROOM,
         payload: {
           roomName: 'room303',
-          isRoomOwner: true,
+          playerType: true,
         },
       };
       const expectedState = {
@@ -152,7 +152,7 @@ export default () => describe('Reducers', () => {
         payload: {
           playerName: 'Bob',
           roomName: 'room303',
-          isRoomOwner: true,
+          playerType: true,
         },
       };
       const expectedState = {
@@ -169,7 +169,7 @@ export default () => describe('Reducers', () => {
     const initialState = {
       currentStep: 'loading',
       didGameStart: false,
-      isRoomOwner: false,
+      playerType: false,
       score: 0,
       spectrums: Array(7).fill([...Array(125).fill(0), ...Array(75).fill(1)]),
     };
@@ -190,13 +190,13 @@ export default () => describe('Reducers', () => {
         type: VALIDATE_ROOM,
         payload: {
           roomName: 'room303',
-          isRoomOwner: true,
+          playerType: true,
         },
       };
       const expectedState = {
         ...initialState,
         currentStep: 'game',
-        isRoomOwner: action.payload.isRoomOwner,
+        playerType: action.payload.playerType,
       };
 
       expect(tetris(initialState, action)).to.deep.equal(expectedState);
@@ -208,20 +208,20 @@ export default () => describe('Reducers', () => {
         payload: {
           playerName: 'Bob',
           roomName: 'room303',
-          isRoomOwner: true,
+          playerType: true,
         },
       };
       const expectedState = {
         ...initialState,
         currentStep: 'game',
-        isRoomOwner: action.payload.isRoomOwner,
+        playerType: action.payload.playerType,
       };
 
       expect(tetris(initialState, action)).to.deep.equal(expectedState);
     });
 
-    it('should return the correct state for GAME_DID_START action', () => {
-      const action = { type: GAME_DID_START };
+    it('should return the correct state for START_PARTY_SUCCESS action', () => {
+      const action = { type: START_PARTY_SUCCESS };
       const expectedState = { ...initialState, didGameStart: true };
 
       expect(tetris(initialState, action)).to.deep.equal(expectedState);

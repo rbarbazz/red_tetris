@@ -2,10 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-
 import * as tetrisActions from '../actions/tetris';
 import Block from '../components/Block';
 import BoardWaitingScreen from '../components/BoardWaitingScreen';
+import { playerType } from '../../common/enums';
 
 
 const colors = {
@@ -16,7 +16,7 @@ const colors = {
 const mapStateToProps = state => ({
   board: state.board,
   didGameStart: state.tetris.didGameStart,
-  isRoomOwner: state.tetris.isRoomOwner,
+  currPlayerType: state.tetris.playerType,
 });
 const mapDispatchToProps = dispatch => (bindActionCreators({
   ...tetrisActions,
@@ -25,14 +25,14 @@ const mapDispatchToProps = dispatch => (bindActionCreators({
 export const Board = ({
   board,
   didGameStart,
-  isRoomOwner,
+  currPlayerType,
   ownerIsReady,
 }) => (
   <React.Fragment>
     <div className="board-container">
       {!didGameStart ? (
         <BoardWaitingScreen
-          isRoomOwner={isRoomOwner}
+          currPlayerType={currPlayerType}
           ownerIsReady={ownerIsReady}
         />
       ) : (
@@ -51,13 +51,13 @@ export const Board = ({
 Board.propTypes = {
   board: PropTypes.arrayOf(PropTypes.number),
   didGameStart: PropTypes.bool,
-  isRoomOwner: PropTypes.bool,
+  currPlayerType: PropTypes.string,
   ownerIsReady: PropTypes.func,
 };
 Board.defaultProps = {
   board: Array(200).fill(0),
   didGameStart: false,
-  isRoomOwner: false,
+  currPlayerType: playerType.NONE,
   ownerIsReady: tetrisActions.ownerIsReady,
 };
 

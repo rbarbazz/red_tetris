@@ -1,13 +1,6 @@
-import {
-  STORE_PLAYER_NAME,
-  STORE_ROOM,
-  SUBMIT_PLAYER_NAME,
-  SUBMIT_ROOM,
-  VALIDATE_PLAYER_NAME,
-  VALIDATE_ROOM,
-} from '../actions/lobby';
+import { STORE_PLAYER_NAME, STORE_ROOM } from '../actions/lobby';
 import { VALIDATE_HASH_BASED_DATA } from '../actions/tetris';
-
+import { msgType } from '../../common/enums';
 
 const initialState = {
   currentRoomList: [],
@@ -20,20 +13,24 @@ const reducer = (state = initialState, action) => {
   switch (action.type) {
     case STORE_PLAYER_NAME:
       return { ...state, playerName: action.payload.playerName };
-    case SUBMIT_PLAYER_NAME:
+    case msgType.CLIENT.CONNECT_TO_LOBBY:
       return { ...state, currentStep: 'loading' };
-    case VALIDATE_PLAYER_NAME:
+    case `${msgType.CLIENT.CONNECT_TO_LOBBY}_SUCCESS`:
+      return {
+        ...state,
+        playerName: action.payload.playerName,
+      };
+    case msgType.CLIENT.LOBBY_DATA:
       return {
         ...state,
         currentStep: 'roomNameSelection',
-        playerName: action.payload.playerName,
         currentRoomList: action.payload.currentRoomList,
       };
     case STORE_ROOM:
       return { ...state, roomName: action.payload.roomName };
-    case SUBMIT_ROOM:
+    case msgType.CLIENT.JOIN_PARTY:
       return { ...state, currentStep: 'loading' };
-    case VALIDATE_ROOM:
+    case `${msgType.CLIENT.JOIN_PARTY}_SUCCESS`:
       return {
         ...state,
         roomName: action.payload.roomName,

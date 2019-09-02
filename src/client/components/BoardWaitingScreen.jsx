@@ -1,12 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
 import * as tetrisActions from '../actions/tetris';
+import { playerType } from '../../common/enums';
 
-
-const BoardWaitingScreen = ({ isRoomOwner, ownerIsReady }) => (
+const BoardWaitingScreen = ({ currPlayerType, ownerIsReady }) => (
   <div className="board-waiting-screen">
-    {isRoomOwner ? (
+    {currPlayerType === playerType.MASTER ? (
       <React.Fragment>
         <div className="board-waiting-message owner-message">Ready to start?</div>
         <button
@@ -23,11 +22,11 @@ const BoardWaitingScreen = ({ isRoomOwner, ownerIsReady }) => (
 );
 
 BoardWaitingScreen.propTypes = {
-  isRoomOwner: PropTypes.bool,
+  currPlayerType: PropTypes.string,
   ownerIsReady: PropTypes.func,
 };
 BoardWaitingScreen.defaultProps = {
-  isRoomOwner: false,
+  currPlayerType: playerType.NONE,
   ownerIsReady: tetrisActions.ownerIsReady,
 };
 

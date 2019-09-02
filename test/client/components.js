@@ -30,8 +30,8 @@ export default () => describe('Components', () => {
       expect(wrapper.exists('.board-waiting-screen')).to.equal(true);
     });
 
-    it('should render <BoardWaitingScreen isRoomOwner />', () => {
-      const wrapper = shallow(<BoardWaitingScreen isRoomOwner />);
+    it('should render <BoardWaitingScreen playerType />', () => {
+      const wrapper = shallow(<BoardWaitingScreen playerType />);
 
       expect(wrapper.exists()).to.equal(true);
       expect(wrapper.exists('.board-waiting-screen')).to.equal(true);

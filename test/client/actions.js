@@ -35,7 +35,7 @@ export default () => describe('Actions', () => {
     it('should call submitPlayerName and return the correct input', () => {
       const playerName = 'Bob';
       const expectedAction = {
-        type: lobbyActions.SUBMIT_PLAYER_NAME,
+        type: lobbyActions.CONNECT_TO_LOBBY,
         payload: { playerName },
       };
 
@@ -55,7 +55,7 @@ export default () => describe('Actions', () => {
     it('should call submitRoomName and return the correct input', () => {
       const roomName = 'room303';
       const expectedAction = {
-        type: lobbyActions.SUBMIT_ROOM,
+        type: lobbyActions.JOIN_PARTY_SUCCESS,
         payload: { roomName },
       };
 
@@ -97,7 +97,7 @@ export default () => describe('Actions', () => {
 
     it('should call ownerIsReady and return the correct output', () => {
       const expectedAction = {
-        type: tetrisActions.OWNER_IS_READY,
+        type: tetrisActions.START_PARTY,
       };
 
       expect(tetrisActions.ownerIsReady()).to.deep.equal(expectedAction);

@@ -1,9 +1,8 @@
 import { eventType, msgType } from '../../common/enums';
 
-
 export const ping = () => ({
-  type: msgType.PING,
   eventType: eventType.LOBBY,
+  type: msgType.PING,
 });
 
 export default ping;
