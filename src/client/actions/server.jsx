@@ -1,9 +1,9 @@
-export const CLIENT_PING = 'PINGPONG';
-export const CLIENT_CLOSE = 'CLIENT_CLOSE';
-export const SERVER_PONG = 'PINGPONG';
+import { eventType, msgType } from '../../common/enums';
+
 
 export const ping = () => ({
-  type: CLIENT_PING,
+  type: msgType.PING,
+  eventType: eventType.LOBBY,
 });
 
 export default ping;

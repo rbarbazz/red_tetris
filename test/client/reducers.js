@@ -48,7 +48,7 @@ export default () => describe('Reducers', () => {
 
 
   describe('server', () => {
-    const initialState = { receivedPong: false };
+    const initialState = { clientInit: false };
 
     it('should return the initial state', () => {
       expect(server(undefined, {})).to.deep.equal(initialState);
@@ -56,7 +56,7 @@ export default () => describe('Reducers', () => {
 
     it('should return the correct state for SERVER_PONG action', () => {
       const action = { type: SERVER_PONG };
-      const expectedState = { receivedPong: true };
+      const expectedState = { clientInit: true };
 
       expect(server(initialState, action)).to.deep.equal(expectedState);
     });

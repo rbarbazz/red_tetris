@@ -1,49 +1,43 @@
 import io from 'socket.io-client';
 import params from '../../../params';
+import { eventType, msgType } from '../../common/enums';
 
-import { SERVER_PONG, CLIENT_PING, CLIENT_CLOSE } from '../actions/server';
-import {
-  STORE_PLAYER_NAME,
-  VALIDATE_PLAYER_NAME,
-  STORE_ROOM,
-  VALIDATE_ROOM,
-} from '../actions/lobby';
-import { NEXT_BOARD } from '../actions/board';
-import { DISPLAY_LOBBY, VALIDATE_HASH_BASED_DATA, GAME_DID_START } from '../actions/tetris';
 
-const clientOnlyActions = [
-  DISPLAY_LOBBY,
-  SERVER_PONG,
-  STORE_PLAYER_NAME,
-  VALIDATE_PLAYER_NAME,
-  NEXT_BOARD,
-  STORE_ROOM,
-  VALIDATE_ROOM,
-  VALIDATE_HASH_BASED_DATA,
-  GAME_DID_START,
-];
 const { server } = params;
 
 export default () => {
   let socket;
 
   return ({ dispatch }) => next => (action) => {
-    if (action.type === CLIENT_PING) {
+    if (action.type === msgType.PING) {
       socket = io(server.url);
 
       // eslint-disable-next-line no-shadow
-      socket.on('LOBBY', (action) => {
+      socket.on(eventType.GAME, (action) => {
         dispatch({
           type: action.type,
+          msg: action.msg,
           payload: action.payload,
         });
       });
-    } else if (action.type === CLIENT_CLOSE) {
-      socket.close();
+      // eslint-disable-next-line no-shadow
+      socket.on(eventType.LOBBY, (action) => {
+        dispatch({
+          type: action.type,
+          msg: action.msg,
+          payload: action.payload,
+        });
+      });
     }
-    if (!clientOnlyActions.includes(action.type)) {
-      socket.emit('LOBBY', action);
+    if (!action.type.includes('ERROR') || !action.type.includes('SUCCESS') || action.type !== msgType.PONG) {
+      socket.emit(action.eventType, {
+        type: action.type,
+        msg: action.msg,
+        payload: action.payload,
+      });
     }
     return next(action);
   };
 };
+
+// Todo -> check if clientInit with action.type

@@ -1,10 +1,10 @@
-import { SERVER_PONG } from '../actions/server';
+import { msgType } from '../../common/enums';
 
 
-const reducer = (state = { receivedPong: false }, action) => {
+const reducer = (state = { clientInit: false }, action) => {
   switch (action.type) {
-    case SERVER_PONG:
-      return { receivedPong: true };
+    case msgType.PONG:
+      return { clientInit: true };
     default:
       return state;
   }

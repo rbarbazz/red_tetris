@@ -43,9 +43,8 @@ NBs cas pratiques:
   - Si il n'y a plus aucun joueur dans la partie, le serveur delete la room
 
 
-Event SERVEUR_RESPONSE {
-  type: msgType,          -> same as the client request
-  error: int,             -> 0 = success, >0 = error code
+Event MSG {
+  type: msgType,          -> optional suffix _ERROR or _SUCCESS on response
   message: string,        -> message to print to client (even if no error, can be usefull)
   payload: object         -> data requested by client
 }
@@ -59,22 +58,23 @@ export const playerType = {
   SPECTATOR: 'spectator',
 };
 
-// Socket.io custom type of message (socket.on(eventType)
+// Socket.io custom type of message socket.on(eventType)
 export const eventType = {
   GAME: 'GAME',
   LOBBY: 'LOBBY',
-  SERVER_RESPONSE: 'SERVER_RESPONSE',
 };
 
 export const msgType = {
   // Common type (2-way)
-  PINGPONG: 'PINGPONG',
+  PING: 'PING',
+  PONG: 'PONG',
   DISCONNECT: 'DISCONNECT',
   // only sent by client to server
   CLIENT: {
-    CONNECT_WITH_NAME: 'CONNECT_WITH_NAME', // Connect to lobby with a nickname
+    CONNECT_TO_LOBBY: 'CONNECT_TO_LOBBY', // Connect to lobby with a nickname
     GET_LOBBY: 'GET_LOBBY', // Retrieve lobby informations
     JOIN_PARTY: 'JOIN_PARTY', // Join a party (create/join/spectator)
+    CONNECT_TO_PARTY: 'CONNECT_TO_PARTY', // Direct connection to a party
     START_PARTY: 'START_PARTY', // Only for master
     LEAVE_PARTY: 'LEAVE_PARTY', // Anyone
   },

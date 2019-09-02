@@ -9,7 +9,7 @@ import * as tetrisActions from '../actions/tetris';
 
 
 const mapStateToProps = state => ({
-  receivedPong: state.server.receivedPong,
+  clientInit: state.server.clientInit,
 });
 const mapDispatchToProps = dispatch => (bindActionCreators({
   ...serverActions,
@@ -20,15 +20,15 @@ export const App = ({
   displayLobby,
   matches,
   ping,
-  receivedPong,
+  clientInit,
   submitHashBasedData,
 }) => {
-  if (receivedPong && matches && matches[1] && matches[2]) {
+  if (clientInit && matches && matches[1] && matches[2]) {
     const playerName = matches[2];
     const roomName = matches[1];
 
     submitHashBasedData(playerName, roomName);
-  } else if (receivedPong) {
+  } else if (clientInit) {
     displayLobby();
   } else {
     ping();
@@ -41,14 +41,14 @@ App.propTypes = {
   displayLobby: PropTypes.func,
   matches: PropTypes.arrayOf(PropTypes.string),
   ping: PropTypes.func,
-  receivedPong: PropTypes.bool,
+  clientInit: PropTypes.bool,
   submitHashBasedData: PropTypes.func,
 };
 App.defaultProps = {
   displayLobby: tetrisActions.displayLobby,
   matches: [],
   ping: serverActions.ping,
-  receivedPong: false,
+  clientInit: false,
   submitHashBasedData: tetrisActions.submitHashBasedData,
 };
 

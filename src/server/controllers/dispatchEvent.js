@@ -3,8 +3,8 @@ import { eventType, msgType } from '../../common/enums';
 import * as comm from '../../common/sockWrapper';
 
 function onLobbyEvent(sock, data) {
-  if (data.type === msgType.PINGPONG) {
-    comm.sendRespond(sock, data.type, { msg: 'Hello world !' });
+  if (data.type === msgType.PING) {
+    comm.sendRequest(sock, eventType.LOBBY, msgType.PONG, {});
   } else if (data.type === msgType.CLIENT.CONNECT_WITH_NAME) {
     comm.sendResponse(sock, data.type, { msg: `Hey ${data.payload.playerName}` });
   }
@@ -18,7 +18,7 @@ export default function dispatchEvent(io) {
   io.on('connect', (socket) => {
     dbg.info(`Connect ${socket.id}`);
     socket.on(eventType.LOBBY, (data) => {
-      dbg.info(`Event ${eventType.GAME} from ${socket.id}: ${JSON.stringify(data, null, 2)}`);
+      dbg.info(`Event ${eventType.LOBBY} from ${socket.id}: ${JSON.stringify(data, null, 2)}`);
       onLobbyEvent(socket, data);
     });
     socket.on(eventType.GAME, (data) => {

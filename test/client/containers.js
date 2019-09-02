@@ -21,15 +21,15 @@ export default () => describe('Containers', () => {
       expect(wrapper.exists()).to.equal(true);
     });
 
-    it('should render <App receivedPong />', () => {
-      const wrapper = shallow(<App receivedPong />);
+    it('should render <App clientInit />', () => {
+      const wrapper = shallow(<App clientInit />);
 
       expect(wrapper.exists()).to.equal(true);
     });
 
-    it('should render <App receivedPong matches={Array(3)} />', () => {
+    it('should render <App clientInit matches={Array(3)} />', () => {
       const matches = ['#room303[Bob]', 'room303', 'Bob'];
-      const wrapper = shallow(<App receivedPong matches={matches} />);
+      const wrapper = shallow(<App clientInit matches={matches} />);
 
       expect(wrapper.exists()).to.equal(true);
     });
@@ -37,13 +37,13 @@ export default () => describe('Containers', () => {
     it('should get the correct props from mapStateToProps and mapDispatchToProps', () => {
       const initialState = {
         server: {
-          receivedPong: false,
+          clientInit: false,
         },
       };
       const store = mockStore(initialState);
       const connectedWrapper = shallow(<ConnectedApp store={store} />).dive();
 
-      expect(connectedWrapper.props().receivedPong).to.equal(false);
+      expect(connectedWrapper.props().clientInit).to.equal(false);
       expect(connectedWrapper.props().ping).to.be.instanceOf(Function);
       expect(connectedWrapper.props().submitHashBasedData).to.be.instanceOf(Function);
       expect(connectedWrapper.props().displayLobby).to.be.instanceOf(Function);
