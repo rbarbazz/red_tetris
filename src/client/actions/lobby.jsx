@@ -9,9 +9,9 @@ export const handlePlayerNameSelection = playerName => ({
 });
 
 export const submitPlayerName = playerName => ({
-  eventType: eventType.LOBBY,
   type: msgType.CLIENT.CONNECT_TO_LOBBY,
   payload: { playerName },
+  eventType: eventType.LOBBY,
 });
 
 export const handleroomNameSelection = roomName => ({
@@ -20,7 +20,7 @@ export const handleroomNameSelection = roomName => ({
 });
 
 export const submitRoomName = roomName => ({
-  eventType: eventType.LOBBY,
   type: msgType.CLIENT.JOIN_PARTY,
   payload: { roomName },
+  eventType: eventType.LOBBY,
 });

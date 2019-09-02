@@ -11,6 +11,15 @@ const clientSideActions = [
   STORE_PLAYER_NAME,
   STORE_ROOM,
 ];
+const fromServerActions = [
+  msgType.PONG,
+  msgType.SERVER.LOBBY_DATA,
+  `${msgType.CLIENT.CONNECT_TO_LOBBY}_SUCCESS`,
+  `${msgType.CLIENT.JOIN_PARTY}_SUCCESS`,
+  `${msgType.CLIENT.CONNECT_TO_PARTY}_SUCCESS`,
+  `${msgType.CLIENT.START_PARTY}_SUCCESS`,
+  msgType.SERVER.GAME_TICK,
+];
 
 export default () => {
   let socket;
@@ -21,17 +30,16 @@ export default () => {
       socket = io(server.url);
 
       Object.values(eventType).forEach((event) => {
-        // eslint-disable-next-line no-shadow
-        socket.on(event, (action) => {
+        socket.on(event, (actionSent) => {
           dispatch({
-            type: action.type,
-            msg: action.msg,
-            payload: action.payload,
+            type: actionSent.type,
+            msg: actionSent.msg,
+            payload: actionSent.payload,
           });
         });
       });
     }
-    if (!action.type.includes('ERROR') || !action.type.includes('SUCCESS') || action.type !== msgType.PONG || action.type !== msgType.CLIENT.LOBBY_DATA || !clientSideActions.includes(action.type)) {
+    if (!clientSideActions.includes(action.type) && !fromServerActions.includes(action.type)) {
       const {
         eventType: event,
         type,

@@ -1,8 +1,10 @@
-export const MOVE_TETRIMINO = 'MOVE_TETRIMINO';
-export const NEXT_BOARD = 'NEXT_BOARD';
+import { eventType, msgType } from '../../common/enums';
 
 // Send input move to the server
 export const moveTetrimino = (key, event) => ({
-  type: MOVE_TETRIMINO,
+  type: msgType.CLIENT.MOVE_TETRIMINO,
   payload: { key, event },
+  eventType: eventType.GAME,
 });
+
+export default moveTetrimino;

@@ -1,9 +1,8 @@
-import { NEXT_BOARD } from '../actions/board';
-
+import { msgType } from '../../common/enums';
 
 const reducer = (state = Array(200).fill(0), action) => {
   switch (action.type) {
-    case NEXT_BOARD:
+    case msgType.SERVER.GAME_TICK:
       return action.payload.board;
     default:
       return state;

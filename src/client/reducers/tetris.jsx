@@ -1,4 +1,4 @@
-import { DISPLAY_LOBBY, VALIDATE_HASH_BASED_DATA, START_PARTY_SUCCESS } from '../actions/tetris';
+import { DISPLAY_LOBBY } from '../actions/tetris';
 import { msgType, playerType } from '../../common/enums';
 
 const initialState = {
@@ -19,7 +19,7 @@ const reducer = (state = initialState, action) => {
         currentStep: 'game',
         playerType: action.payload.playerType,
       };
-    case VALIDATE_HASH_BASED_DATA:
+    case `${msgType.CLIENT.CONNECT_TO_PARTY}_SUCCESS`:
       return {
         ...state,
         currentStep: 'game',

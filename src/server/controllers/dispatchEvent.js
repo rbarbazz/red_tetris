@@ -2,28 +2,38 @@ import * as dbg from '../../common/devLog';
 import { eventType, msgType, playerType } from '../../common/enums';
 import * as comm from '../../common/sockWrapper';
 
-function onLobbyEvent(sock, data) {
+function onLobbyEvent(socket, data) {
   if (data.type === msgType.PING) {
-    comm.sendRequest(sock, eventType.LOBBY, msgType.PONG, {});
+    comm.sendRequest(socket, eventType.LOBBY, msgType.PONG, {});
   } else if (data.type === msgType.CLIENT.CONNECT_TO_LOBBY) {
-    comm.sendResponse(sock, eventType.LOBBY, data.type, {
+    comm.sendResponse(socket, eventType.LOBBY, data.type, {
       playerName: data.payload.playerName,
     }, `Hey ${data.payload.playerName}`);
-    comm.sendRequest(sock, eventType.LOBBY, msgType.CLIENT.LOBBY_DATA, {
+    comm.sendRequest(socket, eventType.LOBBY, msgType.SERVER.LOBBY_DATA, {
       currentRoomList: ['room1', 'room2', 'room3'],
     });
   } else if (data.type === msgType.CLIENT.JOIN_PARTY) {
-    comm.sendResponse(sock, eventType.LOBBY, data.type, {
+    comm.sendResponse(socket, eventType.LOBBY, data.type, {
       roomName: data.payload.roomName,
       playerType: playerType.MASTER,
     }, `Joined/Created room ${data.payload.roomName}`);
   } else if (data.type === msgType.CLIENT.START_PARTY) {
-    comm.sendResponse(sock, eventType.LOBBY, data.type, {});
+    comm.sendResponse(socket, eventType.LOBBY, data.type, {});
+  } else if (data.type === msgType.CLIENT.CONNECT_TO_PARTY) {
+    comm.sendResponse(socket, eventType.LOBBY, data.type, {
+      roomName: data.payload.roomName,
+      playerName: data.payload.playerName,
+      playerType: playerType.MASTER,
+    });
   }
 }
 
 function onGameEvent(socket, data) {
-  // board: [...Array(125).fill(0), ...Array(75).fill(1)],
+  if (data.type === msgType.CLIENT.MOVE_TETRIMINO) {
+    comm.sendRequest(socket, eventType.GAME, msgType.SERVER.GAME_TICK, {
+      board: [...Array(125).fill(0), ...Array(75).fill(1)],
+    });
+  }
 }
 
 export default function dispatchEvent(io) {

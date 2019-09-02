@@ -1,20 +1,21 @@
 import { eventType, msgType } from '../../common/enums';
 
 export const DISPLAY_LOBBY = 'DISPLAY_LOBBY';
-export const SUBMIT_HASH_BASED_DATA = 'SUBMIT_HASH_BASED_DATA';
-export const VALIDATE_HASH_BASED_DATA = 'VALIDATE_HASH_BASED_DATA';
 
 export const displayLobby = () => ({
   type: DISPLAY_LOBBY,
 });
+
 export const submitHashBasedData = (playerName, roomName) => ({
-  type: SUBMIT_HASH_BASED_DATA,
+  type: msgType.CLIENT.CONNECT_TO_PARTY,
   payload: {
     playerName,
     roomName,
   },
-});
-export const ownerIsReady = () => ({
   eventType: eventType.LOBBY,
+});
+
+export const ownerIsReady = () => ({
   type: msgType.CLIENT.START_PARTY,
+  eventType: eventType.LOBBY,
 });

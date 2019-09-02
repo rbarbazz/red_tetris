@@ -88,7 +88,7 @@ export default () => describe('Actions', () => {
       const playerName = 'Bob';
       const roomName = 'room303';
       const expectedAction = {
-        type: tetrisActions.SUBMIT_HASH_BASED_DATA,
+        type: tetrisActions.CONNECT_TO_PARTY,
         payload: { playerName, roomName },
       };
 

@@ -1,5 +1,4 @@
 import { STORE_PLAYER_NAME, STORE_ROOM } from '../actions/lobby';
-import { VALIDATE_HASH_BASED_DATA } from '../actions/tetris';
 import { msgType } from '../../common/enums';
 
 const initialState = {
@@ -20,7 +19,7 @@ const reducer = (state = initialState, action) => {
         ...state,
         playerName: action.payload.playerName,
       };
-    case msgType.CLIENT.LOBBY_DATA:
+    case msgType.SERVER.LOBBY_DATA:
       return {
         ...state,
         currentStep: 'roomNameSelection',
@@ -35,7 +34,7 @@ const reducer = (state = initialState, action) => {
         ...state,
         roomName: action.payload.roomName,
       };
-    case VALIDATE_HASH_BASED_DATA:
+    case `${msgType.CLIENT.CONNECT_TO_PARTY}_SUCCESS`:
       return {
         ...state,
         playerName: action.payload.playerName,
