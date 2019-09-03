@@ -2,8 +2,8 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import { applyMiddleware, createStore } from 'redux';
 
+import { msgType } from '../../src/common/enums';
 import createSocket from '../../src/client/middleware/socketMiddleWare';
-import * as serverActions from '../../src/client/actions/server';
 
 export default () => describe('Middleware', () => {
   let mockConsoleError;
@@ -16,11 +16,15 @@ export default () => describe('Middleware', () => {
   });
 
   it('should get actions passed through', () => {
-    const store = createStore(() => ({}), applyMiddleware(createSocket()));
+    const store = createStore(() => ({
+      server: {
+        clientInit: false,
+      },
+    }), applyMiddleware(createSocket()));
 
-    store.dispatch({ type: serverActions.CLIENT_PING });
-    store.dispatch({ type: serverActions.SERVER_PONG });
-    store.dispatch({ type: serverActions.CLIENT_CLOSE });
+    store.dispatch({ type: msgType.PING });
+    store.dispatch({ type: msgType.PONG });
+    store.dispatch({ type: msgType.SERVER.DISCONNECT_CLIENT });
     expect(mockConsoleError).to.have.property('callCount', 0);
   });
 });

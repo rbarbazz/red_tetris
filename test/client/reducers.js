@@ -1,21 +1,16 @@
 import { expect } from 'chai';
 
+import { playerType, msgType } from '../../src/common/enums';
 import reducers from '../../src/client/reducers';
 import board from '../../src/client/reducers/board';
 import lobby from '../../src/client/reducers/lobby';
 import tetris from '../../src/client/reducers/tetris';
 import server from '../../src/client/reducers/server';
-import { NEXT_BOARD } from '../../src/client/actions/board';
-import { SERVER_PONG } from '../../src/client/actions/server';
 import {
   STORE_PLAYER_NAME,
   STORE_ROOM,
-  CONNECT_TO_LOBBY,
-  JOIN_PARTY_SUCCESS,
-  CONNECT_TO_LOBBY_SUCCESS,
-  VALIDATE_ROOM,
 } from '../../src/client/actions/lobby';
-import { DISPLAY_LOBBY, VALIDATE_HASH_BASED_DATA, START_PARTY_SUCCESS } from '../../src/client/actions/tetris';
+import { DISPLAY_LOBBY } from '../../src/client/actions/tetris';
 
 
 export default () => describe('Reducers', () => {
@@ -35,7 +30,7 @@ export default () => describe('Reducers', () => {
 
     it('should return the correct state for NEXT_BOARD action', () => {
       const action = {
-        type: NEXT_BOARD,
+        type: msgType.SERVER.GAME_TICK,
         payload: {
           board: Array(200).fill(1),
         },
@@ -55,7 +50,7 @@ export default () => describe('Reducers', () => {
     });
 
     it('should return the correct state for SERVER_PONG action', () => {
-      const action = { type: SERVER_PONG };
+      const action = { type: msgType.PONG };
       const expectedState = { clientInit: true };
 
       expect(server(initialState, action)).to.deep.equal(expectedState);
@@ -87,7 +82,7 @@ export default () => describe('Reducers', () => {
     });
 
     it('should return the correct state for CONNECT_TO_LOBBY action', () => {
-      const action = { type: CONNECT_TO_LOBBY };
+      const action = { type: msgType.CLIENT.CONNECT_TO_LOBBY };
       const expectedState = { ...initialState, currentStep: 'loading' };
 
       expect(lobby(initialState, action)).to.deep.equal(expectedState);
@@ -95,17 +90,14 @@ export default () => describe('Reducers', () => {
 
     it('should return the correct state for CONNECT_TO_LOBBY_SUCCESS action', () => {
       const action = {
-        type: CONNECT_TO_LOBBY_SUCCESS,
+        type: `${msgType.CLIENT.CONNECT_TO_LOBBY}_SUCCESS`,
         payload: {
           playerName: 'Bob',
-          currentRoomList: ['room1', 'room2', 'room3'],
         },
       };
       const expectedState = {
         ...initialState,
-        currentStep: 'roomNameSelection',
         playerName: action.payload.playerName,
-        currentRoomList: action.payload.currentRoomList,
       };
 
       expect(lobby(initialState, action)).to.deep.equal(expectedState);
@@ -123,19 +115,19 @@ export default () => describe('Reducers', () => {
       expect(lobby(initialState, action)).to.deep.equal(expectedState);
     });
 
-    it('should return the correct state for JOIN_PARTY_SUCCESS action', () => {
-      const action = { type: JOIN_PARTY_SUCCESS };
+    it('should return the correct state for JOIN_PARTY action', () => {
+      const action = { type: msgType.CLIENT.JOIN_PARTY };
       const expectedState = { ...initialState, currentStep: 'loading' };
 
       expect(lobby(initialState, action)).to.deep.equal(expectedState);
     });
 
-    it('should return the correct state for VALIDATE_ROOM action', () => {
+    it('should return the correct state for JOIN_PARTY_SUCCESS action', () => {
       const action = {
-        type: VALIDATE_ROOM,
+        type: `${msgType.CLIENT.JOIN_PARTY}_SUCCESS`,
         payload: {
           roomName: 'room303',
-          playerType: true,
+          playerType: playerType.NONE,
         },
       };
       const expectedState = {
@@ -146,13 +138,13 @@ export default () => describe('Reducers', () => {
       expect(lobby(initialState, action)).to.deep.equal(expectedState);
     });
 
-    it('should return the correct state for VALIDATE_HASH_BASED_DATA action', () => {
+    it('should return the correct state for CONNECT_TO_PARTY_SUCCESS action', () => {
       const action = {
-        type: VALIDATE_HASH_BASED_DATA,
+        type: `${msgType.CLIENT.CONNECT_TO_PARTY}_SUCCESS`,
         payload: {
           playerName: 'Bob',
           roomName: 'room303',
-          playerType: true,
+          playerType: playerType.NONE,
         },
       };
       const expectedState = {
@@ -169,7 +161,7 @@ export default () => describe('Reducers', () => {
     const initialState = {
       currentStep: 'loading',
       didGameStart: false,
-      playerType: false,
+      playerType: playerType.NONE,
       score: 0,
       spectrums: Array(7).fill([...Array(125).fill(0), ...Array(75).fill(1)]),
     };
@@ -185,12 +177,12 @@ export default () => describe('Reducers', () => {
       expect(tetris(initialState, action)).to.deep.equal(expectedState);
     });
 
-    it('should return the correct state for VALIDATE_ROOM action', () => {
+    it('should return the correct state for JOIN_PARTY_SUCCESS action', () => {
       const action = {
-        type: VALIDATE_ROOM,
+        type: `${msgType.CLIENT.JOIN_PARTY}_SUCCESS`,
         payload: {
           roomName: 'room303',
-          playerType: true,
+          playerType: playerType.NONE,
         },
       };
       const expectedState = {
@@ -202,13 +194,13 @@ export default () => describe('Reducers', () => {
       expect(tetris(initialState, action)).to.deep.equal(expectedState);
     });
 
-    it('should return the correct state for VALIDATE_HASH_BASED_DATA action', () => {
+    it('should return the correct state for CONNECT_TO_PARTY_SUCCESS action', () => {
       const action = {
-        type: VALIDATE_HASH_BASED_DATA,
+        type: `${msgType.CLIENT.CONNECT_TO_PARTY}_SUCCESS`,
         payload: {
           playerName: 'Bob',
           roomName: 'room303',
-          playerType: true,
+          playerType: playerType.NONE,
         },
       };
       const expectedState = {
@@ -221,7 +213,7 @@ export default () => describe('Reducers', () => {
     });
 
     it('should return the correct state for START_PARTY_SUCCESS action', () => {
-      const action = { type: START_PARTY_SUCCESS };
+      const action = { type: `${msgType.CLIENT.START_PARTY}_SUCCESS` };
       const expectedState = { ...initialState, didGameStart: true };
 
       expect(tetris(initialState, action)).to.deep.equal(expectedState);

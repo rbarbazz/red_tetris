@@ -19,6 +19,7 @@ const fromServerActions = [
   `${msgType.CLIENT.CONNECT_TO_PARTY}_SUCCESS`,
   `${msgType.CLIENT.START_PARTY}_SUCCESS`,
   msgType.SERVER.GAME_TICK,
+  msgType.SERVER.DISCONNECT_CLIENT,
 ];
 
 export default () => {
@@ -38,6 +39,8 @@ export default () => {
           });
         });
       });
+    } else if (action.type === msgType.SERVER.DISCONNECT_CLIENT) {
+      socket.disconnect();
     }
     if (!clientSideActions.includes(action.type) && !fromServerActions.includes(action.type)) {
       const {

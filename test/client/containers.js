@@ -5,6 +5,7 @@ import { expect } from 'chai';
 import { shallow, mount } from 'enzyme';
 import { Provider } from 'react-redux';
 
+import { playerType } from '../../src/common/enums';
 import ConnectedApp, { App } from '../../src/client/containers/App';
 import ConnectedTetris, { Tetris } from '../../src/client/containers/Tetris';
 import ConnectedLobby, { Lobby } from '../../src/client/containers/Lobby';
@@ -212,7 +213,7 @@ export default () => describe('Containers', () => {
         board: Array(200).fill(0),
         tetris: {
           didGameStart: false,
-          playerType: false,
+          currPlayerType: playerType.NONE,
         },
       };
       const store = mockStore(initialState);
@@ -220,7 +221,7 @@ export default () => describe('Containers', () => {
 
       expect(connectedWrapper.props().board).to.deep.equal(Array(200).fill(0));
       expect(connectedWrapper.props().didGameStart).to.equal(false);
-      expect(connectedWrapper.props().playerType).to.equal(false);
+      expect(connectedWrapper.props().currPlayerType).to.equal(playerType.NONE);
       expect(connectedWrapper.props().ownerIsReady).to.be.instanceOf(Function);
     });
   });

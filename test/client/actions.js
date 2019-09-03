@@ -1,5 +1,6 @@
 import { expect } from 'chai';
 
+import { eventType, msgType } from '../../src/common/enums';
 import * as boardActions from '../../src/client/actions/board';
 import * as lobbyActions from '../../src/client/actions/lobby';
 import * as serverActions from '../../src/client/actions/server';
@@ -12,7 +13,8 @@ export default () => describe('Actions', () => {
       const key = 'ArrowRight';
       const event = 'keydown';
       const expectedAction = {
-        type: boardActions.MOVE_TETRIMINO,
+        eventType: eventType.GAME,
+        type: msgType.CLIENT.MOVE_TETRIMINO,
         payload: { key, event },
       };
 
@@ -35,7 +37,8 @@ export default () => describe('Actions', () => {
     it('should call submitPlayerName and return the correct input', () => {
       const playerName = 'Bob';
       const expectedAction = {
-        type: lobbyActions.CONNECT_TO_LOBBY,
+        eventType: eventType.LOBBY,
+        type: msgType.CLIENT.CONNECT_TO_LOBBY,
         payload: { playerName },
       };
 
@@ -55,7 +58,8 @@ export default () => describe('Actions', () => {
     it('should call submitRoomName and return the correct input', () => {
       const roomName = 'room303';
       const expectedAction = {
-        type: lobbyActions.JOIN_PARTY_SUCCESS,
+        eventType: eventType.LOBBY,
+        type: msgType.CLIENT.JOIN_PARTY,
         payload: { roomName },
       };
 
@@ -67,7 +71,8 @@ export default () => describe('Actions', () => {
   describe('server', () => {
     it('should call ping and return the correct output', () => {
       const expectedAction = {
-        type: serverActions.CLIENT_PING,
+        eventType: eventType.LOBBY,
+        type: msgType.PING,
       };
 
       expect(serverActions.default()).to.deep.equal(expectedAction);
@@ -88,7 +93,8 @@ export default () => describe('Actions', () => {
       const playerName = 'Bob';
       const roomName = 'room303';
       const expectedAction = {
-        type: tetrisActions.CONNECT_TO_PARTY,
+        eventType: eventType.LOBBY,
+        type: msgType.CLIENT.CONNECT_TO_PARTY,
         payload: { playerName, roomName },
       };
 
@@ -97,7 +103,8 @@ export default () => describe('Actions', () => {
 
     it('should call ownerIsReady and return the correct output', () => {
       const expectedAction = {
-        type: tetrisActions.START_PARTY,
+        eventType: eventType.LOBBY,
+        type: msgType.CLIENT.START_PARTY,
       };
 
       expect(tetrisActions.ownerIsReady()).to.deep.equal(expectedAction);

@@ -4,6 +4,7 @@ import sinon from 'sinon';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
 
+import { playerType } from '../../src/common/enums';
 import Spectrum from '../../src/client/components/Spectrum';
 import Score from '../../src/client/components/Score';
 import Block from '../../src/client/components/Block';
@@ -23,15 +24,15 @@ export default () => describe('Components', () => {
   });
 
   describe('BoardWaitingScreen', () => {
-    it('should render <BoardWaitingScreen />', () => {
-      const wrapper = shallow(<BoardWaitingScreen />);
+    it('should render <BoardWaitingScreen currPlayerType={playerType.MASTER} />', () => {
+      const wrapper = shallow(<BoardWaitingScreen currPlayerType={playerType.MASTER} />);
 
       expect(wrapper.exists()).to.equal(true);
-      expect(wrapper.exists('.board-waiting-screen')).to.equal(true);
+      expect(wrapper.exists('.board-waiting-message.owner-message')).to.equal(true);
     });
 
-    it('should render <BoardWaitingScreen playerType />', () => {
-      const wrapper = shallow(<BoardWaitingScreen playerType />);
+    it('should render <BoardWaitingScreen currPlayerType={playerType.SLAVE} />', () => {
+      const wrapper = shallow(<BoardWaitingScreen currPlayerType={playerType.SLAVE} />);
 
       expect(wrapper.exists()).to.equal(true);
       expect(wrapper.exists('.board-waiting-screen')).to.equal(true);
