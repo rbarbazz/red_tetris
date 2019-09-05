@@ -6,6 +6,7 @@ import * as lobbyActions from '../actions/lobby';
 
 const RoomNameInput = ({
   currentRoomList,
+  errorMessage,
   handleroomNameSelection,
   roomName,
   submitRoomName,
@@ -22,6 +23,7 @@ const RoomNameInput = ({
         </div>
         Provide a room name
       </div>
+      <div className="input-error-message">{errorMessage}</div>
       <form
         className="input-submit-container"
         onSubmit={(event) => {
@@ -71,12 +73,14 @@ const RoomNameInput = ({
 
 RoomNameInput.propTypes = {
   currentRoomList: PropTypes.arrayOf(PropTypes.string),
+  errorMessage: PropTypes.string,
   handleroomNameSelection: PropTypes.func,
   roomName: PropTypes.string,
   submitRoomName: PropTypes.func,
 };
 RoomNameInput.defaultProps = {
   currentRoomList: [],
+  errorMessage: '',
   handleroomNameSelection: lobbyActions.handleroomNameSelection,
   roomName: '',
   submitRoomName: lobbyActions.submitRoomName,

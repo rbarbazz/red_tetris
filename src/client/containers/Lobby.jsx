@@ -47,6 +47,7 @@ export const Lobby = ({
       return (
         <RoomNameInput
           currentRoomList={currentRoomList}
+          errorMessage={errorMessage}
           handleroomNameSelection={handleroomNameSelection}
           roomName={roomName}
           submitRoomName={submitRoomName}

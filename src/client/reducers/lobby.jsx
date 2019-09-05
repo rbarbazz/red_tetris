@@ -18,7 +18,9 @@ const reducer = (state = initialState, action) => {
     case `${msgType.CLIENT.CONNECT_TO_LOBBY}_SUCCESS`:
       return {
         ...state,
+        currentStep: 'roomNameSelection',
         playerName: action.payload.playerName,
+        errorMessage: '',
       };
     case `${msgType.CLIENT.CONNECT_TO_LOBBY}_ERROR`:
       return {
@@ -29,8 +31,7 @@ const reducer = (state = initialState, action) => {
     case msgType.SERVER.LOBBY_DATA:
       return {
         ...state,
-        currentStep: 'roomNameSelection',
-        currentRoomList: action.payload.currentRoomList,
+        currentRoomList: action.payload.rooms.map(room => room.name),
       };
     case STORE_ROOM:
       return { ...state, roomName: action.payload.roomName };
@@ -39,6 +40,13 @@ const reducer = (state = initialState, action) => {
     case `${msgType.CLIENT.JOIN_PARTY}_SUCCESS`:
       return {
         ...state,
+        roomName: action.payload.roomName,
+      };
+    case `${msgType.CLIENT.JOIN_PARTY}_ERROR`:
+      return {
+        ...state,
+        currentStep: 'roomNameSelection',
+        errorMessage: action.msg,
         roomName: action.payload.roomName,
       };
     case `${msgType.CLIENT.CONNECT_TO_PARTY}_SUCCESS`:

@@ -1,7 +1,7 @@
 import { eventType, msgType, playerType, CONFIG } from '../../common/enums';
 import appData from '../models/Env';
 import * as comm from '../../common/sockWrapper';
-import checkRoomName from '../models/Room';
+import { checkRoomName } from '../models/Room';
 
 export function clientSendLobby() {
   const payload = {};
@@ -10,10 +10,10 @@ export function clientSendLobby() {
     name: room.name,
     slots: [room.freeSlots(), room.slots],
     state: room.state,
-    players: Object.keys(room.players).map(player => appData.players[player].name),
+    players: Object.values(room.players).map(player => appData.players[player].name),
   }));
   Object.values(appData.players).forEach(player => (
-    comm.sendRequest(player.sock, msgType.SERVER.LOBBY_DATA, payload)
+    comm.sendRequest(player.sock, eventType.LOBBY, msgType.SERVER.LOBBY_DATA, payload)
   ));
 }
 
@@ -27,26 +27,28 @@ export function clientJoinParty(socket, data) {
     comm.sendError(socket, eventType.LOBBY, data.type, 'Player already in a room');
     return false;
   }
-  if (!checkRoomName(data.roomName)) {
+  const { roomName } = data.payload;
+  if (!checkRoomName(roomName)) {
     comm.sendError(socket, eventType.LOBBY, data.type, 'Invalid room name');
     return false;
   }
-  if (!appData.hasRoom(data.roomName)) {
-    if (!appData.addRoom(data.roomName, CONFIG.SLOTS_PER_ROOM)) {
+  if (!appData.hasRoom(roomName)) {
+    if (!appData.addRoom(roomName, CONFIG.SLOTS_PER_ROOM)) {
       comm.sendError(socket, eventType.LOBBY, data.type, 'Maximum room reached');
       return false;
     }
   }
-  const room = appData.rooms[data.roomName];
-  if (room.freeSlots() == 0) {
+  const room = appData.rooms[roomName];
+  if (room.freeSlots() === 0) {
     comm.sendError(socket, eventType.LOBBY, data.type, 'Room is full');
-      return false;
+    return false;
   }
   if (room.players.length === 0) {
-    room.master = player.id;
+    room.master = player.id();
     player.type = playerType.MASTER;
   }
   player.room = room.name;
-  room.players.push(player.id);
+  room.players.push(player.id());
+  comm.sendResponse(player.sock, eventType.LOBBY, data.type, { roomName: room.name });
   return true;
 }

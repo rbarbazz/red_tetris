@@ -5,7 +5,7 @@ export class Room {
     this.name = name;
     this.slots = maxSlot;
     this.state = roomState.FREE;
-    this.players = {};
+    this.players = [];
     this.master = null;
   }
 

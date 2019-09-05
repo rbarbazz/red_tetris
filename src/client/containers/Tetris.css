@@ -94,6 +94,11 @@ html, body {
     flex-direction: column;
     align-items: center;
 }
+.input-error-message {
+	color: #eb4d4b;
+	font-family: 'Open Sans', sans-serif;
+	font-size: 20px;
+}
 .room-list-container {
 	background-color: #454545;
 	border-radius: 5px;

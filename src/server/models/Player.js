@@ -7,6 +7,10 @@ export class Player {
     this.type = playerType.NONE;
     this.room = null;
   }
+
+  id() {
+    return this.sock.id;
+  }
 }
 
 export function checkPlayerName(name) {

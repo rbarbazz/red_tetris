@@ -1,5 +1,5 @@
 import { CONFIG } from '../../common/enums';
-import Room from './Room';
+import { Room } from './Room';
 import { Player } from './Player';
 
 class Env {
@@ -18,6 +18,7 @@ class Env {
 
   addRoom(name, slots) {
     this.rooms[name] = new Room(name, slots);
+    return true;
   }
 
   hasRoom(id) {
