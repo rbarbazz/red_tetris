@@ -2,18 +2,25 @@ import * as dbg from '../../common/devLog';
 import { eventType, msgType, playerType } from '../../common/enums';
 import * as comm from '../../common/sockWrapper';
 import { clientConnectLobby, clientDisconnect } from './clientConnect';
-import { clientSendLobby, clientJoinParty } from './clientLobby';
+import { clientSendLobby, clientJoinParty, clientCreateRoom } from './clientLobby';
 
 function onLobbyEvent(socket, data) {
   if (data.type === msgType.PING) {
     comm.sendRequest(socket, eventType.LOBBY, msgType.PONG, {});
   } else if (data.type === msgType.CLIENT.CONNECT_TO_LOBBY) {
-    if (clientConnectLobby(socket, data)) {
-      clientSendLobby();
+    const r = clientConnectLobby(socket, data);
+    if (r !== false) {
+      clientSendLobby(r);
+    }
+  } else if (data.type === msgType.CLIENT.CREATE_ROOM) {
+    const r = clientCreateRoom(socket, data);
+    if (r !== false) {
+      clientSendLobby(r);
     }
   } else if (data.type === msgType.CLIENT.JOIN_PARTY) {
-    if (clientJoinParty(socket, data)) {
-      clientSendLobby();
+    const r = clientJoinParty(socket, data);
+    if (r !== false) {
+      clientSendLobby(r);
     }
   } else if (data.type === msgType.CLIENT.START_PARTY) {
     comm.sendResponse(socket, eventType.LOBBY, data.type, {});
