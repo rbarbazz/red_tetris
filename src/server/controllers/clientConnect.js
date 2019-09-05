@@ -25,14 +25,15 @@ function checkNewClient(name, lobbyName = null) {
 }
 
 export function clientConnectLobby(sock, data) {
-  const r = checkNewClient(data.payload.playerName);
+  const { playerName } = data.payload;
+  const r = checkNewClient(playerName);
   if (r !== null) {
     comm.sendError(sock, eventType.LOBBY, data.type, r);
     return false;
   }
-  appData.addPlayer(sock, data.payload.playerName);
-  comm.sendResponse(sock, eventType.LOBBY, data.type, { playerName: data.payload.playerName });
-  return true;
+  appData.addPlayer(sock, playerName);
+  comm.sendResponse(sock, eventType.LOBBY, data.type, { playerName });
+  return `New player: ${playerName}`;
 }
 
 export function clientConnectParty(sock, payload) {
@@ -40,6 +41,9 @@ export function clientConnectParty(sock, payload) {
 
 export function clientDisconnect(sock) {
   if (sock.id in appData.players) {
+    const msg = `Player left: ${appData.players[sock.id].name}`;
     delete appData.players[sock.id];
+    return msg;
   }
+  return false;
 }
