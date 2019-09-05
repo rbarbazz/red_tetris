@@ -77,6 +77,14 @@ html, body {
 }
 
 /* Lobby */
+.game-title {
+	color: #eb4d4b;
+	font-family: 'Open Sans', sans-serif;
+	font-size: 75px;
+	text-transform: uppercase;
+	letter-spacing: 0.1em;
+	text-align: center;
+}
 .username-input-container,
 .room-selection-container {
 	align-items: center;
@@ -85,14 +93,16 @@ html, body {
 	box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
 	display: flex;
 	flex-direction: column;
-    max-width: 450px;
-	width: 90%;
+	width: 90vw;
+	height: 90vh;
 }
 .input-submit-container {
 	padding: 0 40px 40px 40px;
 	display: flex;
     flex-direction: column;
-    align-items: center;
+	align-items: center;
+	background-color: #454545;
+	border-radius: 5px;
 }
 .input-error-message {
 	color: #eb4d4b;

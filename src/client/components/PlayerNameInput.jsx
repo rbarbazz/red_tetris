@@ -11,15 +11,7 @@ const PlayerNameInput = ({
   submitPlayerName,
 }) => (
   <div key="username-input-container" className="username-input-container">
-    <div className="input-label">
-      <div className="three-dots-container">
-        <div />
-        <div />
-        <div />
-      </div>
-      Provide your username
-    </div>
-    <div className="input-error-message">{errorMessage}</div>
+    <h1 className="game-title">Red Tetris</h1>
     <form
       className="input-submit-container"
       onSubmit={(event) => {
@@ -27,6 +19,10 @@ const PlayerNameInput = ({
         submitPlayerName(playerName);
       }}
     >
+      <div className="input-label">
+        Provide your username
+      </div>
+      <div className="input-error-message">{errorMessage}</div>
       <input
         type="text"
         onChange={event => handlePlayerNameSelection(event.target.value)}
