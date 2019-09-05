@@ -2,53 +2,39 @@
 - Quand le client envoie une requête au serveur -> il attend systématiquement une réponse
 - Quand le serveur envoie une requête -> il n'attend PAS de réponse du client
 - La réponse du serveur est: event SERVER_RESPONSE
-  - Cas échec: type ERROR + error code + error message
+  - Cas échec: type ERROR + error message
   - Cas succès: type SUCCESS + payload demandé
-
-Events de gestion des connexions (inscriptions, lobby, déconnexions...):
-  Client:
-    - Connexion avec pseudo (pour entrer dans le lobby)
-    - Recuperer les infos du lobby (rooms + personnes connectées)
-    - Rejoindre une partie (la créer si elle n'existe pas, et spectateur si une partie est en cours)
-    - Lancer une partie (que le master)
-    - Quitter une partie (quitte la partie en cours et retourne au lobby)
-
-  Serveur:
-    - Déconnecter un client
-
-  Commun:
-    - Ping/Pong
-    - Deconnexion propre
-
-Events en jeu (une fois la partie lancée pour les joueurs présents):
-  Client:
-    - Envoyer les inputs (fléches de déplacement, autres...)
-    - ... c'est tout ?
-
-  Serveur:
-    - Envoie des données initiales au lancement de la partie
-    - Envoie des "ticks" (enclencher le mouvement, infos des spectres/scores etc...,
-        aussi pour le 1er tick de départ)
-    - Fin de la partie (pour un joueur ayant fini, il doit attendre les autres avant de recevoir le
-        rapport de fin, il passe spectateur en attendant)
-    - Envoie du rapport de fin de partie (quand tous les joueurs présents ont finis)
-    - ... c'est tout ?
-
-NBs cas pratiques:
-  - Si un joueur quitte la partie, il y aura une infos dans le payload du "ticks",
-      pour que les autres clients puissent ajouter un message dans le timeline ?
-  - Si un client passe master pendant une partie, il le saura à la fin de la partie ?
-  - Si le serveur timeout sur un client, alors il le déco et delete tout sur lui
-      (+ préviens les autres normalement)
-  - Si il n'y a plus aucun joueur dans la partie, le serveur delete la room
-
 
 Event MSG {
   type: msgType,          -> optional suffix _ERROR or _SUCCESS on response
   message: string,        -> message to print to client (even if no error, can be usefull)
   payload: object         -> data requested by client
 }
+
+Payload:
+Type CONNECT_TO_LOBBY {
+  playerName: string  -> Nickname choosen  by the client
+}
+
+Type JOIN_PARTY {
+  roomName: string    -> Create the room if needed, then join if there is a free slot
+}
+
+Type LOBBY_DATA {
+  rooms: [{name, [slotTaken, slotMax], state, players = [name, ...] }, ...]
+  players: [name, ...],
+}
+
+
 */
+
+export const CONFIG = {
+  MAX_SLOT: 64,
+  NAME_MIN: 2,
+  NAME_MAX: 16,
+  MAX_ROOM: 8,
+  SLOTS_PER_ROOM: 8,
+};
 
 // Type of player when he join a party
 export const playerType = {
@@ -56,6 +42,11 @@ export const playerType = {
   MASTER: 'master',
   SLAVE: 'slave',
   SPECTATOR: 'spectator',
+};
+
+export const roomState = {
+  FREE: 'FREE',
+  BUSY: 'BUSY',
 };
 
 // Socket.io custom type of message socket.on(eventType)
