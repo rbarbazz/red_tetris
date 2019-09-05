@@ -19,9 +19,6 @@ const PlayerNameInput = ({
         submitPlayerName(playerName);
       }}
     >
-      <div className="input-label">
-        Provide your username
-      </div>
       <div className="input-error-message">{errorMessage}</div>
       <input
         type="text"
@@ -32,7 +29,7 @@ const PlayerNameInput = ({
         disabled={playerName === ''}
         type="submit"
       >
-        Submit
+        Play
       </button>
     </form>
   </div>

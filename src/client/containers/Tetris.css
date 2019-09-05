@@ -78,12 +78,17 @@ html, body {
 
 /* Lobby */
 .game-title {
+	background-color: #454545;
+	border-radius: 5px 5px 0 0;
 	color: #eb4d4b;
 	font-family: 'Open Sans', sans-serif;
-	font-size: 75px;
+	font-size: 80px;
 	text-transform: uppercase;
 	letter-spacing: 0.1em;
 	text-align: center;
+	width: 100%;
+	margin: 0;
+	padding: 30px 0;
 }
 .username-input-container,
 .room-selection-container {
@@ -97,12 +102,13 @@ html, body {
 	height: 90vh;
 }
 .input-submit-container {
-	padding: 0 40px 40px 40px;
+	padding: 40px;
 	display: flex;
     flex-direction: column;
 	align-items: center;
 	background-color: #454545;
 	border-radius: 5px;
+	margin-top: 100px;
 }
 .input-error-message {
 	color: #eb4d4b;
@@ -154,18 +160,6 @@ html, body {
 	padding: 0 10px;
 	text-align: center;
 }
-.input-label {
-	background-color: #454545;
-	border-radius: 5px 5px 0 0;
-	color: #d3d0d0;
-	font-family: 'Open Sans', sans-serif;
-	font-size: 20px;
-	letter-spacing: 1px;
-	padding: 15px 0;
-	position: relative;
-	text-align: center;
-	width: 100%;
-}
 input {
 	background-color: #d3d0d0;
 	border-radius: 5px;
@@ -175,10 +169,16 @@ input {
 	font-family: 'Open Sans', sans-serif;
 	font-size: 20px;
 	font-weight: 600;
-	margin: 40px 0;
+	margin: 0 0 40px;
 	outline: none;
 	padding: 10px 15px;
 	width: calc(100% - 26px);
+}
+label {
+	color: #eb4d4b;
+	font-family: 'Open Sans', sans-serif;
+	font-size: 16px;
+
 }
 button:not(.room-item) {
 	background-color: #eb4d4b;
@@ -188,8 +188,9 @@ button:not(.room-item) {
 	color: white;
 	cursor: pointer;
 	font-family: 'Open Sans', sans-serif;
-	font-size: 18px;
+	font-size: 22px;
 	font-weight: 600;
+	letter-spacing: 0.05em;
 	margin-bottom: 4px;
 	padding: 13px 22px;
 	text-transform: uppercase;
