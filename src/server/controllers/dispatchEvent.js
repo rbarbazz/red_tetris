@@ -1,22 +1,20 @@
 import * as dbg from '../../common/devLog';
 import { eventType, msgType, playerType } from '../../common/enums';
 import * as comm from '../../common/sockWrapper';
+import { clientConnectLobby, clientDisconnect } from './clientConnect';
+import { clientSendLobby, clientJoinParty } from './clientLobby';
 
 function onLobbyEvent(socket, data) {
   if (data.type === msgType.PING) {
     comm.sendRequest(socket, eventType.LOBBY, msgType.PONG, {});
   } else if (data.type === msgType.CLIENT.CONNECT_TO_LOBBY) {
-    comm.sendResponse(socket, eventType.LOBBY, data.type, {
-      playerName: data.payload.playerName,
-    }, `Hey ${data.payload.playerName}`);
-    comm.sendRequest(socket, eventType.LOBBY, msgType.SERVER.LOBBY_DATA, {
-      currentRoomList: ['room1', 'room2', 'room3'],
-    });
+    if (clientConnectLobby(socket, data)) {
+      clientSendLobby();
+    }
   } else if (data.type === msgType.CLIENT.JOIN_PARTY) {
-    comm.sendResponse(socket, eventType.LOBBY, data.type, {
-      roomName: data.payload.roomName,
-      playerType: playerType.MASTER,
-    }, `Joined/Created room ${data.payload.roomName}`);
+    if (clientJoinParty(socket, data)) {
+      clientSendLobby();
+    }
   } else if (data.type === msgType.CLIENT.START_PARTY) {
     comm.sendResponse(socket, eventType.LOBBY, data.type, {});
   } else if (data.type === msgType.CLIENT.CONNECT_TO_PARTY) {
@@ -50,15 +48,13 @@ export default function dispatchEvent(io) {
     socket.on('disconnect', (reason) => {
       dbg.info(`Event disconnect from ${socket.id}: ${reason}`);
       switch (reason) {
-        // Client problem, disconnect it
         case 'client namespace disconnect':
         case 'ping timeout':
-          break;
-        // Server problem, quit app
         case 'server namespace disconnect':
         case 'transport close':
         case 'transport error':
         default:
+          clientDisconnect(socket);
           break;
       }
     });

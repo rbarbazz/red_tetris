@@ -1,10 +1,30 @@
-import Lobby from './Lobby';
-import Game from './Game';
+import { CONFIG } from '../../common/enums';
+import Room from './Room';
+import { Player } from './Player';
 
-const data = {
-  lobby: new Lobby(),
-  game: new Game(),
-  players: {},
-};
+class Env {
+  constructor() {
+    this.players = {};
+    this.rooms = {};
+  }
 
-export default data;
+  addPlayer(sock, name) {
+    this.players[sock.id] = new Player(name, sock);
+  }
+
+  hasPlayer(id) {
+    return id in this.players;
+  }
+
+  addRoom(name, slots) {
+    this.rooms[name] = new Room(name, slots);
+  }
+
+  hasRoom(id) {
+    return id in this.rooms;
+  }
+}
+
+const appData = new Env();
+
+export default appData;

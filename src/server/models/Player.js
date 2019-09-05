@@ -1,11 +1,17 @@
+import { CONFIG, playerType } from '../../common/enums';
 
-class Player {
-  constructor(name, id) {
+export class Player {
+  constructor(name, sock) {
     this.name = name;
-    this.id = id;
+    this.sock = sock;
     this.type = playerType.NONE;
     this.room = null;
   }
 }
 
-export default Player;
+export function checkPlayerName(name) {
+  if (name.length < CONFIG.NAME_MIN || name.length > CONFIG.NAME_MAX) {
+    return false;
+  }
+  return true;
+}
