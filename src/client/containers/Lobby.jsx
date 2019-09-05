@@ -14,6 +14,7 @@ const mapStateToProps = state => ({
   currentStep: state.lobby.currentStep,
   playerName: state.lobby.playerName,
   roomName: state.lobby.roomName,
+  errorMessage: state.lobby.errorMessage,
 });
 const mapDispatchToProps = dispatch => (
   bindActionCreators({
@@ -26,6 +27,7 @@ export const Lobby = ({
   handlePlayerNameSelection,
   handleroomNameSelection,
   currentStep,
+  errorMessage,
   playerName,
   roomName,
   submitPlayerName,
@@ -38,6 +40,7 @@ export const Lobby = ({
           handlePlayerNameSelection={handlePlayerNameSelection}
           playerName={playerName}
           submitPlayerName={submitPlayerName}
+          errorMessage={errorMessage}
         />
       );
     case 'roomNameSelection':
@@ -57,6 +60,7 @@ export const Lobby = ({
 Lobby.propTypes = {
   currentRoomList: PropTypes.arrayOf(PropTypes.string),
   currentStep: PropTypes.string,
+  errorMessage: PropTypes.string,
   handlePlayerNameSelection: PropTypes.func,
   handleroomNameSelection: PropTypes.func,
   playerName: PropTypes.string,
@@ -67,6 +71,7 @@ Lobby.propTypes = {
 Lobby.defaultProps = {
   currentRoomList: [],
   currentStep: 'playerNameSelection',
+  errorMessage: '',
   handlePlayerNameSelection: lobbyActions.handlePlayerNameSelection,
   handleroomNameSelection: lobbyActions.handleroomNameSelection,
   playerName: '',

@@ -6,6 +6,7 @@ const initialState = {
   currentStep: 'playerNameSelection',
   playerName: '',
   roomName: '',
+  errorMessage: '',
 };
 
 const reducer = (state = initialState, action) => {
@@ -18,6 +19,12 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         playerName: action.payload.playerName,
+      };
+    case `${msgType.CLIENT.CONNECT_TO_LOBBY}_ERROR`:
+      return {
+        ...state,
+        currentStep: 'playerNameSelection',
+        errorMessage: action.msg,
       };
     case msgType.SERVER.LOBBY_DATA:
       return {

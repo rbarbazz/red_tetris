@@ -181,6 +181,9 @@ button:not(.room-item) {
 	transition: 0.1s;
 	width: 120px;
 }
+.username-input-container button:not(.room-item) {
+	margin-bottom: 3px;
+}
 button:not(.room-item):disabled {
 	opacity: 0.7;
 }

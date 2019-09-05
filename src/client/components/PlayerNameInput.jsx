@@ -14,7 +14,13 @@ const PlayerNameInput = ({ handlePlayerNameSelection, playerName, submitPlayerNa
       </div>
       Provide your username
     </div>
-    <div className="input-submit-container">
+    <form
+      className="input-submit-container"
+      onSubmit={(event) => {
+        event.preventDefault();
+        submitPlayerName(playerName);
+      }}
+    >
       <input
         type="text"
         onChange={event => handlePlayerNameSelection(event.target.value)}
@@ -22,12 +28,11 @@ const PlayerNameInput = ({ handlePlayerNameSelection, playerName, submitPlayerNa
       />
       <button
         disabled={playerName === ''}
-        onClick={() => submitPlayerName(playerName)}
         type="submit"
       >
         Submit
       </button>
-    </div>
+    </form>
   </div>
 );
 

@@ -47,11 +47,13 @@ export const Tetris = ({
   score,
   spectrums,
 }) => {
-  useKeyboardEvent((event) => {
-    if (didGameStart && currentStep === 'game' && [32, 37, 38, 39, 40].includes(event.keyCode)) {
-      moveTetrimino(event.code, event.type);
-    }
-  });
+  if (didGameStart && currentStep === 'game') {
+    useKeyboardEvent((event) => {
+      if ([32, 37, 38, 39, 40].includes(event.keyCode)) {
+        moveTetrimino(event.code, event.type);
+      }
+    });
+  }
 
   switch (currentStep) {
     case 'game':
@@ -71,7 +73,7 @@ export const Tetris = ({
         </div>
       );
     case 'lobby':
-      return (<ConnectedLobby />);
+      return <ConnectedLobby />;
     default:
       return <LoadingIcon />;
   }
