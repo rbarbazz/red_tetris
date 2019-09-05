@@ -15,6 +15,7 @@ const fromServerActions = [
   msgType.PONG,
   msgType.SERVER.LOBBY_DATA,
   `${msgType.CLIENT.CONNECT_TO_LOBBY}_SUCCESS`,
+  `${msgType.CLIENT.CREATE_ROOM}_SUCCESS`,
   `${msgType.CLIENT.JOIN_PARTY}_SUCCESS`,
   `${msgType.CLIENT.CONNECT_TO_PARTY}_SUCCESS`,
   `${msgType.CLIENT.START_PARTY}_SUCCESS`,

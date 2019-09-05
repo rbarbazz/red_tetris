@@ -20,6 +20,12 @@ export const handleroomNameSelection = roomName => ({
 });
 
 export const submitRoomName = roomName => ({
+  type: msgType.CLIENT.CREATE_ROOM,
+  payload: { roomName },
+  eventType: eventType.LOBBY,
+});
+
+export const joinRoom = roomName => ({
   type: msgType.CLIENT.JOIN_PARTY,
   payload: { roomName },
   eventType: eventType.LOBBY,
