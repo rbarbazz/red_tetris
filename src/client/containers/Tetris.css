@@ -101,8 +101,9 @@ html, body {
 	padding: 50px;
 }
 .room-selection-container {
-	width: 80vw;
+	flex-direction: row;
 	height: 80vh;
+	width: 80vw;
 }
 .username-input-form {
 	padding: 40px 40px 57px;
@@ -139,14 +140,17 @@ html, body {
 .error-transition-appear-active {
 	opacity: 1;
 }
+.room-selection-left-side {
+	height: 100%;
+	width: calc(65% - 50px);
+}
+.room-selection-right-side {
+	height: 100%;
+	width: calc(35% - 50px);
+}
 .room-list-container {
-	background-color: #454545;
-	border-radius: 5px;
 	display: flex;
 	flex-direction: column;
-	margin: 40px 0 0;
-	max-height: 180px;
-	max-width: 360px;
 }
 .room-list-items-container::-webkit-scrollbar-track {
 	background-color: #454545;
@@ -159,30 +163,56 @@ html, body {
 	background-color: #eb4d4b;	
 }
 .room-list-items-container {
+	border-radius: 5px;
 	display: flex;
 	flex-wrap: wrap;
 	overflow: auto;
+	width: 100%;
 }
 .room-item {
+	background-color: #454545;
+	border: solid 3px #454545;
+	border-radius: 5px;
 	color: #eb4d4b;
 	cursor: pointer;
+	display: flex;
 	font-family: 'Open Sans', sans-serif;
 	font-size: 20px;
 	font-weight: 600;
-	letter-spacing: 1px;
-	padding: 10px;
-	width: 33.33%;
-	background: none;
-    border: none;
-}
-.room-list-title {
-	color: #d3d0d0;
-	font-family: 'Open Sans', sans-serif;
-	font-size: 18px;
+	justify-content: space-between;
 	letter-spacing: 1px;
 	margin: 10px 0;
-	padding: 0 10px;
-	text-align: center;
+	padding: 20px 40px;
+	text-align: left;
+	width: 100%;
+}
+.room-item:focus {
+	outline:0;
+}
+.room-item-info-container {
+	display: flex;
+	align-items: center;
+}
+.room-item-info {
+	margin: 5px 0;
+}
+.room-item-separator {
+	width: 3px;
+	height: 27px;
+	background-color: #eb4d4b;
+	border-radius: 5px;
+	margin: 0 20px;
+}
+.room-list-title {
+	background-color: #454545;
+	color: #eb4d4b;
+	border-radius: 5px;
+	font-family: 'Open Sans', sans-serif;
+	font-size: 30px;
+	letter-spacing: 1px;
+	margin: 10px 0;
+	padding: 20px 40px;
+	width: max-content;
 }
 input {
 	background-color: #d3d0d0;
@@ -205,7 +235,7 @@ input:focus {
 input::placeholder {
 	color: #aaa4a4;
 }
-button:not(.room-item) {
+.generic-button {
 	background-color: #eb4d4b;
 	border: solid 1px #383838;
 	border-bottom: 4px solid #c31715;
@@ -216,19 +246,16 @@ button:not(.room-item) {
 	font-size: 22px;
 	font-weight: 600;
 	letter-spacing: 0.05em;
-	margin-bottom: 4px;
+	margin-bottom: 3px;
 	padding: 13px 22px;
 	text-transform: uppercase;
 	transition: 0.1s;
 	width: 120px;
 }
-.username-input-container button:not(.room-item) {
-	margin-bottom: 3px;
-}
-button:not(.room-item):disabled {
+.generic-button:disabled {
 	opacity: 0.7;
 }
-button:not(.room-item):hover:enabled {
+.generic-button:hover:enabled {
 	border-bottom-width: 0;
 	margin-top: 4px;
 }

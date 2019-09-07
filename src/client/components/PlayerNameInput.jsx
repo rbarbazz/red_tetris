@@ -43,6 +43,7 @@ const PlayerNameInput = ({
       <button
         disabled={playerName === ''}
         type="submit"
+        className="generic-button"
       >
         Play
       </button>

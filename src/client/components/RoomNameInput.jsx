@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import * as lobbyActions from '../actions/lobby';
+import { roomState } from '../../common/enums';
 
 const testRoomList = [{
   name: 'room1',
@@ -22,7 +23,7 @@ const testRoomList = [{
   name: 'room4',
   players: ['raph', 'someoneelse', 'tall guy'],
   slots: [5, 8],
-  state: 'FREE',
+  state: 'BUSY',
 }];
 
 const RoomNameInput = ({
@@ -33,25 +34,40 @@ const RoomNameInput = ({
   submitRoomName,
 }) => (
   <div key="room-selection-container" className="room-selection-container">
-    <div className="input-submit-container">
+    <div className="room-selection-left-side">
       {currentRoomList.length > 0
         && (
           <div className="room-list-container">
-            <div className="room-list-title">Existing rooms</div>
+            <div className="room-list-title">Existing Rooms</div>
             <div className="room-list-items-container">
-              {currentRoomList.map((roomItem, index) => (
-                <button
-                  type="button"
-                  value={roomItem.name}
-                  className="room-item"
-                  key={`room-item-${index.toString()}`}
-                  onClick={(event) => {
-                    handleroomNameSelection(event.target.textContent);
-                  }}
-                >
-                  {roomItem.name}
-                </button>
-              ))}
+              {currentRoomList.map((roomItem, index) => {
+                const busySlots = roomItem.slots[1] - roomItem.slots[0];
+
+                return (
+                  <div
+                    value={roomItem.name}
+                    className="room-item"
+                    key={`room-item-${index.toString()}`}
+                    onClick={() => handleroomNameSelection(roomItem.name)}
+                    style={roomName === roomItem.name ? { borderColor: '#eb4d4b' } : {}}
+                  >
+                    <div className="room-item-info-container">
+                      <div className="room-item-info">{roomItem.name}</div>
+                      <div className="room-item-separator" />
+                      <div className="room-item-info">{roomItem.state === roomState.FREE ? 'In Lobby' : 'In Game'}</div>
+                      <div className="room-item-separator" />
+                      <div className="room-item-info">{`Slots ${busySlots}/${roomItem.slots[1]}`}</div>
+                    </div>
+                    <button
+                      type="submit"
+                      className="generic-button"
+                      onClick={() => submitRoomName(roomItem.name)}
+                    >
+                      Join
+                    </button>
+                  </div>
+                );
+              })}
             </div>
           </div>
         )}
@@ -63,10 +79,13 @@ const RoomNameInput = ({
       <button
         disabled={roomName === ''}
         type="submit"
+        className="generic-button"
         onClick={() => submitRoomName(roomName)}
       >
         Create
       </button>
+    </div>
+    <div className="room-selection-right-side">
     </div>
   </div>
 );
