@@ -3,6 +3,27 @@ import PropTypes from 'prop-types';
 
 import * as lobbyActions from '../actions/lobby';
 
+const testRoomList = [{
+  name: 'room1',
+  players: ['raph', 'someoneelse', 'tall guy'],
+  slots: [5, 8],
+  state: 'FREE',
+}, {
+  name: 'room2',
+  players: ['raph', 'someoneelse', 'tall guy'],
+  slots: [5, 8],
+  state: 'FREE',
+}, {
+  name: 'room3',
+  players: ['raph', 'someoneelse', 'tall guy'],
+  slots: [5, 8],
+  state: 'FREE',
+}, {
+  name: 'room4',
+  players: ['raph', 'someoneelse', 'tall guy'],
+  slots: [5, 8],
+  state: 'FREE',
+}];
 
 const RoomNameInput = ({
   currentRoomList,
@@ -13,15 +34,6 @@ const RoomNameInput = ({
   submitRoomName,
 }) => (
   <div key="room-selection-container" className="room-selection-container">
-    <div className="input-label">
-      <div className="three-dots-container">
-        <div />
-        <div />
-        <div />
-      </div>
-      Provide a room name
-    </div>
-    <div className="input-error-message">{errorMessage}</div>
     <div className="input-submit-container">
       {currentRoomList.length > 0
         && (
@@ -31,7 +43,7 @@ const RoomNameInput = ({
               {currentRoomList.map((roomItem, index) => (
                 <button
                   type="button"
-                  value={roomItem}
+                  value={roomItem.name}
                   className="room-item"
                   key={`room-item-${index.toString()}`}
                   onClick={(event) => {
@@ -39,7 +51,7 @@ const RoomNameInput = ({
                     joinRoom(event.target.textContent);
                   }}
                 >
-                  {roomItem}
+                  {roomItem.name}
                 </button>
               ))}
             </div>

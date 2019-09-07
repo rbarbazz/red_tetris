@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { CSSTransition } from 'react-transition-group';
 
 import * as lobbyActions from '../actions/lobby';
 
@@ -13,17 +14,31 @@ const PlayerNameInput = ({
   <div key="username-input-container" className="username-input-container">
     <h1 className="game-title">Red Tetris</h1>
     <form
-      className="input-submit-container"
+      className="username-input-form"
       onSubmit={(event) => {
         event.preventDefault();
         submitPlayerName(playerName);
       }}
     >
-      <div className="input-error-message">{errorMessage}</div>
+      <CSSTransition
+        in={errorMessage !== ''}
+        classNames="error-transition"
+        appear
+        timeout={300}
+      >
+        <div
+          className="input-error-message"
+          style={errorMessage !== '' ? { backgroundColor: '#f5a5a4' } : {}}
+        >
+          {errorMessage}
+        </div>
+      </CSSTransition>
       <input
         type="text"
+        placeholder="Username"
         onChange={event => handlePlayerNameSelection(event.target.value)}
         value={playerName}
+        style={playerName === '' ? {} : { border: 'solid 3px #eb4d4b' }}
       />
       <button
         disabled={playerName === ''}

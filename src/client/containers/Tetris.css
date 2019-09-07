@@ -27,6 +27,9 @@ html, body {
 	grid-template-columns: repeat(3, 1fr);
 	justify-items: center;
 	align-items: center;
+	padding: 10px;
+    background-color: #454545;
+    border-radius: 5px;
 }
 .loading-icon > div {
 	width: 0.5em;
@@ -79,16 +82,13 @@ html, body {
 /* Lobby */
 .game-title {
 	background-color: #454545;
-	border-radius: 5px 5px 0 0;
+	border-radius: 5px;
 	color: #eb4d4b;
 	font-family: 'Open Sans', sans-serif;
 	font-size: 80px;
-	text-transform: uppercase;
-	letter-spacing: 0.1em;
 	text-align: center;
-	width: 100%;
 	margin: 0;
-	padding: 30px 0;
+	padding: 20px 40px;
 }
 .username-input-container,
 .room-selection-container {
@@ -98,22 +98,46 @@ html, body {
 	box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
 	display: flex;
 	flex-direction: column;
-	width: 90vw;
-	height: 90vh;
+	padding: 50px;
 }
-.input-submit-container {
-	padding: 40px;
+.room-selection-container {
+	width: 80vw;
+	height: 80vh;
+}
+.username-input-form {
+	padding: 40px 40px 57px;
 	display: flex;
     flex-direction: column;
 	align-items: center;
 	background-color: #454545;
 	border-radius: 5px;
-	margin-top: 100px;
+	margin: 75px 0;
 }
 .input-error-message {
+	background-color: #454545;
+	border-radius: 5px;
 	color: #eb4d4b;
 	font-family: 'Open Sans', sans-serif;
 	font-size: 20px;
+	font-weight: 600;
+	height: 27px;
+	margin-bottom: 20px;
+	padding: 10px 15px;
+	text-align: center;
+	transition: opacity 0.3s;
+	width: 276px;
+}
+.error-transition-enter {
+	opacity: 0;
+}
+.error-transition-enter-active {
+	opacity: 1;
+}
+.error-transition-appear {
+	opacity: 0;
+}
+.error-transition-appear-active {
+	opacity: 1;
 }
 .room-list-container {
 	background-color: #454545;
@@ -163,7 +187,7 @@ html, body {
 input {
 	background-color: #d3d0d0;
 	border-radius: 5px;
-	border: solid 3px #eb4d4b;
+	border: solid 3px #454545;
 	color: #eb4d4b;
 	cursor: pointer;
 	font-family: 'Open Sans', sans-serif;
@@ -172,13 +196,14 @@ input {
 	margin: 0 0 40px;
 	outline: none;
 	padding: 10px 15px;
-	width: calc(100% - 26px);
+	transition: border 0.3s;
+	width: 270px;
 }
-label {
-	color: #eb4d4b;
-	font-family: 'Open Sans', sans-serif;
-	font-size: 16px;
-
+input:focus {
+	border: solid 3px #eb4d4b;
+}
+input::placeholder {
+	color: #aaa4a4;
 }
 button:not(.room-item) {
 	background-color: #eb4d4b;

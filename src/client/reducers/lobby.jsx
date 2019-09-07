@@ -12,7 +12,11 @@ const initialState = {
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case STORE_PLAYER_NAME:
-      return { ...state, playerName: action.payload.playerName };
+      return {
+        ...state,
+        playerName: action.payload.playerName,
+        errorMessage: '',
+      };
     case msgType.CLIENT.CONNECT_TO_LOBBY:
       return { ...state, currentStep: 'loading' };
     case `${msgType.CLIENT.CONNECT_TO_LOBBY}_SUCCESS`:
