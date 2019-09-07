@@ -1,24 +1,24 @@
 import * as dbg from '../../common/devLog';
 import * as comm from '../../common/sockWrapper';
 import { eventType, CONFIG } from '../../common/enums';
-import appData from '../models/Env';
+import { lobby, game } from '../models/Env';
 import { checkPlayerName } from '../models/Player';
 
 /*
   Check if a new player can connect.
   Check his name, free slot in the server...
 */
-function checkNewClient(name, lobbyName = null) {
-  if (Object.keys(appData.players).length === CONFIG.MAX_SLOT) {
+function checkNewClient(sock, name, lobbyName = null) {
+  if (lobby.freeSlots() === 0) {
     return 'Server is full, no slot available';
   }
   if (!checkPlayerName(name)) {
-    return 'Nickname invalid';
+    return 'Invalid nickname';
   }
-  if (name in appData.players) {
-    return 'Player already conencted';
+  if (lobby.hasPlayerId(sock.id)) {
+    return 'Player already connected';
   }
-  if (Object.values(appData.players).findIndex(player => player.name === name) !== -1) {
+  if (lobby.hasPlayerName(name)) {
     return 'Nickname alredy taken';
   }
   return null;
@@ -26,12 +26,12 @@ function checkNewClient(name, lobbyName = null) {
 
 export function clientConnectLobby(sock, data) {
   const { playerName } = data.payload;
-  const r = checkNewClient(playerName);
+  const r = checkNewClient(sock, playerName);
   if (r !== null) {
     comm.sendError(sock, eventType.LOBBY, data.type, r);
     return false;
   }
-  appData.addPlayer(sock, playerName);
+  lobby.addPlayer(playerName, sock);
   comm.sendResponse(sock, eventType.LOBBY, data.type, { playerName });
   return `New player: ${playerName}`;
 }
@@ -40,9 +40,10 @@ export function clientConnectParty(sock, payload) {
 }
 
 export function clientDisconnect(sock) {
-  if (sock.id in appData.players) {
-    const msg = `Player left: ${appData.players[sock.id].name}`;
-    delete appData.players[sock.id];
+  const player = lobby.getPlayer(sock.id);
+  if (player !== null) {
+    const msg = `Player left: ${player.name}`;
+    lobby.deletePlayer(player.id);
     return msg;
   }
   return false;
