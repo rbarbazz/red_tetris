@@ -63,8 +63,7 @@ export const msgType = {
   // only sent by client to server
   CLIENT: {
     CONNECT_TO_LOBBY: 'CONNECT_TO_LOBBY', // Connect to lobby with a nickname
-    CREATE_ROOM: 'CREATE_ROOM', // Create a room
-    JOIN_PARTY: 'JOIN_PARTY', // Join a party (create/join/spectator)
+    JOIN_ROOM: 'JOIN_ROOM', // Join a party (create/join/spectator)
     CONNECT_TO_PARTY: 'CONNECT_TO_PARTY', // Direct connection to a party
     START_PARTY: 'START_PARTY', // Only for master
     LEAVE_PARTY: 'LEAVE_PARTY', // Anyone

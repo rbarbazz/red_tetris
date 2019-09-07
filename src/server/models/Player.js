@@ -1,15 +1,46 @@
 import { CONFIG, playerType } from '../../common/enums';
 
 export class Player {
-  constructor(name, sock) {
-    this.name = name;
-    this.sock = sock;
+  constructor(lobby, name, sock) {
+    this._lobby = lobby; // Back ling to lobby
+    this._name = name;
+    this._sock = sock;
     this.type = playerType.NONE;
-    this.room = null;
+    this._room = null;
   }
 
-  id() {
-    return this.sock.id;
+  get name() {
+    return this._name;
+  }
+
+  get id() {
+    return this._sock.id;
+  }
+
+  get socket() {
+    return this._sock;
+  }
+
+  get room() {
+    return this._room;
+  }
+
+  joinRoom(room) {
+    if (room.freeSlots() === 0) {
+      return false;
+    }
+    this._room = room;
+    room.addPlayer(this);
+    return false;
+  }
+
+  leaveRoom() {
+    this._room = null;
+    this.room.removePlayer(this);
+  }
+
+  deleteRoom(room) {
+    this._lobby.deleteRoom(room);
   }
 }
 

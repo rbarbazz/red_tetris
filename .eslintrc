@@ -3,5 +3,9 @@
 	"env": {
 		"browser": true,
 		"mocha": true
-	}
+	},
+	"rules": {
+		"no-param-reassign": "off", // Don't detect get/set
+		"no-underscore-dangle": "off", // Private members
+	},
 }
