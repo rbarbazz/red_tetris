@@ -35,18 +35,18 @@ const reducer = (state = initialState, action) => {
     case msgType.SERVER.LOBBY_DATA:
       return {
         ...state,
-        currentRoomList: action.payload.rooms.map(room => room.name),
+        currentRoomList: action.payload.rooms,
       };
     case STORE_ROOM:
       return { ...state, roomName: action.payload.roomName };
-    case msgType.CLIENT.JOIN_PARTY:
+    case msgType.CLIENT.JOIN_ROOM:
       return { ...state, currentStep: 'loading' };
-    case `${msgType.CLIENT.JOIN_PARTY}_SUCCESS`:
+    case `${msgType.CLIENT.JOIN_ROOM}_SUCCESS`:
       return {
         ...state,
         roomName: action.payload.roomName,
       };
-    case `${msgType.CLIENT.JOIN_PARTY}_ERROR`:
+    case `${msgType.CLIENT.JOIN_ROOM}_ERROR`:
       return {
         ...state,
         currentStep: 'roomNameSelection',

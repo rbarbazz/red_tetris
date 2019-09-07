@@ -29,7 +29,6 @@ const RoomNameInput = ({
   currentRoomList,
   errorMessage,
   handleroomNameSelection,
-  joinRoom,
   roomName,
   submitRoomName,
 }) => (
@@ -48,7 +47,6 @@ const RoomNameInput = ({
                   key={`room-item-${index.toString()}`}
                   onClick={(event) => {
                     handleroomNameSelection(event.target.textContent);
-                    joinRoom(event.target.textContent);
                   }}
                 >
                   {roomItem.name}
@@ -77,7 +75,6 @@ RoomNameInput.propTypes = {
   currentRoomList: PropTypes.arrayOf(PropTypes.string),
   errorMessage: PropTypes.string,
   handleroomNameSelection: PropTypes.func,
-  joinRoom: PropTypes.func,
   roomName: PropTypes.string,
   submitRoomName: PropTypes.func,
 };
@@ -85,7 +82,6 @@ RoomNameInput.defaultProps = {
   currentRoomList: [],
   errorMessage: '',
   handleroomNameSelection: lobbyActions.handleroomNameSelection,
-  joinRoom: lobbyActions.joinRoom,
   roomName: '',
   submitRoomName: lobbyActions.submitRoomName,
 };

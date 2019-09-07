@@ -28,7 +28,6 @@ export const Lobby = ({
   handleroomNameSelection,
   currentStep,
   errorMessage,
-  joinRoom,
   playerName,
   roomName,
   submitPlayerName,
@@ -52,7 +51,6 @@ export const Lobby = ({
           handleroomNameSelection={handleroomNameSelection}
           roomName={roomName}
           submitRoomName={submitRoomName}
-          joinRoom={joinRoom}
         />
       );
     default:
@@ -66,7 +64,6 @@ Lobby.propTypes = {
   errorMessage: PropTypes.string,
   handlePlayerNameSelection: PropTypes.func,
   handleroomNameSelection: PropTypes.func,
-  joinRoom: PropTypes.func,
   playerName: PropTypes.string,
   roomName: PropTypes.string,
   submitPlayerName: PropTypes.func,
@@ -78,7 +75,6 @@ Lobby.defaultProps = {
   errorMessage: '',
   handlePlayerNameSelection: lobbyActions.handlePlayerNameSelection,
   handleroomNameSelection: lobbyActions.handleroomNameSelection,
-  joinRoom: lobbyActions.joinRoom,
   playerName: '',
   roomName: '',
   submitPlayerName: lobbyActions.submitPlayerName,

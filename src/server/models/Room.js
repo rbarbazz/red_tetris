@@ -8,8 +8,12 @@ export class Room {
     this.slots = slots;
   }
 
+  get name() {
+    return this._name;
+  }
+
   freeSlots() {
-    return this._slots - this.players.length;
+    return this.slots - this._players.length;
   }
 
   get players() {
@@ -17,7 +21,7 @@ export class Room {
   }
 
   addPlayer(player) {
-    this.players.push(player);
+    this._players.push(player);
   }
 
   removePlayer(player) {

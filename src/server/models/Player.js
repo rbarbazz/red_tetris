@@ -31,7 +31,7 @@ export class Player {
     }
     this._room = room;
     room.addPlayer(this);
-    return false;
+    return true;
   }
 
   leaveRoom() {

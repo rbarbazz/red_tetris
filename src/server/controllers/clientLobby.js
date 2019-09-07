@@ -52,7 +52,7 @@ export function clientJoinRoom(socket, data) {
   }
   // Join the room
   player.joinRoom(room);
-  comm.sendResponse(player.sock, eventType.LOBBY, data.type, { roomName: room.name });
+  comm.sendResponse(socket, eventType.LOBBY, data.type, { roomName: room.name });
   return true;
 }
 

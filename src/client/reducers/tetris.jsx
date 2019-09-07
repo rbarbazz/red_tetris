@@ -13,7 +13,7 @@ const reducer = (state = initialState, action) => {
   switch (action.type) {
     case DISPLAY_LOBBY:
       return { ...state, currentStep: 'lobby' };
-    case `${msgType.CLIENT.JOIN_PARTY}_SUCCESS`:
+    case `${msgType.CLIENT.JOIN_ROOM}_SUCCESS`:
       return {
         ...state,
         currentStep: 'game',
