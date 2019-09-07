@@ -7,7 +7,7 @@ export const displayLobby = () => ({
 });
 
 export const submitHashBasedData = (playerName, roomName) => ({
-  type: msgType.CLIENT.CONNECT_TO_PARTY,
+  type: msgType.CLIENT.CONNECT_TO_ROOM,
   payload: {
     playerName,
     roomName,

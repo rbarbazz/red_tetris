@@ -53,7 +53,7 @@ const reducer = (state = initialState, action) => {
         errorMessage: action.msg,
         roomName: action.payload.roomName,
       };
-    case `${msgType.CLIENT.CONNECT_TO_PARTY}_SUCCESS`:
+    case `${msgType.CLIENT.CONNECT_TO_ROOM}_SUCCESS`:
       return {
         ...state,
         playerName: action.payload.playerName,

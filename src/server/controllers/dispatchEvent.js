@@ -1,30 +1,23 @@
 import * as dbg from '../../common/devLog';
 import { eventType, msgType, playerType } from '../../common/enums';
 import * as comm from '../../common/sockWrapper';
-import { clientConnectLobby, clientDisconnect } from './clientConnect';
-import { clientSendLobby, clientJoinRoom, clientCreateRoom } from './clientLobby';
+import {
+  sendLobbyToClients, clientDisconnect,
+  clientConnectLobby, clientConnectRoom,
+  clientJoinRoom, clientLeaveRoom,
+} from './clientConnect';
 
 function onLobbyEvent(socket, data) {
   if (data.type === msgType.PING) {
     comm.sendRequest(socket, eventType.LOBBY, msgType.PONG, {});
   } else if (data.type === msgType.CLIENT.CONNECT_TO_LOBBY) {
-    const r = clientConnectLobby(socket, data);
-    if (r !== false) {
-      clientSendLobby(r);
-    }
+    clientConnectLobby(socket, data);
+  } else if (data.type === msgType.CLIENT.CONNECT_TO_ROOM) {
+    clientConnectRoom(socket, data);
   } else if (data.type === msgType.CLIENT.JOIN_ROOM) {
-    const r = clientJoinRoom(socket, data);
-    if (r !== false) {
-      clientSendLobby(r);
-    }
-  } else if (data.type === msgType.CLIENT.START_PARTY) {
-    comm.sendResponse(socket, eventType.LOBBY, data.type, {});
-  } else if (data.type === msgType.CLIENT.CONNECT_TO_PARTY) {
-    comm.sendResponse(socket, eventType.LOBBY, data.type, {
-      roomName: data.payload.roomName,
-      playerName: data.payload.playerName,
-      playerType: playerType.MASTER,
-    });
+    clientJoinRoom(socket, data);
+  } else if (data.type === msgType.CLIENT.LEAVE_ROOM) {
+    clientLeaveRoom(socket, data);
   }
 }
 
@@ -42,6 +35,7 @@ export default function dispatchEvent(io) {
     socket.on(eventType.LOBBY, (data) => {
       dbg.info(`Event ${eventType.LOBBY} from ${socket.id}: ${JSON.stringify(data, null, 2)}`);
       onLobbyEvent(socket, data);
+      sendLobbyToClients();
     });
     socket.on(eventType.GAME, (data) => {
       dbg.info(`Event ${eventType.GAME} from ${socket.id}: ${JSON.stringify(data, null, 2)}`);
@@ -57,6 +51,7 @@ export default function dispatchEvent(io) {
         case 'transport error':
         default:
           clientDisconnect(socket);
+          sendLobbyToClients();
           break;
       }
     });

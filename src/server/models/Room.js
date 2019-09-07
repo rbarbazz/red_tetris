@@ -1,6 +1,7 @@
-import { CONFIG, roomState, playerType } from '../../common/enums';
+import * as dbg from '../../common/devLog';
+import { roomState } from '../../common/enums';
 
-export class Room {
+export default class Room {
   constructor(name, slots) {
     this._name = name;
     this.state = roomState.FREE;
@@ -21,15 +22,19 @@ export class Room {
   }
 
   addPlayer(player) {
+    if (this.freeSlots() === 0) {
+      return false;
+    }
     this._players.push(player);
+    return true;
   }
 
   removePlayer(player) {
-    const toRm = this._players.findIndex(p => player.id() === p.id());
+    const toRm = this._players.findIndex(p => player.id === p.id);
     if (toRm !== -1) {
       this._players.splice(toRm, 1);
       if (this._players.length === 0) {
-        player.deleteRoom(this);
+        player.deleteRoom(this._name);
       }
       return true;
     }
@@ -42,11 +47,4 @@ export class Room {
     }
     return this._players[0];
   }
-}
-
-export function checkRoomName(name) {
-  if (name.length < CONFIG.NAME_MIN || name.length > CONFIG.NAME_MAX) {
-    return false;
-  }
-  return true;
 }

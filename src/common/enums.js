@@ -64,7 +64,8 @@ export const msgType = {
   CLIENT: {
     CONNECT_TO_LOBBY: 'CONNECT_TO_LOBBY', // Connect to lobby with a nickname
     JOIN_ROOM: 'JOIN_ROOM', // Join a party (create/join/spectator)
-    CONNECT_TO_PARTY: 'CONNECT_TO_PARTY', // Direct connection to a party
+    LEAVE_ROOM: 'LEAVE_ROOM', // Leave a room
+    CONNECT_TO_ROOM: 'CONNECT_TO_ROOM', // Direct connection to a party
     START_PARTY: 'START_PARTY', // Only for master
     LEAVE_PARTY: 'LEAVE_PARTY', // Anyone
     MOVE_TETRIMINO: 'MOVE_TETRIMINO', // Send an input to the server

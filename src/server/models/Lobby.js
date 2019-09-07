@@ -1,5 +1,14 @@
-import { Room } from './Room';
-import { Player } from './Player';
+import * as dbg from '../../common/devLog';
+import { CONFIG } from '../../common/enums';
+import Room from './Room';
+import Player from './Player';
+
+function checkName(name) {
+  if (name.length < CONFIG.NAME_MIN || name.length > CONFIG.NAME_MAX) {
+    return false;
+  }
+  return true;
+}
 
 export default class Lobby {
   constructor(slots) {
@@ -24,9 +33,21 @@ export default class Lobby {
     return this._slots - Object.keys(this._players).length;
   }
 
-  addPlayer(name, sock) {
+  addPlayer(sock, name) {
+    if (this.freeSlots() === 0) {
+      return 'Server is full, no slot available';
+    }
+    if (!checkName(name)) {
+      return 'Invalid nickname';
+    }
+    if (this.hasPlayerId(sock.id)) {
+      return 'Player already connected';
+    }
+    if (this.hasPlayerName(name)) {
+      return 'Nickname alredy taken';
+    }
     this._players[sock.id] = new Player(this, name, sock);
-    return true;
+    return null;
   }
 
   hasPlayerId(id) {
@@ -45,19 +66,29 @@ export default class Lobby {
   }
 
   deletePlayer(id) {
-    if (!this.hasPlayer(id)) {
+    const player = this._players[id];
+    if (player === null) {
       return false;
+    }
+    if (player.room !== null) {
+      player.leaveRoom();
     }
     delete this._players[id];
     return true;
   }
 
   addRoom(name, slots) {
+    if (!checkName(name)) {
+      return 'Invalid room name';
+    }
+    if (this.hasRoom(name)) {
+      return 'Room already exist';
+    }
     if (this.freeSlots() === 0) {
-      return false;
+      return 'Room is full';
     }
     this._rooms[name] = new Room(name, slots);
-    return true;
+    return null;
   }
 
   hasRoom(id) {

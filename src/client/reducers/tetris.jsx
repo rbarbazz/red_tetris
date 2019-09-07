@@ -19,7 +19,7 @@ const reducer = (state = initialState, action) => {
         currentStep: 'game',
         playerType: action.payload.playerType,
       };
-    case `${msgType.CLIENT.CONNECT_TO_PARTY}_SUCCESS`:
+    case `${msgType.CLIENT.CONNECT_TO_ROOM}_SUCCESS`:
       return {
         ...state,
         currentStep: 'game',
