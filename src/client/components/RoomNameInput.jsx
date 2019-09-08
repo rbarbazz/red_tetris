@@ -76,7 +76,7 @@ const RoomNameInput = ({
               && (
                 <div className="room-item">
                   <div className="room-item-info-container">
-                    <div className="room-item-info">No Room yet</div>
+                    <div className="room-item-info">No Room available</div>
                   </div>
                 </div>
               )}
@@ -121,7 +121,7 @@ const RoomNameInput = ({
                 </div>
               ))
             ) : (
-              <div className="player-item">You are not in a room yet</div>
+              <div className="player-item">You are not in a room</div>
             )}
           </div>
         </div>

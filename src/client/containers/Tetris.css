@@ -104,15 +104,16 @@ html, body {
 .room-selection-container {
 	display: flex;
 	justify-content: space-between;
+	margin-bottom: 50px;
 }
 .room-selection-wrapper {
 	background-color: #383838;
-	height: 80vh;
 	width: 80vw;
 	border-radius: 5px;
 	display: flex;
 	flex-direction: column;
 	box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+	max-width: 1200px;
 }
 .username-input-form {
 	padding: 40px 40px 57px;
