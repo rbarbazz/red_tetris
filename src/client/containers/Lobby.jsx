@@ -11,7 +11,9 @@ import LoadingIcon from '../components/LoadingIcon';
 
 const mapStateToProps = state => ({
   currentRoomList: state.lobby.currentRoomList,
+  currentRoomPlayerList: state.lobby.currentRoomPlayerList,
   currentStep: state.lobby.currentStep,
+  isInRoom: state.lobby.isInRoom,
   playerName: state.lobby.playerName,
   roomName: state.lobby.roomName,
   errorMessage: state.lobby.errorMessage,
@@ -24,10 +26,12 @@ const mapDispatchToProps = dispatch => (
 
 export const Lobby = ({
   currentRoomList,
+  currentRoomPlayerList,
   handlePlayerNameSelection,
   handleroomNameSelection,
   currentStep,
   errorMessage,
+  isInRoom,
   playerName,
   roomName,
   submitPlayerName,
@@ -47,9 +51,12 @@ export const Lobby = ({
       return (
         <RoomNameInput
           currentRoomList={currentRoomList}
+          currentRoomPlayerList={currentRoomPlayerList}
           errorMessage={errorMessage}
           handleroomNameSelection={handleroomNameSelection}
+          isInRoom={isInRoom}
           roomName={roomName}
+          playerName={playerName}
           submitRoomName={submitRoomName}
         />
       );
@@ -59,11 +66,18 @@ export const Lobby = ({
 };
 
 Lobby.propTypes = {
-  currentRoomList: PropTypes.arrayOf(PropTypes.string),
+  currentRoomList: PropTypes.arrayOf(PropTypes.exact({
+    name: PropTypes.string,
+    players: PropTypes.arrayOf(PropTypes.string),
+    slots: PropTypes.arrayOf(PropTypes.number),
+    state: PropTypes.string,
+  })),
+  currentRoomPlayerList: PropTypes.arrayOf(PropTypes.string),
   currentStep: PropTypes.string,
   errorMessage: PropTypes.string,
   handlePlayerNameSelection: PropTypes.func,
   handleroomNameSelection: PropTypes.func,
+  isInRoom: PropTypes.bool,
   playerName: PropTypes.string,
   roomName: PropTypes.string,
   submitPlayerName: PropTypes.func,
@@ -71,10 +85,12 @@ Lobby.propTypes = {
 };
 Lobby.defaultProps = {
   currentRoomList: [],
+  currentRoomPlayerList: [],
   currentStep: 'playerNameSelection',
   errorMessage: '',
   handlePlayerNameSelection: lobbyActions.handlePlayerNameSelection,
   handleroomNameSelection: lobbyActions.handleroomNameSelection,
+  isInRoom: false,
   playerName: '',
   roomName: '',
   submitPlayerName: lobbyActions.submitPlayerName,

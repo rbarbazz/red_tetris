@@ -9,9 +9,14 @@ const PlayerInfo = ({ playerName, roomName }) => (
       <div />
       <div />
     </div>
-    <div className="player-base-info-label">{playerName}</div>
-    <div className="player-base-info-label">@</div>
-    <div className="player-base-info-label">{roomName}</div>
+    {playerName !== '' && roomName !== ''
+      && (
+        <React.Fragment>
+          <div className="player-base-info-label">{playerName}</div>
+          <div className="player-base-info-label">@</div>
+          <div className="player-base-info-label">{roomName}</div>
+        </React.Fragment>
+      )}
   </div>
 );
 

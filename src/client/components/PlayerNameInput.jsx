@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { CSSTransition } from 'react-transition-group';
 
 import * as lobbyActions from '../actions/lobby';
+import PlayerInfo from './PlayerInfo';
 
 
 const PlayerNameInput = ({
@@ -12,6 +13,9 @@ const PlayerNameInput = ({
   submitPlayerName,
 }) => (
   <div key="username-input-container" className="username-input-container">
+    <PlayerInfo
+      playerName={playerName}
+    />
     <h1 className="game-title">Red Tetris</h1>
     <form
       className="username-input-form"
@@ -24,6 +28,7 @@ const PlayerNameInput = ({
         in={errorMessage !== ''}
         classNames="error-transition"
         appear
+        unmountOnExit
         timeout={300}
       >
         <div

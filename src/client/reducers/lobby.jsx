@@ -3,7 +3,9 @@ import { msgType } from '../../common/enums';
 
 const initialState = {
   currentRoomList: [],
+  currentRoomPlayerList: [],
   currentStep: 'playerNameSelection',
+  isInRoom: false,
   playerName: '',
   roomName: '',
   errorMessage: '',
@@ -32,11 +34,14 @@ const reducer = (state = initialState, action) => {
         currentStep: 'playerNameSelection',
         errorMessage: action.msg,
       };
-    case msgType.SERVER.LOBBY_DATA:
+    case msgType.SERVER.LOBBY_DATA: {
+      const joinedRoom = action.payload.rooms.find(element => element.name === state.roomName);
       return {
         ...state,
         currentRoomList: action.payload.rooms,
+        currentRoomPlayerList: (joinedRoom !== undefined ? joinedRoom.players : []),
       };
+    }
     case STORE_ROOM:
       return { ...state, roomName: action.payload.roomName };
     case msgType.CLIENT.JOIN_ROOM:
@@ -44,6 +49,8 @@ const reducer = (state = initialState, action) => {
     case `${msgType.CLIENT.JOIN_ROOM}_SUCCESS`:
       return {
         ...state,
+        currentStep: 'roomNameSelection',
+        isInRoom: true,
         roomName: action.payload.roomName,
       };
     case `${msgType.CLIENT.JOIN_ROOM}_ERROR`:
@@ -56,6 +63,8 @@ const reducer = (state = initialState, action) => {
     case `${msgType.CLIENT.CONNECT_TO_ROOM}_SUCCESS`:
       return {
         ...state,
+        currentStep: 'roomNameSelection',
+        isInRoom: true,
         playerName: action.payload.playerName,
         roomName: action.payload.roomName,
       };

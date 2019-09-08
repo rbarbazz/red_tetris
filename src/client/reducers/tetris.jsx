@@ -16,17 +16,19 @@ const reducer = (state = initialState, action) => {
     case `${msgType.CLIENT.JOIN_ROOM}_SUCCESS`:
       return {
         ...state,
-        currentStep: 'game',
         playerType: action.payload.playerType,
       };
     case `${msgType.CLIENT.CONNECT_TO_ROOM}_SUCCESS`:
       return {
         ...state,
-        currentStep: 'game',
         playerType: action.payload.playerType,
       };
     case `${msgType.CLIENT.START_PARTY}_SUCCESS`:
-      return { ...state, didGameStart: true };
+      return {
+        ...state,
+        currentStep: 'game',
+        didGameStart: true,
+      };
     default:
       return state;
   }

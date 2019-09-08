@@ -1,10 +1,13 @@
-/* General */
+/* ==========================================================================
+   General
+   ========================================================================== */
+
 html, body {
 	height: 100%;
 	margin: 0;
 }
 #root {
-	background-color: #4f47a2;
+	background-color: #9AADBF;
 	min-height: 100%;
 	min-width: 100%;
 	display: flex;
@@ -79,31 +82,37 @@ html, body {
 	background-color: rgb(53, 203, 75);
 }
 
-/* Lobby */
+/* ==========================================================================
+   Lobby
+   ========================================================================== */
+
 .game-title {
-	background-color: #454545;
-	border-radius: 5px;
 	color: #eb4d4b;
 	font-family: 'Open Sans', sans-serif;
 	font-size: 80px;
 	text-align: center;
 	margin: 0;
-	padding: 20px 40px;
+	padding: 0 40px;
 }
-.username-input-container,
-.room-selection-container {
-	align-items: center;
+.username-input-container { 
 	background-color: #383838;
 	border-radius: 5px;
 	box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
 	display: flex;
 	flex-direction: column;
-	padding: 50px;
 }
 .room-selection-container {
-	flex-direction: row;
+	display: flex;
+	justify-content: space-between;
+}
+.room-selection-wrapper {
+	background-color: #383838;
 	height: 80vh;
 	width: 80vw;
+	border-radius: 5px;
+	display: flex;
+	flex-direction: column;
+	box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
 }
 .username-input-form {
 	padding: 40px 40px 57px;
@@ -112,7 +121,8 @@ html, body {
 	align-items: center;
 	background-color: #454545;
 	border-radius: 5px;
-	margin: 75px 0;
+	margin: 50px 80px 80px;
+	box-shadow: 0 3px 5px rgba(0,0,0,0.22);
 }
 .input-error-message {
 	background-color: #454545;
@@ -120,7 +130,7 @@ html, body {
 	color: #eb4d4b;
 	font-family: 'Open Sans', sans-serif;
 	font-size: 20px;
-	font-weight: 600;
+	font-weight: 500;
 	height: 27px;
 	margin-bottom: 20px;
 	padding: 10px 15px;
@@ -142,15 +152,26 @@ html, body {
 }
 .room-selection-left-side {
 	height: 100%;
-	width: calc(65% - 50px);
+	width: calc(65% - 60px);
 }
 .room-selection-right-side {
 	height: 100%;
-	width: calc(35% - 50px);
+	width: calc(35% - 60px);
 }
-.room-list-container {
+.room-list-container,
+.room-creation-container,
+.room-info-container {
 	display: flex;
 	flex-direction: column;
+	width: 100%;
+	margin-left: 50px;
+}
+.room-list-container {
+	max-height: 630px;
+	overflow-y: auto;
+}
+.room-creation-container {
+	margin-top: 60px;
 }
 .room-list-items-container::-webkit-scrollbar-track {
 	background-color: #454545;
@@ -170,52 +191,69 @@ html, body {
 	width: 100%;
 }
 .room-item {
+	align-items: center;
 	background-color: #454545;
 	border: solid 3px #454545;
 	border-radius: 5px;
-	color: #eb4d4b;
-	cursor: pointer;
+	color: #EFF1F3;
 	display: flex;
 	font-family: 'Open Sans', sans-serif;
 	font-size: 20px;
-	font-weight: 600;
+	font-weight: 500;
 	justify-content: space-between;
 	letter-spacing: 1px;
-	margin: 10px 0;
-	padding: 20px 40px;
-	text-align: left;
+	margin: 10px 30px 10px 0;
+	padding: 6px 20px;
 	width: 100%;
+	box-shadow: 0 3px 5px rgba(0,0,0,0.22);
+}
+.room-creation-input-container {
+	display: flex;
+	background-color: #454545;
+	border: solid 3px #454545;
+	border-radius: 5px;
+	justify-content: space-between;
+	margin: 10px 30px 10px 0;
+	padding: 12px 20px;
+	box-shadow: 0 3px 5px rgba(0,0,0,0.22);
 }
 .room-item:focus {
 	outline:0;
 }
 .room-item-info-container {
 	display: flex;
-	align-items: center;
+	flex-direction: column;
 }
 .room-item-info {
 	margin: 5px 0;
 }
-.room-item-separator {
-	width: 3px;
-	height: 27px;
-	background-color: #eb4d4b;
-	border-radius: 5px;
-	margin: 0 20px;
-}
-.room-list-title {
-	background-color: #454545;
+.room-list-title,
+.room-creation-title,
+.room-info-title {
 	color: #eb4d4b;
-	border-radius: 5px;
 	font-family: 'Open Sans', sans-serif;
 	font-size: 30px;
 	letter-spacing: 1px;
-	margin: 10px 0;
-	padding: 20px 40px;
+	padding: 20px 0px;
 	width: max-content;
 }
+.player-list {
+	display: flex;
+	flex-direction: column;
+}
+.player-item {
+	background-color: #454545;
+	border-radius: 5px;
+	color: #EFF1F3;
+	font-family: 'Open Sans', sans-serif;
+	font-size: 20px;
+	padding: 12px 20px;
+	margin: 10px 0;
+	width: max-content;
+	box-shadow: 0 3px 5px rgba(0,0,0,0.22);
+}
 input {
-	background-color: #d3d0d0;
+	background-color: #EFF1F3;
 	border-radius: 5px;
 	border: solid 3px #454545;
 	color: #eb4d4b;
@@ -235,6 +273,9 @@ input:focus {
 input::placeholder {
 	color: #aaa4a4;
 }
+.room-creation-text-input {
+	margin: 0;
+}
 .generic-button {
 	background-color: #eb4d4b;
 	border: solid 1px #383838;
@@ -246,11 +287,10 @@ input::placeholder {
 	font-size: 22px;
 	font-weight: 600;
 	letter-spacing: 0.05em;
-	margin-bottom: 3px;
-	padding: 13px 22px;
+	padding: 10px 15px;
 	text-transform: uppercase;
 	transition: 0.1s;
-	width: 120px;
+	min-width: 135px;
 }
 .generic-button:disabled {
 	opacity: 0.7;
@@ -260,7 +300,10 @@ input::placeholder {
 	margin-top: 4px;
 }
 
-/* Game */
+/* ==========================================================================
+   Game
+   ========================================================================== */
+
 .game-container {
 	background-color: #383838;
 	border-radius: 5px;
@@ -280,7 +323,10 @@ input::placeholder {
 	display: none;
 }
 
-/* Board */
+/* ==========================================================================
+   Board
+   ========================================================================== */
+
 .board-container {
 	background-color: #383838;
 	border-radius: 5px;
@@ -320,7 +366,10 @@ input::placeholder {
 	margin-bottom: 30px;
 }
 
-/* Score */
+/* ==========================================================================
+   Stats
+   ========================================================================== */
+
 .stats-container {
 	display: flex;
 	flex-direction: column;
@@ -342,9 +391,10 @@ input::placeholder {
 	overflow-x: auto;
 	padding: 15px;
 	position: relative;
+	height: 27px;
 }
 .player-base-info-label {
-	color: #d3d0d0;
+	color: #EFF1F3;
 	font-family: 'Open Sans', sans-serif;
 	font-size: 20px;
 	font-weight: 600;
@@ -362,7 +412,7 @@ input::placeholder {
 	padding: 15px;
 }
 .score-label {
-	color: #d3d0d0;
+	color: #EFF1F3;
 	font-family: 'Open Sans', sans-serif;
 	font-size: 26px;
 	font-weight: 600;
@@ -373,7 +423,10 @@ input::placeholder {
 	letter-spacing: 2px;
 }
 
-/* Spectrums */
+/* ==========================================================================
+   Spectrums
+   ========================================================================== */
+
 .spectrums-container {
 	display: flex;
 	flex-wrap: wrap;
