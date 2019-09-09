@@ -18,6 +18,11 @@ const reducer = (state = initialState, action) => {
         currentStep: 'game',
         didGameStart: true,
       };
+    case `${msgType.CLIENT.LEAVE_ROOM}_SUCCESS`:
+      return {
+        ...state,
+        currentStep: 'lobby',
+      };
     default:
       return state;
   }
