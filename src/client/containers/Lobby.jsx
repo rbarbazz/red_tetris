@@ -17,8 +17,8 @@ import LoadingIcon from '../components/LoadingIcon';
 
 const mapStateToProps = state => ({
   currentPlayerType: state.lobby.currentPlayerType,
-  currentRoomList: state.lobby.currentRoomList,
-  currentRoomPlayerList: state.lobby.currentRoomPlayerList,
+  roomList: state.lobby.roomList,
+  playerList: state.lobby.playerList,
   currentStep: state.lobby.currentStep,
   isInRoom: state.lobby.isInRoom,
   playerName: state.lobby.playerName,
@@ -34,8 +34,8 @@ const mapDispatchToProps = dispatch => (
 
 export const Lobby = ({
   currentPlayerType,
-  currentRoomList,
-  currentRoomPlayerList,
+  roomList,
+  playerList,
   currentStep,
   handlePlayerNameSelection,
   handleroomNameSelection,
@@ -63,8 +63,8 @@ export const Lobby = ({
       return (
         <RoomNameInput
           currentPlayerType={currentPlayerType}
-          currentRoomList={currentRoomList}
-          currentRoomPlayerList={currentRoomPlayerList}
+          roomList={roomList}
+          playerList={playerList}
           errorMessage={errorMessage}
           handleroomNameSelection={handleroomNameSelection}
           isInRoom={isInRoom}

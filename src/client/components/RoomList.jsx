@@ -6,7 +6,7 @@ import { roomState } from '../../common/enums';
 
 
 const RoomList = ({
-  currentRoomList,
+  roomList,
   isInRoom,
   roomName,
   submitRoomName,
@@ -20,37 +20,33 @@ const RoomList = ({
       )}
     </div>
     <div className="room-list-items-container">
-      {currentRoomList.length > 0
+      {roomList.length > 0
       && (
-        currentRoomList.map((roomItem, index) => {
-          const busySlots = roomItem.slots[1] - roomItem.slots[0];
-          const roomStatus = roomItem.state === roomState.FREE ? 'In Lobby' : 'In Game ';
-          return (
-            <div
-              className="room-item"
-              key={`room-item-${index.toString()}`}
-              style={roomName === roomItem.name ? { borderColor: '#eb4d4b' } : {}}
-            >
-              <div className="room-item-info-container">
-                <div className="room-item-info" style={{ color: '#eb4d4b' }}>{roomItem.name}</div>
-                <div className="room-item-info">{roomStatus}</div>
-                <div className="room-item-info">{`Slots ${busySlots}/${roomItem.slots[1]}`}</div>
-              </div>
-              {!isInRoom && roomItem.slots[0] > 0
-              && (
-              <button
-                type="submit"
-                className="generic-button"
-                onClick={() => submitRoomName(roomItem.name)}
-              >
-                Join
-              </button>
-              )}
+        roomList.map((roomItem, index) => (
+          <div
+            className="room-item"
+            key={`room-item-${index.toString()}`}
+            style={roomName === roomItem.name ? { borderColor: '#eb4d4b' } : {}}
+          >
+            <div className="room-item-info-container">
+              <div className="room-item-info" style={{ color: '#eb4d4b' }}>{roomItem.name}</div>
+              <div className="room-item-info">{roomItem.state === roomState.FREE ? 'In Lobby' : 'In Game'}</div>
+              <div className="room-item-info">{`Slots ${roomItem.slots[1]}/${roomItem.slots[2]}`}</div>
             </div>
-          );
-        })
+            {!isInRoom && roomItem.slots[0] > 0
+            && (
+            <button
+              type="submit"
+              className="generic-button"
+              onClick={() => submitRoomName(roomItem.name)}
+            >
+              Join
+            </button>
+            )}
+          </div>
+        ))
       )}
-      {currentRoomList.length === 0
+      {roomList.length === 0
       && (
         <div className="room-item">
           <div className="room-item-info-container">
@@ -63,11 +59,11 @@ const RoomList = ({
 );
 
 export const propTypes = {
-  currentRoomList: PropTypes.arrayOf(PropTypes.exact({
+  roomList: PropTypes.arrayOf(PropTypes.shape({
     name: PropTypes.string,
-    players: PropTypes.arrayOf(PropTypes.exact({
-      playerName: PropTypes.string,
-      playerType: PropTypes.string,
+    players: PropTypes.arrayOf(PropTypes.shape({
+      name: PropTypes.string,
+      type: PropTypes.string,
     })),
     slots: PropTypes.arrayOf(PropTypes.number),
     state: PropTypes.string,
@@ -79,7 +75,7 @@ export const propTypes = {
 RoomList.propTypes = propTypes;
 
 export const defaultProps = {
-  currentRoomList: [],
+  roomList: [],
   isInRoom: false,
   roomName: '',
   submitRoomName: lobbyActions.submitRoomName,

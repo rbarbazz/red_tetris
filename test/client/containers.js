@@ -171,7 +171,7 @@ export default () => describe('Containers', () => {
     it('should get the correct props from mapStateToProps and mapDispatchToProps', () => {
       const initialState = {
         lobby: {
-          currentRoomList: [],
+          roomList: [],
           currentStep: 'playerNameSelection',
           playerName: '',
           roomName: '',
@@ -180,7 +180,7 @@ export default () => describe('Containers', () => {
       const store = mockStore(initialState);
       const connectedWrapper = shallow(<ConnectedLobby store={store} />).dive();
 
-      expect(connectedWrapper.props().currentRoomList).to.deep.equal([]);
+      expect(connectedWrapper.props().roomList).to.deep.equal([]);
       expect(connectedWrapper.props().currentStep).to.equal('playerNameSelection');
       expect(connectedWrapper.props().playerName).to.equal('');
       expect(connectedWrapper.props().roomName).to.equal('');

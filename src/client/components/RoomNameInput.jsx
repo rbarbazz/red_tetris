@@ -9,27 +9,11 @@ RoomList,
 { propTypes as RoomListPropTypes, defaultProps as RoomListDefaultProps }
   from './RoomList';
 
-const testRoomList = [{
-  name: 'short',
-  players: ['raph', 'someoneelse', 'tall guy'],
-  slots: [3, 8],
-  state: 'FREE',
-}, {
-  name: 'wwwwwwwwwwwwwww',
-  players: ['raph', 'someoneelse', 'tall guy'],
-  slots: [6, 8],
-  state: 'FREE',
-}, {
-  name: 'inbetween',
-  players: ['raph', 'someoneelse', 'tall guy'],
-  slots: [1, 8],
-  state: 'BUSY',
-}];
 
 const RoomNameInput = ({
   currentPlayerType,
-  currentRoomList,
-  currentRoomPlayerList,
+  roomList,
+  playerList,
   isInRoom,
   errorMessage,
   handleroomNameSelection,
@@ -48,7 +32,7 @@ const RoomNameInput = ({
     <div key="room-selection-container" className="room-selection-container">
       <div className="room-selection-left-side">
         <RoomList
-          currentRoomList={roomObject === undefined ? currentRoomList : [roomObject]}
+          roomList={roomObject === undefined ? roomList : [roomObject]}
           isInRoom={isInRoom}
           roomName={roomName}
           submitRoomName={submitRoomName}
@@ -82,14 +66,14 @@ const RoomNameInput = ({
         <div className="room-info-container">
           <div className="room-info-title">Player List</div>
           <div className="player-list">
-            {currentRoomPlayerList.length > 0
+            {playerList.length > 0
             && (
-              currentRoomPlayerList.map((element, index) => (
+              playerList.map((element, index) => (
                 <div
                   key={`player-item-${index.toString()}`}
                   className="player-item"
                 >
-                  {element.playerName}
+                  {element.name}
                 </div>
               ))
             )}
@@ -125,9 +109,9 @@ const RoomNameInput = ({
 export const propTypes = {
   ...RoomListPropTypes,
   currentPlayerType: PropTypes.string,
-  currentRoomPlayerList: PropTypes.arrayOf(PropTypes.exact({
-    playerName: PropTypes.string,
-    playerType: PropTypes.string,
+  playerList: PropTypes.arrayOf(PropTypes.shape({
+    name: PropTypes.string,
+    type: PropTypes.string,
   })),
   errorMessage: PropTypes.string,
   handleroomNameSelection: PropTypes.func,
@@ -140,7 +124,7 @@ RoomNameInput.propTypes = propTypes;
 export const defaultProps = {
   ...RoomListDefaultProps,
   currentPlayerType: playerType.NONE,
-  currentRoomPlayerList: [],
+  playerList: [],
   errorMessage: '',
   handleroomNameSelection: lobbyActions.handleroomNameSelection,
   leaveRoom: lobbyActions.leaveRoom,

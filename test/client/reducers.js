@@ -62,7 +62,7 @@ export default () => describe('Reducers', () => {
       currentStep: 'playerNameSelection',
       playerName: '',
       roomName: '',
-      currentRoomList: [],
+      roomList: [],
     };
 
     it('should return the initial state', () => {

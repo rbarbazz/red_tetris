@@ -97,18 +97,18 @@ export default () => describe('Components', () => {
       expect(wrapper.find('.input-submit-container > button').text()).to.equal('Create');
     });
 
-    it('should render <RoomNameInput currentRoomList={Array(3)} />', () => {
-      const currentRoomList = ['room1', 'room2', 'room3'];
-      const wrapper = shallow(<RoomNameInput currentRoomList={currentRoomList} />);
+    it('should render <RoomNameInput roomList={Array(3)} />', () => {
+      const roomList = ['room1', 'room2', 'room3'];
+      const wrapper = shallow(<RoomNameInput roomList={roomList} />);
 
       expect(wrapper.exists('.room-list-container')).to.equal(true);
     });
 
-    it('should render <RoomNameInput currentRoomList={Array(3)} roomName={Array[0]} />', () => {
-      const currentRoomList = ['room1', 'room2', 'room3'];
+    it('should render <RoomNameInput roomList={Array(3)} roomName={Array[0]} />', () => {
+      const roomList = ['room1', 'room2', 'room3'];
       const wrapper = shallow(
         <RoomNameInput
-          currentRoomList={currentRoomList}
+          roomList={roomList}
           roomName="room3"
         />,
       );
@@ -118,11 +118,11 @@ export default () => describe('Components', () => {
 
     it('should simulate click and call handleroomNameSelection', () => {
       const onButtonClick = sinon.spy();
-      const currentRoomList = ['room1', 'room2', 'room3'];
+      const roomList = ['room1', 'room2', 'room3'];
       const wrapper = shallow(
         <RoomNameInput
           handleroomNameSelection={onButtonClick}
-          currentRoomList={currentRoomList}
+          roomList={roomList}
         />,
       );
 
@@ -132,11 +132,11 @@ export default () => describe('Components', () => {
 
     it('should simulate change and call handleroomNameSelection', () => {
       const onInputChange = sinon.spy();
-      const currentRoomList = ['room1', 'room2', 'room3'];
+      const roomList = ['room1', 'room2', 'room3'];
       const wrapper = shallow(
         <RoomNameInput
           handleroomNameSelection={onInputChange}
-          currentRoomList={currentRoomList}
+          roomList={roomList}
         />,
       );
 
