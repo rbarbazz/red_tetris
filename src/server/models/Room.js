@@ -1,11 +1,13 @@
 import * as dbg from '../../common/devLog';
-import { roomState } from '../../common/enums';
+import { roomState, playerType } from '../../common/enums';
 
 export default class Room {
-  constructor(name, slots) {
+  constructor(lobby, name, slots) {
+    this._lobby = lobby; // Back link to lobby
     this._name = name;
     this.state = roomState.FREE;
     this._players = []; // In order of arrival
+    this._spectators = []; // Order does not matter
     this.slots = slots;
   }
 
@@ -22,10 +24,14 @@ export default class Room {
   }
 
   addPlayer(player) {
-    if (this.freeSlots() === 0) {
+    if (this.state === roomState.FREE && this.freeSlots() === 0) {
       return false;
     }
-    this._players.push(player);
+    if (this.state === roomState.BUSY) {
+      this._spectators.push(player);
+    } else {
+      this._players.push(player);
+    }
     return true;
   }
 
@@ -34,7 +40,7 @@ export default class Room {
     if (toRm !== -1) {
       this._players.splice(toRm, 1);
       if (this._players.length === 0) {
-        player.deleteRoom(this._name);
+        this._lobby.deleteRoom(this._name);
       }
       return true;
     }
@@ -53,6 +59,20 @@ export default class Room {
       return true;
     }
     return false;
+  }
+
+  isSpectator(player) {
+    return this._spectators.findIndex(p => player.id === p.id) !== -1;
+  }
+
+  getPlayerType(player) {
+    if (this.isMaster(player)) {
+      return playerType.MASTER;
+    }
+    if (this.isSpectator(player)) {
+      return playerType.SPECTATOR;
+    }
+    return playerType.SLAVE;
   }
 
   start(player) {
