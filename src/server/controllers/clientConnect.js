@@ -3,11 +3,15 @@ import * as comm from '../../common/sockWrapper';
 import { eventType, msgType, CONFIG } from '../../common/enums';
 import { lobby, timeline } from '../models/Env';
 
-export function sendLobbyToClients(msg) {
-  const payload = lobby.serialize();
-  Object.values(lobby.players).forEach(player => (
-    comm.sendRequest(player.socket, eventType.LOBBY, msgType.SERVER.LOBBY_DATA, payload, msg)
-  ));
+export function sendLobbyToClients() {
+  if (timeline.length > 0) {
+    const payload = lobby.serialize();
+    const msg = timeline;
+    Object.values(lobby.players).forEach(player => (
+      comm.sendRequest(player.socket, eventType.LOBBY, msgType.SERVER.LOBBY_DATA, payload, msg)
+    ));
+    timeline.splice(0, -1);
+  }
 }
 
 export function clientJoinRoom(sock, data) {
@@ -39,7 +43,7 @@ export function clientJoinRoom(sock, data) {
     return false;
   }
   comm.sendResponse(sock, eventType.LOBBY, data.type,
-    { playerName: player.name, roomName, type: player.type });
+    { playerName: player.name, roomName, playerType: player.type });
   return true;
 }
 
@@ -76,6 +80,9 @@ export function clientConnectRoom(sock, data) {
     comm.sendError(sock, eventType.LOBBY, data.type, 'Room is full');
     return false;
   }
+  timeline.push(`Player ${player.name} join room: ${roomName}`);
+  comm.sendResponse(sock, eventType.LOBBY, data.type,
+    { playerName, roomName, playerType: player.type });
   return true;
 }
 
@@ -95,7 +102,7 @@ export function clientLeaveRoom(sock, data) {
   // Leave the room
   player.leaveRoom();
   timeline.push(`Player ${player.name} left room: ${roomName}`);
-  comm.sendResponse(sock, eventType.LOBBY, data.type, { });
+  comm.sendResponse(sock, eventType.LOBBY, data.type, {});
   return true;
 }
 
