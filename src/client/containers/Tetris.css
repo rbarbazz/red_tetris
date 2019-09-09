@@ -103,7 +103,7 @@ html, body {
 }
 .room-selection-container {
 	display: flex;
-	justify-content: space-between;
+	justify-content: space-evenly;
 	margin-bottom: 50px;
 }
 .room-selection-wrapper {
@@ -165,7 +165,6 @@ html, body {
 	display: flex;
 	flex-direction: column;
 	width: 100%;
-	margin-left: 50px;
 }
 .room-list-container {
 	max-height: 630px;
