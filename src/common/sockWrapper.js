@@ -9,12 +9,12 @@ export function sendError(socket, event, type, msg = '') {
   const msgType = `${type}_ERROR`;
   emitMessage(socket, event, {
     type: msgType,
-    msg,
+    msg: [msg],
     payload: {},
   });
 }
 
-export function sendResponse(socket, event, type, payload, msg = '') {
+export function sendResponse(socket, event, type, payload, msg = []) {
   const msgType = `${type}_SUCCESS`;
   emitMessage(socket, event, {
     type: msgType,
@@ -23,7 +23,7 @@ export function sendResponse(socket, event, type, payload, msg = '') {
   });
 }
 
-export function sendRequest(socket, event, type, payload, msg = '') {
+export function sendRequest(socket, event, type, payload, msg = []) {
   emitMessage(socket, event, {
     type,
     msg,

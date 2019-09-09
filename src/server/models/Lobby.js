@@ -85,7 +85,7 @@ export default class Lobby {
       return 'Room already exist';
     }
     if (this.freeSlots() === 0) {
-      return 'Room is full';
+      return 'No slot available for a new room';
     }
     this._rooms[name] = new Room(name, slots);
     return null;
@@ -117,7 +117,9 @@ export default class Lobby {
       name: room.name,
       slots: [room.freeSlots(), room.slots],
       state: room.state,
-      players: Object.values(room.players).map(player => player.name),
+      players: Object.values(room.players).map(player => (
+        { playerName: player.name, playerType: player.type }
+      )),
     }));
     return data;
   }
