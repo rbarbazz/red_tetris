@@ -346,26 +346,6 @@ input::placeholder {
 	height: 28.5px;
 	width: 28.5px;
 }
-.board-waiting-screen {
-	background-color: #454545;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	height: 100%;
-	flex-direction: column;
-	position: absolute;
-	width: 100%;
-}
-.board-waiting-message {
-	color: #eb4d4b;
-	font-family: 'Open Sans', sans-serif;
-	font-size: 21px;
-	letter-spacing: 1.5px;
-	font-weight: 600;
-}
-.board-waiting-message.owner-message {
-	margin-bottom: 30px;
-}
 
 /* ==========================================================================
    Stats

@@ -1,5 +1,5 @@
 import { STORE_PLAYER_NAME, STORE_ROOM } from '../actions/lobby';
-import { msgType } from '../../common/enums';
+import { msgType, playerType } from '../../common/enums';
 
 const initialState = {
   currentRoomList: [],
@@ -7,6 +7,7 @@ const initialState = {
   currentStep: 'playerNameSelection',
   isInRoom: false,
   playerName: '',
+  currentPlayerType: playerType.NONE,
   roomName: '',
   errorMessage: '',
 };
@@ -52,6 +53,7 @@ const reducer = (state = initialState, action) => {
         currentStep: 'roomNameSelection',
         isInRoom: true,
         roomName: action.payload.roomName,
+        currentPlayerType: action.payload.playerType,
       };
     case `${msgType.CLIENT.JOIN_ROOM}_ERROR`:
       return {
@@ -60,9 +62,20 @@ const reducer = (state = initialState, action) => {
         errorMessage: action.msg,
         roomName: action.payload.roomName,
       };
+    case msgType.CLIENT.LEAVE_ROOM:
+      return { ...state, currentStep: 'loading' };
+    case `${msgType.CLIENT.LEAVE_ROOM}_SUCCESS`:
+      return {
+        ...state,
+        currentPlayerType: playerType.NONE,
+        currentStep: 'roomNameSelection',
+        isInRoom: false,
+        roomName: '',
+      };
     case `${msgType.CLIENT.CONNECT_TO_ROOM}_SUCCESS`:
       return {
         ...state,
+        currentPlayerType: action.payload.playerType,
         currentStep: 'roomNameSelection',
         isInRoom: true,
         playerName: action.payload.playerName,

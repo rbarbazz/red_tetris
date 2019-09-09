@@ -4,13 +4,19 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
 import * as lobbyActions from '../actions/lobby';
-import PlayerNameInput from '../components/PlayerNameInput';
-import RoomNameInput from '../components/RoomNameInput';
+import
+RoomNameInput,
+{ propTypes as RoomNameInputPropTypes, defaultProps as RoomNameInputDefaultProps }
+  from '../components/RoomNameInput';
+import
+PlayerNameInput,
+{ propTypes as PlayerNameInputPropTypes, defaultProps as PlayerNameInputDefaultProps }
+  from '../components/PlayerNameInput';
 import LoadingIcon from '../components/LoadingIcon';
 
 
 const mapStateToProps = state => ({
-  currPlayerType: state.tetris.playerType,
+  currentPlayerType: state.lobby.currentPlayerType,
   currentRoomList: state.lobby.currentRoomList,
   currentRoomPlayerList: state.lobby.currentRoomPlayerList,
   currentStep: state.lobby.currentStep,
@@ -26,12 +32,12 @@ const mapDispatchToProps = dispatch => (
 );
 
 export const Lobby = ({
+  currentPlayerType,
   currentRoomList,
   currentRoomPlayerList,
+  currentStep,
   handlePlayerNameSelection,
   handleroomNameSelection,
-  currPlayerType,
-  currentStep,
   errorMessage,
   isInRoom,
   leaveRoom,
@@ -54,6 +60,7 @@ export const Lobby = ({
     case 'roomNameSelection':
       return (
         <RoomNameInput
+          currentPlayerType={currentPlayerType}
           currentRoomList={currentRoomList}
           currentRoomPlayerList={currentRoomPlayerList}
           errorMessage={errorMessage}
@@ -62,7 +69,6 @@ export const Lobby = ({
           leaveRoom={leaveRoom}
           ownerIsReady={ownerIsReady}
           playerName={playerName}
-          currPlayerType={currPlayerType}
           roomName={roomName}
           submitRoomName={submitRoomName}
         />
@@ -73,37 +79,14 @@ export const Lobby = ({
 };
 
 Lobby.propTypes = {
-  currentRoomList: PropTypes.arrayOf(PropTypes.exact({
-    name: PropTypes.string,
-    players: PropTypes.arrayOf(PropTypes.string),
-    slots: PropTypes.arrayOf(PropTypes.number),
-    state: PropTypes.string,
-  })),
-  currentRoomPlayerList: PropTypes.arrayOf(PropTypes.string),
+  ...RoomNameInputPropTypes,
+  ...PlayerNameInputPropTypes,
   currentStep: PropTypes.string,
-  errorMessage: PropTypes.string,
-  handlePlayerNameSelection: PropTypes.func,
-  handleroomNameSelection: PropTypes.func,
-  isInRoom: PropTypes.bool,
-  leaveRoom: PropTypes.func,
-  playerName: PropTypes.string,
-  roomName: PropTypes.string,
-  submitPlayerName: PropTypes.func,
-  submitRoomName: PropTypes.func,
 };
 Lobby.defaultProps = {
-  currentRoomList: [],
-  currentRoomPlayerList: [],
+  ...RoomNameInputDefaultProps,
+  ...PlayerNameInputDefaultProps,
   currentStep: 'playerNameSelection',
-  errorMessage: '',
-  handlePlayerNameSelection: lobbyActions.handlePlayerNameSelection,
-  handleroomNameSelection: lobbyActions.handleroomNameSelection,
-  isInRoom: false,
-  leaveRoom: lobbyActions.leaveRoom,
-  playerName: '',
-  roomName: '',
-  submitPlayerName: lobbyActions.submitPlayerName,
-  submitRoomName: lobbyActions.submitRoomName,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Lobby);

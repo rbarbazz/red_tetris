@@ -213,7 +213,7 @@ export default () => describe('Containers', () => {
         board: Array(200).fill(0),
         tetris: {
           didGameStart: false,
-          currPlayerType: playerType.NONE,
+          currentPlayerType: playerType.NONE,
         },
       };
       const store = mockStore(initialState);
@@ -221,7 +221,7 @@ export default () => describe('Containers', () => {
 
       expect(connectedWrapper.props().board).to.deep.equal(Array(200).fill(0));
       expect(connectedWrapper.props().didGameStart).to.equal(false);
-      expect(connectedWrapper.props().currPlayerType).to.equal(playerType.NONE);
+      expect(connectedWrapper.props().currentPlayerType).to.equal(playerType.NONE);
       expect(connectedWrapper.props().ownerIsReady).to.be.instanceOf(Function);
     });
   });

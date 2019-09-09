@@ -24,15 +24,15 @@ export default () => describe('Components', () => {
   });
 
   describe('BoardWaitingScreen', () => {
-    it('should render <BoardWaitingScreen currPlayerType={playerType.MASTER} />', () => {
-      const wrapper = shallow(<BoardWaitingScreen currPlayerType={playerType.MASTER} />);
+    it('should render <BoardWaitingScreen currentPlayerType={playerType.MASTER} />', () => {
+      const wrapper = shallow(<BoardWaitingScreen currentPlayerType={playerType.MASTER} />);
 
       expect(wrapper.exists()).to.equal(true);
       expect(wrapper.exists('.board-waiting-message.owner-message')).to.equal(true);
     });
 
-    it('should render <BoardWaitingScreen currPlayerType={playerType.SLAVE} />', () => {
-      const wrapper = shallow(<BoardWaitingScreen currPlayerType={playerType.SLAVE} />);
+    it('should render <BoardWaitingScreen currentPlayerType={playerType.SLAVE} />', () => {
+      const wrapper = shallow(<BoardWaitingScreen currentPlayerType={playerType.SLAVE} />);
 
       expect(wrapper.exists()).to.equal(true);
       expect(wrapper.exists('.board-waiting-screen')).to.equal(true);

@@ -56,17 +56,20 @@ const PlayerNameInput = ({
   </div>
 );
 
-PlayerNameInput.propTypes = {
+export const propTypes = {
   errorMessage: PropTypes.string,
   handlePlayerNameSelection: PropTypes.func,
   playerName: PropTypes.string,
   submitPlayerName: PropTypes.func,
 };
-PlayerNameInput.defaultProps = {
+PlayerNameInput.propTypes = propTypes;
+
+export const defaultProps = {
   errorMessage: '',
   handlePlayerNameSelection: lobbyActions.handlePlayerNameSelection,
   playerName: '',
   submitPlayerName: lobbyActions.submitPlayerName,
 };
+PlayerNameInput.defaultProps = defaultProps;
 
 export default PlayerNameInput;

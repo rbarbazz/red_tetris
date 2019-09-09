@@ -23,6 +23,7 @@ const testRoomList = [{
 }];
 
 const RoomNameInput = ({
+  currentPlayerType,
   currentRoomList,
   currentRoomPlayerList,
   isInRoom,
@@ -31,7 +32,6 @@ const RoomNameInput = ({
   leaveRoom,
   ownerIsReady,
   playerName,
-  currPlayerType,
   roomName,
   submitRoomName,
 }) => (
@@ -138,7 +138,7 @@ const RoomNameInput = ({
                 Leave
               </button>
             )}
-            {currPlayerType === playerType.MASTER
+            {currentPlayerType === playerType.MASTER
               && (
               <button
                 type="button"
@@ -155,32 +155,45 @@ const RoomNameInput = ({
   </div>
 );
 
-RoomNameInput.propTypes = {
+export const propTypes = {
+  currentPlayerType: PropTypes.string,
   currentRoomList: PropTypes.arrayOf(PropTypes.exact({
     name: PropTypes.string,
-    players: PropTypes.arrayOf(PropTypes.string),
+    players: PropTypes.arrayOf(PropTypes.exact({
+      playerName: PropTypes.string,
+      playerType: PropTypes.string,
+    })),
     slots: PropTypes.arrayOf(PropTypes.number),
     state: PropTypes.string,
   })),
-  currentRoomPlayerList: PropTypes.arrayOf(PropTypes.string),
+  currentRoomPlayerList: PropTypes.arrayOf(PropTypes.exact({
+    playerName: PropTypes.string,
+    playerType: PropTypes.string,
+  })),
   errorMessage: PropTypes.string,
   handleroomNameSelection: PropTypes.func,
   isInRoom: PropTypes.bool,
   leaveRoom: PropTypes.func,
+  ownerIsReady: PropTypes.func,
   roomName: PropTypes.string,
   playerName: PropTypes.string,
   submitRoomName: PropTypes.func,
 };
-RoomNameInput.defaultProps = {
+RoomNameInput.propTypes = propTypes;
+
+export const defaultProps = {
+  currentPlayerType: playerType.NONE,
   currentRoomList: [],
   currentRoomPlayerList: [],
   errorMessage: '',
   handleroomNameSelection: lobbyActions.handleroomNameSelection,
   isInRoom: false,
   leaveRoom: lobbyActions.leaveRoom,
+  ownerIsReady: lobbyActions.ownerIsReady,
   roomName: '',
   playerName: '',
   submitRoomName: lobbyActions.submitRoomName,
 };
+RoomNameInput.defaultProps = defaultProps;
 
 export default RoomNameInput;
