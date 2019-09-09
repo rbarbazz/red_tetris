@@ -5,6 +5,7 @@ import {
   sendLobbyToClients, clientDisconnect,
   clientConnectLobby, clientConnectRoom,
   clientJoinRoom, clientLeaveRoom,
+  clientStartParty,
 } from './clientConnect';
 
 function onLobbyEvent(socket, data) {
@@ -18,6 +19,10 @@ function onLobbyEvent(socket, data) {
     clientJoinRoom(socket, data);
   } else if (data.type === msgType.CLIENT.LEAVE_ROOM) {
     clientLeaveRoom(socket, data);
+  } else if (data.type === msgType.CLIENT.START_PARTY) {
+    clientStartParty(socket, data);
+  } else {
+    dbg.error(`Unknown msgType: ${data.type}`);
   }
 }
 

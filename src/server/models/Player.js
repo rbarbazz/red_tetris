@@ -6,8 +6,18 @@ export default class Player {
     this._lobby = lobby; // Back link to lobby
     this._name = name;
     this._sock = sock;
-    this.type = playerType.NONE;
+    this._type = playerType.NONE;
     this._room = null;
+  }
+
+  get type() {
+    if (this._room === null) {
+      return playerType.NONE;
+    }
+    if (this._room.isMaster(this)) {
+      return playerType.MASTER;
+    }
+    return playerType.SLAVE;
   }
 
   get name() {
@@ -30,13 +40,6 @@ export default class Player {
     if (!room.addPlayer(this)) {
       return false;
     }
-    if (room.master !== null) {
-      if (this.id === room.master.id) {
-        this.type = playerType.MASTER;
-      } else {
-        this.type = playerType.SLAVE;
-      }
-    }
     this._room = room;
     return true;
   }
@@ -44,7 +47,6 @@ export default class Player {
   leaveRoom() {
     this._room.removePlayer(this);
     this._room = null;
-    this.type = playerType.NONE;
   }
 
   deleteRoom(room) {
