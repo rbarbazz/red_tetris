@@ -21,16 +21,16 @@ export default class Lobby {
     return this._slots;
   }
 
+  freeSlots() {
+    return this._slots - Object.keys(this._players).length;
+  }
+
   get players() {
     return this._players;
   }
 
   get rooms() {
     return this._rooms;
-  }
-
-  freeSlots() {
-    return this._slots - Object.keys(this._players).length;
   }
 
   addPlayer(sock, name) {
@@ -46,7 +46,7 @@ export default class Lobby {
     if (this.hasPlayerName(name)) {
       return 'Nickname alredy taken';
     }
-    this._players[sock.id] = new Player(this, name, sock);
+    this._players[sock.id] = new Player(name, sock);
     return null;
   }
 
@@ -55,7 +55,8 @@ export default class Lobby {
   }
 
   hasPlayerName(name) {
-    return Object.values(this._players).findIndex(player => player.name === name) !== -1;
+    return Object.values(this._players)
+      .findIndex(player => player.name === name) !== -1;
   }
 
   getPlayer(id) {
@@ -87,7 +88,7 @@ export default class Lobby {
     if (this.freeSlots() === 0) {
       return 'No slot available for a new room';
     }
-    this._rooms[name] = new Room(name, slots);
+    this._rooms[name] = new Room(this, name, slots);
     return null;
   }
 
@@ -112,7 +113,9 @@ export default class Lobby {
 
   serialize() {
     const data = {};
-    data.players = Object.values(this._players).map(v => v.name);
+    data.players = Object.values(this._players).map(player => (
+      { playerName: player.name }
+    ));
     data.rooms = Object.values(this._rooms).map(room => ({
       name: room.name,
       slots: [room.freeSlots(), room.slots],

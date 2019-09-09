@@ -2,8 +2,7 @@ import * as dbg from '../../common/devLog';
 import { playerType } from '../../common/enums';
 
 export default class Player {
-  constructor(lobby, name, sock) {
-    this._lobby = lobby; // Back link to lobby
+  constructor(name, sock) {
     this._name = name;
     this._sock = sock;
     this._type = playerType.NONE;
@@ -14,10 +13,7 @@ export default class Player {
     if (this._room === null) {
       return playerType.NONE;
     }
-    if (this._room.isMaster(this)) {
-      return playerType.MASTER;
-    }
-    return playerType.SLAVE;
+    return this._room.getPlayerType(this);
   }
 
   get name() {
@@ -47,9 +43,5 @@ export default class Player {
   leaveRoom() {
     this._room.removePlayer(this);
     this._room = null;
-  }
-
-  deleteRoom(room) {
-    this._lobby.deleteRoom(room);
   }
 }
