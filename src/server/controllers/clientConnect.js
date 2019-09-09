@@ -42,6 +42,7 @@ export function clientJoinRoom(sock, data) {
     comm.sendError(sock, eventType.LOBBY, data.type, 'Room is full');
     return false;
   }
+  timeline.push(`Player ${player.name} join room: ${room.name}`);
   comm.sendResponse(sock, eventType.LOBBY, data.type);
   return true;
 }
