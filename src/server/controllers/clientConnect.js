@@ -42,8 +42,7 @@ export function clientJoinRoom(sock, data) {
     comm.sendError(sock, eventType.LOBBY, data.type, 'Room is full');
     return false;
   }
-  comm.sendResponse(sock, eventType.LOBBY, data.type,
-    { playerName: player.name, roomName, playerType: player.type });
+  comm.sendResponse(sock, eventType.LOBBY, data.type);
   return true;
 }
 
@@ -53,7 +52,7 @@ export function clientConnectLobby(sock, data) {
   if (r !== null) {
     comm.sendError(sock, eventType.LOBBY, data.type, r);
   } else {
-    comm.sendResponse(sock, eventType.LOBBY, data.type, { playerName });
+    comm.sendResponse(sock, eventType.LOBBY, data.type);
     timeline.push(`New player: ${playerName}`);
   }
 }
@@ -81,8 +80,7 @@ export function clientConnectRoom(sock, data) {
     return false;
   }
   timeline.push(`Player ${player.name} join room: ${roomName}`);
-  comm.sendResponse(sock, eventType.LOBBY, data.type,
-    { playerName, roomName, playerType: player.type });
+  comm.sendResponse(sock, eventType.LOBBY, data.type);
   return true;
 }
 
@@ -102,7 +100,7 @@ export function clientLeaveRoom(sock, data) {
   // Leave the room
   player.leaveRoom();
   timeline.push(`Player ${player.name} left room: ${roomName}`);
-  comm.sendResponse(sock, eventType.LOBBY, data.type, {});
+  comm.sendResponse(sock, eventType.LOBBY, data.type);
   return true;
 }
 
@@ -133,6 +131,6 @@ export function clientStartParty(sock, data) {
     return false;
   }
   timeline.push(`Party in room '${room.name}' has started`);
-  comm.sendResponse(sock, eventType.LOBBY, data.type, {});
+  comm.sendResponse(sock, eventType.LOBBY, data.type);
   return true;
 }

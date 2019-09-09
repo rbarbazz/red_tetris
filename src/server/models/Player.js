@@ -44,4 +44,12 @@ export default class Player {
     this._room.removePlayer(this);
     this._room = null;
   }
+
+  serialize() {
+    return {
+      name: this.name,
+      type: this.type,
+      room: (this.room === null) ? null : this.room.name,
+    };
+  }
 }

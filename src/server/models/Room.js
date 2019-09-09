@@ -82,4 +82,15 @@ export default class Room {
     this.state = roomState.BUSY;
     return null;
   }
+
+  serialize() {
+    return {
+      name: this.name,
+      state: this.state,
+      slots: [this.freeSlots(), this._players.length, this.slots],
+      master: this.master.name,
+      players: Object.values(this._players).map(v => v.serialize()),
+      spectators: Object.values(this._spectators).map(v => v.serialize()),
+    };
+  }
 }
