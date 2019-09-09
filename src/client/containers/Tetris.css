@@ -297,7 +297,7 @@ input::placeholder {
 	color: #aaa4a4;
 }
 .room-creation-text-input {
-	margin: 0;
+	margin: 5px 0;
 }
 .room-action-buttons-container {
 	display: flex;

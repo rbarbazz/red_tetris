@@ -29,7 +29,7 @@ const PlayerNameInput = ({
         classNames="error-transition"
         appear
         unmountOnExit
-        timeout={300}
+        timeout={0}
       >
         <div className="input-error-message">{errorMessage}</div>
       </CSSTransition>

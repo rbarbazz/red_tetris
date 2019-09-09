@@ -11,11 +11,14 @@ const Score = ({ score }) => (
   </div>
 );
 
-Score.propTypes = {
+export const propTypes = {
   score: PropTypes.number,
 };
-Score.defaultProps = {
+Score.propTypes = propTypes;
+
+export const defaultProps = {
   score: 0,
 };
+Score.defaultProps = defaultProps;
 
 export default Score;

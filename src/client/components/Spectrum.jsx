@@ -22,11 +22,14 @@ const Spectrum = ({ spectrums }) => (
   </div>
 );
 
-Spectrum.propTypes = {
+export const propTypes = {
   spectrums: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.number)),
 };
-Spectrum.defaultProps = {
+Spectrum.propTypes = propTypes;
+
+export const defaultProps = {
   spectrums: [],
 };
+Spectrum.defaultProps = defaultProps;
 
 export default Spectrum;

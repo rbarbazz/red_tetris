@@ -6,9 +6,18 @@ import { connect } from 'react-redux';
 import './Tetris.css';
 import ConnectedBoard from './Board';
 import ConnectedLobby from './Lobby';
-import PlayerInfo from '../components/PlayerInfo';
-import Score from '../components/Score';
-import Spectrum from '../components/Spectrum';
+import
+PlayerInfo,
+{ propTypes as PlayerInfoPropTypes, defaultProps as PlayerInfoDefaultProps }
+  from '../components/PlayerInfo';
+import
+Score,
+{ propTypes as ScorePropTypes, defaultProps as ScoreDefaultProps }
+  from '../components/Score';
+import
+Spectrum,
+{ propTypes as SpectrumPropTypes, defaultProps as SpectrumDefaultProps }
+  from '../components/Spectrum';
 import LoadingIcon from '../components/LoadingIcon';
 import * as boardActions from '../actions/board';
 import * as lobbyActions from '../actions/lobby';
@@ -27,9 +36,8 @@ const useKeyboardEvent = (callback) => {
 
 const mapStateToProps = state => ({
   currentStep: state.tetris.currentStep,
-  didGameStart: state.tetris.didGameStart,
-  playerName: state.lobby.playerName,
-  roomName: state.lobby.roomName,
+  playerName: state.tetris.playerName,
+  roomName: state.tetris.roomName,
   score: state.tetris.score,
   spectrums: state.tetris.spectrums,
 });
@@ -42,7 +50,6 @@ const mapDispatchToProps = dispatch => (
 
 export const Tetris = ({
   currentStep,
-  didGameStart,
   leaveRoom,
   moveTetrimino,
   playerName,
@@ -50,7 +57,7 @@ export const Tetris = ({
   score,
   spectrums,
 }) => {
-  if (didGameStart && currentStep === 'game') {
+  if (currentStep === 'game') {
     useKeyboardEvent((event) => {
       if ([32, 37, 38, 39, 40].includes(event.keyCode)) {
         moveTetrimino(event.code, event.type);
@@ -82,7 +89,9 @@ export const Tetris = ({
           </button>
         </div>
       );
-    case 'lobby':
+    case 'playerNameSelection':
+      return <ConnectedLobby />;
+    case 'roomNameSelection':
       return <ConnectedLobby />;
     default:
       return <LoadingIcon />;
@@ -90,22 +99,20 @@ export const Tetris = ({
 };
 
 Tetris.propTypes = {
+  ...PlayerInfoPropTypes,
+  ...ScorePropTypes,
+  ...SpectrumPropTypes,
   currentStep: PropTypes.string,
-  didGameStart: PropTypes.bool,
+  leaveRoom: PropTypes.func,
   moveTetrimino: PropTypes.func,
-  playerName: PropTypes.string,
-  roomName: PropTypes.string,
-  score: PropTypes.number,
-  spectrums: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.number)),
 };
 Tetris.defaultProps = {
+  ...PlayerInfoDefaultProps,
+  ...ScoreDefaultProps,
+  ...SpectrumDefaultProps,
   currentStep: 'loading',
-  didGameStart: false,
+  leaveRoom: lobbyActions.leaveRoom,
   moveTetrimino: boardActions.moveTetrimino,
-  roomName: '',
-  playerName: '',
-  score: 0,
-  spectrums: [],
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Tetris);

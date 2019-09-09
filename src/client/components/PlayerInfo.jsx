@@ -20,13 +20,16 @@ const PlayerInfo = ({ playerName, roomName }) => (
   </div>
 );
 
-PlayerInfo.propTypes = {
+export const propTypes = {
   roomName: PropTypes.string,
   playerName: PropTypes.string,
 };
-PlayerInfo.defaultProps = {
+PlayerInfo.propTypes = propTypes;
+
+export const defaultProps = {
   roomName: '',
   playerName: '',
 };
+PlayerInfo.defaultProps = defaultProps;
 
 export default PlayerInfo;

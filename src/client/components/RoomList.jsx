@@ -6,8 +6,8 @@ import { roomState } from '../../common/enums';
 
 
 const RoomList = ({
-  roomList,
   isInRoom,
+  roomList,
   roomName,
   submitRoomName,
 }) => (
@@ -40,7 +40,11 @@ const RoomList = ({
               className="generic-button"
               onClick={() => submitRoomName(roomItem.name)}
             >
-              Join
+              {roomItem.state === roomState.BUSY ? (
+                'Join as spectator'
+              ) : (
+                'Join'
+              )}
             </button>
             )}
           </div>
@@ -59,6 +63,7 @@ const RoomList = ({
 );
 
 export const propTypes = {
+  isInRoom: PropTypes.bool,
   roomList: PropTypes.arrayOf(PropTypes.shape({
     name: PropTypes.string,
     players: PropTypes.arrayOf(PropTypes.shape({
@@ -68,15 +73,14 @@ export const propTypes = {
     slots: PropTypes.arrayOf(PropTypes.number),
     state: PropTypes.string,
   })),
-  isInRoom: PropTypes.bool,
   roomName: PropTypes.string,
   submitRoomName: PropTypes.func,
 };
 RoomList.propTypes = propTypes;
 
 export const defaultProps = {
-  roomList: [],
   isInRoom: false,
+  roomList: [],
   roomName: '',
   submitRoomName: lobbyActions.submitRoomName,
 };

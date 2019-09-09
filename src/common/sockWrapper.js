@@ -9,7 +9,7 @@ export function sendError(socket, event, type, msg = '') {
   const msgType = `${type}_ERROR`;
   emitMessage(socket, event, {
     type: msgType,
-    msg: [msg],
+    msg,
     payload: {},
   });
 }
@@ -18,7 +18,7 @@ export function sendResponse(socket, event, type, payload = {}) {
   const msgType = `${type}_SUCCESS`;
   emitMessage(socket, event, {
     type: msgType,
-    msg: '',
+    msg: [],
     payload,
   });
 }

@@ -16,15 +16,15 @@ import LoadingIcon from '../components/LoadingIcon';
 
 
 const mapStateToProps = state => ({
-  currentPlayerType: state.lobby.currentPlayerType,
-  roomList: state.lobby.roomList,
-  playerList: state.lobby.playerList,
-  currentStep: state.lobby.currentStep,
-  isInRoom: state.lobby.isInRoom,
-  playerName: state.lobby.playerName,
-  roomName: state.lobby.roomName,
-  roomObject: state.lobby.roomObject,
-  errorMessage: state.lobby.errorMessage,
+  currentPlayerType: state.tetris.currentPlayerType,
+  currentStep: state.tetris.currentStep,
+  errorMessage: state.tetris.errorMessage,
+  isInRoom: state.tetris.isInRoom,
+  playerList: state.tetris.playerList,
+  playerName: state.tetris.playerName,
+  roomList: state.tetris.roomList,
+  roomName: state.tetris.roomName,
+  roomObject: state.tetris.roomObject,
 });
 const mapDispatchToProps = dispatch => (
   bindActionCreators({
@@ -34,16 +34,16 @@ const mapDispatchToProps = dispatch => (
 
 export const Lobby = ({
   currentPlayerType,
-  roomList,
-  playerList,
   currentStep,
+  errorMessage,
   handlePlayerNameSelection,
   handleroomNameSelection,
-  errorMessage,
   isInRoom,
   leaveRoom,
   ownerIsReady,
+  playerList,
   playerName,
+  roomList,
   roomName,
   roomObject,
   submitPlayerName,
@@ -53,24 +53,24 @@ export const Lobby = ({
     case 'playerNameSelection':
       return (
         <PlayerNameInput
+          errorMessage={errorMessage}
           handlePlayerNameSelection={handlePlayerNameSelection}
           playerName={playerName}
           submitPlayerName={submitPlayerName}
-          errorMessage={errorMessage}
         />
       );
     case 'roomNameSelection':
       return (
         <RoomNameInput
           currentPlayerType={currentPlayerType}
-          roomList={roomList}
-          playerList={playerList}
           errorMessage={errorMessage}
           handleroomNameSelection={handleroomNameSelection}
           isInRoom={isInRoom}
           leaveRoom={leaveRoom}
           ownerIsReady={ownerIsReady}
+          playerList={playerList}
           playerName={playerName}
+          roomList={roomList}
           roomName={roomName}
           roomObject={roomObject}
           submitRoomName={submitRoomName}
