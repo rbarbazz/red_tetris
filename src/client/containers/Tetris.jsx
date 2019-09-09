@@ -11,6 +11,7 @@ import Score from '../components/Score';
 import Spectrum from '../components/Spectrum';
 import LoadingIcon from '../components/LoadingIcon';
 import * as boardActions from '../actions/board';
+import * as lobbyActions from '../actions/lobby';
 
 
 const useKeyboardEvent = (callback) => {
@@ -35,12 +36,14 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => (
   bindActionCreators({
     ...boardActions,
+    ...lobbyActions,
   }, dispatch)
 );
 
 export const Tetris = ({
   currentStep,
   didGameStart,
+  leaveRoom,
   moveTetrimino,
   playerName,
   roomName,
@@ -70,6 +73,13 @@ export const Tetris = ({
               <Spectrum spectrums={spectrums} />
             </div>
           </div>
+          <button
+            type="button"
+            className="generic-button"
+            onClick={leaveRoom}
+          >
+            Leave
+          </button>
         </div>
       );
     case 'lobby':
