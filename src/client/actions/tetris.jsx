@@ -14,8 +14,3 @@ export const submitHashBasedData = (playerName, roomName) => ({
   },
   eventType: eventType.LOBBY,
 });
-
-export const ownerIsReady = () => ({
-  type: msgType.CLIENT.START_PARTY,
-  eventType: eventType.LOBBY,
-});

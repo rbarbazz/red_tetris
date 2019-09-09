@@ -24,3 +24,13 @@ export const submitRoomName = roomName => ({
   payload: { roomName },
   eventType: eventType.LOBBY,
 });
+
+export const leaveRoom = () => ({
+  type: msgType.CLIENT.LEAVE_ROOM,
+  eventType: eventType.LOBBY,
+});
+
+export const ownerIsReady = () => ({
+  type: msgType.CLIENT.START_PARTY,
+  eventType: eventType.LOBBY,
+});

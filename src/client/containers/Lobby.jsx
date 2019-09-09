@@ -10,6 +10,7 @@ import LoadingIcon from '../components/LoadingIcon';
 
 
 const mapStateToProps = state => ({
+  currPlayerType: state.tetris.playerType,
   currentRoomList: state.lobby.currentRoomList,
   currentRoomPlayerList: state.lobby.currentRoomPlayerList,
   currentStep: state.lobby.currentStep,
@@ -29,9 +30,12 @@ export const Lobby = ({
   currentRoomPlayerList,
   handlePlayerNameSelection,
   handleroomNameSelection,
+  currPlayerType,
   currentStep,
   errorMessage,
   isInRoom,
+  leaveRoom,
+  ownerIsReady,
   playerName,
   roomName,
   submitPlayerName,
@@ -55,8 +59,11 @@ export const Lobby = ({
           errorMessage={errorMessage}
           handleroomNameSelection={handleroomNameSelection}
           isInRoom={isInRoom}
-          roomName={roomName}
+          leaveRoom={leaveRoom}
+          ownerIsReady={ownerIsReady}
           playerName={playerName}
+          currPlayerType={currPlayerType}
+          roomName={roomName}
           submitRoomName={submitRoomName}
         />
       );
@@ -78,6 +85,7 @@ Lobby.propTypes = {
   handlePlayerNameSelection: PropTypes.func,
   handleroomNameSelection: PropTypes.func,
   isInRoom: PropTypes.bool,
+  leaveRoom: PropTypes.func,
   playerName: PropTypes.string,
   roomName: PropTypes.string,
   submitPlayerName: PropTypes.func,
@@ -91,6 +99,7 @@ Lobby.defaultProps = {
   handlePlayerNameSelection: lobbyActions.handlePlayerNameSelection,
   handleroomNameSelection: lobbyActions.handleroomNameSelection,
   isInRoom: false,
+  leaveRoom: lobbyActions.leaveRoom,
   playerName: '',
   roomName: '',
   submitPlayerName: lobbyActions.submitPlayerName,

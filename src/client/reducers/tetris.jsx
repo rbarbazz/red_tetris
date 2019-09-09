@@ -16,7 +16,7 @@ const reducer = (state = initialState, action) => {
     case `${msgType.CLIENT.JOIN_ROOM}_SUCCESS`:
       return {
         ...state,
-        playerType: action.payload.playerType,
+        playerType: playerType.MASTER,
       };
     case `${msgType.CLIENT.CONNECT_TO_ROOM}_SUCCESS`:
       return {

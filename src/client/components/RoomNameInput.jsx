@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import * as lobbyActions from '../actions/lobby';
-import { roomState } from '../../common/enums';
+import { roomState, playerType } from '../../common/enums';
 import PlayerInfo from './PlayerInfo';
 
 const testRoomList = [{
@@ -28,7 +28,10 @@ const RoomNameInput = ({
   isInRoom,
   errorMessage,
   handleroomNameSelection,
+  leaveRoom,
+  ownerIsReady,
   playerName,
+  currPlayerType,
   roomName,
   submitRoomName,
 }) => (
@@ -124,6 +127,28 @@ const RoomNameInput = ({
               <div className="player-item">You are not in a room</div>
             )}
           </div>
+          <React.Fragment>
+            {isInRoom
+            && (
+              <button
+                type="button"
+                className="generic-button"
+                onClick={leaveRoom}
+              >
+                Leave
+              </button>
+            )}
+            {currPlayerType === playerType.MASTER
+              && (
+              <button
+                type="button"
+                className="generic-button"
+                onClick={ownerIsReady}
+              >
+                Start
+              </button>
+              )}
+          </React.Fragment>
         </div>
       </div>
     </div>
@@ -141,6 +166,7 @@ RoomNameInput.propTypes = {
   errorMessage: PropTypes.string,
   handleroomNameSelection: PropTypes.func,
   isInRoom: PropTypes.bool,
+  leaveRoom: PropTypes.func,
   roomName: PropTypes.string,
   playerName: PropTypes.string,
   submitRoomName: PropTypes.func,
@@ -151,6 +177,7 @@ RoomNameInput.defaultProps = {
   errorMessage: '',
   handleroomNameSelection: lobbyActions.handleroomNameSelection,
   isInRoom: false,
+  leaveRoom: lobbyActions.leaveRoom,
   roomName: '',
   playerName: '',
   submitRoomName: lobbyActions.submitRoomName,
