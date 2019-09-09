@@ -10,7 +10,7 @@ export function sendLobbyToClients() {
     Object.values(lobby.players).forEach(player => (
       comm.sendRequest(player.socket, eventType.LOBBY, msgType.SERVER.LOBBY_DATA, payload, msg)
     ));
-    timeline.splice(0, -1);
+    timeline.splice(0, timeline.length);
   }
 }
 
@@ -95,7 +95,7 @@ export function clientLeaveRoom(sock, data) {
   }
   // Check if player is in this room
   if (player.room === null) {
-    comm.sendError(sock, eventType.LOBBY, data.type, 'Player not in this room');
+    comm.sendError(sock, eventType.LOBBY, data.type, 'Player not in a room');
     return false;
   }
   const roomName = player.room.name;
@@ -112,4 +112,27 @@ export function clientDisconnect(sock) {
     timeline.push(`Player left: ${player.name}`);
     lobby.deletePlayer(player.id);
   }
+}
+
+export function clientStartParty(sock, data) {
+  // Check if player exists
+  const player = lobby.getPlayer(sock.id);
+  if (player === null) {
+    comm.sendError(sock, eventType.LOBBY, data.type, 'Player not connected');
+    return false;
+  }
+  const { room } = player;
+  // Check if player is in this room
+  if (room === null) {
+    comm.sendError(sock, eventType.LOBBY, data.type, 'Player not in a room');
+    return false;
+  }
+  const r = room.start(player);
+  if (r !== null) {
+    comm.sendError(sock, eventType.LOBBY, data.type, r);
+    return false;
+  }
+  timeline.push(`Party in room '${room.name}' has started`);
+  comm.sendResponse(sock, eventType.LOBBY, data.type, {});
+  return true;
 }

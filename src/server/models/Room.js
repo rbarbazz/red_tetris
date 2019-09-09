@@ -47,4 +47,19 @@ export default class Room {
     }
     return this._players[0];
   }
+
+  isMaster(player) {
+    if (this.master !== null && this.master.id === player.id) {
+      return true;
+    }
+    return false;
+  }
+
+  start(player) {
+    if (!this.isMaster(player)) {
+      return 'Player is not master';
+    }
+    this.state = roomState.BUSY;
+    return null;
+  }
 }
