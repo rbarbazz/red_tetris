@@ -81,6 +81,29 @@ html, body {
 .three-dots-container div:last-of-type {
 	background-color: rgb(53, 203, 75);
 }
+.generic-button {
+	background-color: #eb4d4b;
+	border: solid 1px #383838;
+	border-bottom: 4px solid #c31715;
+	border-radius: 10px;
+	color: white;
+	cursor: pointer;
+	font-family: 'Open Sans', sans-serif;
+	font-size: 22px;
+	font-weight: 600;
+	letter-spacing: 0.05em;
+	padding: 10px 15px;
+	text-transform: uppercase;
+	transition: 0.1s;
+	min-width: 135px;
+}
+.generic-button:disabled {
+	opacity: 0.7;
+}
+.generic-button:hover:enabled {
+	border-bottom-width: 0;
+	margin-top: 4px;
+}
 
 /* ==========================================================================
    Lobby
@@ -126,7 +149,7 @@ html, body {
 	box-shadow: 0 3px 5px rgba(0,0,0,0.22);
 }
 .input-error-message {
-	background-color: #454545;
+	background-color: #f5a5a4;
 	border-radius: 5px;
 	color: #eb4d4b;
 	font-family: 'Open Sans', sans-serif;
@@ -276,28 +299,10 @@ input::placeholder {
 .room-creation-text-input {
 	margin: 0;
 }
-.generic-button {
-	background-color: #eb4d4b;
-	border: solid 1px #383838;
-	border-bottom: 4px solid #c31715;
-	border-radius: 10px;
-	color: white;
-	cursor: pointer;
-	font-family: 'Open Sans', sans-serif;
-	font-size: 22px;
-	font-weight: 600;
-	letter-spacing: 0.05em;
-	padding: 10px 15px;
-	text-transform: uppercase;
-	transition: 0.1s;
-	min-width: 135px;
-}
-.generic-button:disabled {
-	opacity: 0.7;
-}
-.generic-button:hover:enabled {
-	border-bottom-width: 0;
-	margin-top: 4px;
+.room-action-buttons-container {
+	display: flex;
+	justify-content: space-between;
+    margin-top: 40px;
 }
 
 /* ==========================================================================

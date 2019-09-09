@@ -31,12 +31,7 @@ const PlayerNameInput = ({
         unmountOnExit
         timeout={300}
       >
-        <div
-          className="input-error-message"
-          style={errorMessage !== '' ? { backgroundColor: '#f5a5a4' } : {}}
-        >
-          {errorMessage}
-        </div>
+        <div className="input-error-message">{errorMessage}</div>
       </CSSTransition>
       <input
         type="text"

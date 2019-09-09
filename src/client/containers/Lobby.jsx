@@ -23,6 +23,7 @@ const mapStateToProps = state => ({
   isInRoom: state.lobby.isInRoom,
   playerName: state.lobby.playerName,
   roomName: state.lobby.roomName,
+  roomObject: state.lobby.roomObject,
   errorMessage: state.lobby.errorMessage,
 });
 const mapDispatchToProps = dispatch => (
@@ -44,6 +45,7 @@ export const Lobby = ({
   ownerIsReady,
   playerName,
   roomName,
+  roomObject,
   submitPlayerName,
   submitRoomName,
 }) => {
@@ -70,6 +72,7 @@ export const Lobby = ({
           ownerIsReady={ownerIsReady}
           playerName={playerName}
           roomName={roomName}
+          roomObject={roomObject}
           submitRoomName={submitRoomName}
         />
       );

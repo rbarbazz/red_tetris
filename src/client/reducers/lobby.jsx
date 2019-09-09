@@ -9,6 +9,7 @@ const initialState = {
   playerName: '',
   currentPlayerType: playerType.NONE,
   roomName: '',
+  roomObject: undefined,
   errorMessage: '',
 };
 
@@ -40,7 +41,8 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         currentRoomList: action.payload.rooms,
-        currentRoomPlayerList: (joinedRoom !== undefined ? joinedRoom.players : []),
+        currentRoomPlayerList: (joinedRoom !== undefined ? joinedRoom.players : action.payload.players),
+        roomObject: joinedRoom,
       };
     }
     case STORE_ROOM:
