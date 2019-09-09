@@ -120,7 +120,7 @@ const RoomNameInput = ({
                   key={`player-item-${index.toString()}`}
                   className="player-item"
                 >
-                  {element}
+                  {element.playerName}
                 </div>
               ))
             ) : (

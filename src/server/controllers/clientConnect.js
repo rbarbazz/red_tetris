@@ -87,7 +87,6 @@ export function clientConnectRoom(sock, data) {
 }
 
 export function clientLeaveRoom(sock, data) {
-  const { roomName } = data;
   // Check if player exists
   const player = lobby.getPlayer(sock.id);
   if (player === null) {
@@ -95,10 +94,11 @@ export function clientLeaveRoom(sock, data) {
     return false;
   }
   // Check if player is in this room
-  if (player.room === null || player.room.name !== roomName) {
+  if (player.room === null) {
     comm.sendError(sock, eventType.LOBBY, data.type, 'Player not in this room');
     return false;
   }
+  const roomName = player.room.name;
   // Leave the room
   player.leaveRoom();
   timeline.push(`Player ${player.name} left room: ${roomName}`);
