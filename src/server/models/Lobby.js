@@ -112,18 +112,10 @@ export default class Lobby {
   }
 
   serialize() {
-    const data = {};
-    data.players = Object.values(this._players).map(player => (
-      { playerName: player.name }
-    ));
-    data.rooms = Object.values(this._rooms).map(room => ({
-      name: room.name,
-      slots: [room.freeSlots(), room.slots],
-      state: room.state,
-      players: Object.values(room.players).map(player => (
-        { playerName: player.name, playerType: player.type }
-      )),
-    }));
-    return data;
+    return {
+      slots: this.slots,
+      players: Object.values(this._players).map(v => v.serialize()),
+      rooms: Object.values(this._rooms).map(v => v.serialize()),
+    };
   }
 }

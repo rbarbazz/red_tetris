@@ -14,11 +14,11 @@ export function sendError(socket, event, type, msg = '') {
   });
 }
 
-export function sendResponse(socket, event, type, payload, msg = []) {
+export function sendResponse(socket, event, type, payload = {}) {
   const msgType = `${type}_SUCCESS`;
   emitMessage(socket, event, {
     type: msgType,
-    msg,
+    msg: '',
     payload,
   });
 }
