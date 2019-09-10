@@ -1,16 +1,17 @@
 import * as dbg from '../../common/devLog';
 import * as comm from '../../common/sockWrapper';
 import { eventType, msgType, CONFIG } from '../../common/enums';
-import { lobby, timeline } from '../models/Env';
+import timeline from '../models/Timeline';
+import lobby from '../models/Lobby';
 
 export function sendLobbyToClients() {
-  if (timeline.length > 0) {
+  if (timeline.hasMessage() > 0) {
     const payload = lobby.serialize();
-    const msg = timeline;
+    const msg = timeline.messages;
     Object.values(lobby.players).forEach(player => (
       comm.sendRequest(player.socket, eventType.LOBBY, msgType.SERVER.LOBBY_DATA, payload, msg)
     ));
-    timeline.splice(0, timeline.length);
+    timeline.clear();
   }
 }
 
@@ -133,5 +134,5 @@ export function clientStartParty(sock, data) {
   }
   timeline.push(`Party in room '${room.name}' has started`);
   comm.sendResponse(sock, eventType.LOBBY, data.type);
-  return true;
+  return room;
 }

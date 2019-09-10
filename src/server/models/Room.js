@@ -1,5 +1,6 @@
 import * as dbg from '../../common/devLog';
 import { roomState, playerType } from '../../common/enums';
+import Game from './Game';
 
 export default class Room {
   constructor(lobby, name, slots) {
@@ -9,6 +10,7 @@ export default class Room {
     this._players = []; // In order of arrival
     this._spectators = []; // Order does not matter
     this.slots = slots;
+    this._game = null;
   }
 
   get name() {
@@ -21,6 +23,10 @@ export default class Room {
 
   get players() {
     return this._players;
+  }
+
+  get spectators() {
+    return this._spectators;
   }
 
   addPlayer(player) {
@@ -36,15 +42,33 @@ export default class Room {
   }
 
   removePlayer(player) {
-    const toRm = this._players.findIndex(p => player.id === p.id);
-    if (toRm !== -1) {
+    if (player.type === playerType.SPECTATOR) {
+      const toRm = this._spectators.findIndex(p => player.id === p.id);
+      if (toRm === -1) {
+        return false;
+      }
+      this._spectators.splice(toRm, 1);
+    } else {
+      const toRm = this._players.findIndex(p => player.id === p.id);
+      if (toRm === -1) {
+        return false;
+      }
       this._players.splice(toRm, 1);
+      // Solo, player left so just delete the party and the room
       if (this._players.length === 0) {
+        if (this.state === roomState.BUSY) {
+          this.stop();
+        }
         this._lobby.deleteRoom(this._name);
       }
-      return true;
+      // Multi, end the party if only 1 player left
+      if (this._players.length === 1) {
+        if (this.state === roomState.BUSY) {
+          this.stop();
+        }
+      }
     }
-    return false;
+    return true;
   }
 
   get master() {
@@ -75,12 +99,23 @@ export default class Room {
     return playerType.SLAVE;
   }
 
+  get game() {
+    return this._game;
+  }
+
+  // Create a new game instance
   start(player) {
     if (!this.isMaster(player)) {
       return 'Player is not master';
     }
     this.state = roomState.BUSY;
+    this._game = new Game(this.players);
     return null;
+  }
+
+  stop() {
+    this._game.stop();
+    this.state = roomState.FREE;
   }
 
   serialize() {

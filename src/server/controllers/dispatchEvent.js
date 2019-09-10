@@ -1,12 +1,13 @@
 import * as dbg from '../../common/devLog';
-import { eventType, msgType, playerType } from '../../common/enums';
 import * as comm from '../../common/sockWrapper';
+import { eventType, msgType } from '../../common/enums';
 import {
   sendLobbyToClients, clientDisconnect,
   clientConnectLobby, clientConnectRoom,
   clientJoinRoom, clientLeaveRoom,
   clientStartParty,
 } from './clientConnect';
+import { gameStart } from './gameStart';
 
 function onLobbyEvent(socket, data) {
   if (data.type === msgType.PING) {
@@ -20,7 +21,10 @@ function onLobbyEvent(socket, data) {
   } else if (data.type === msgType.CLIENT.LEAVE_ROOM) {
     clientLeaveRoom(socket, data);
   } else if (data.type === msgType.CLIENT.START_PARTY) {
-    clientStartParty(socket, data);
+    const room = clientStartParty(socket, data);
+    if (room !== false) {
+      gameStart(room);
+    }
   } else if (data.type === msgType.CLIENT.DISCONNECT) {
     clientDisconnect(socket, data);
   } else {
@@ -29,10 +33,8 @@ function onLobbyEvent(socket, data) {
 }
 
 function onGameEvent(socket, data) {
-  if (data.type === msgType.CLIENT.MOVE_TETRIMINO) {
-    comm.sendRequest(socket, eventType.GAME, msgType.SERVER.GAME_TICK, {
-      board: [...Array(125).fill(0), ...Array(75).fill(1)],
-    });
+  if (data.type === msgType.CLIENT.GAME_INPUT) {
+    gameInput(socket, data);
   }
 }
 
@@ -47,6 +49,7 @@ export default function dispatchEvent(io) {
     socket.on(eventType.GAME, (data) => {
       dbg.info(`Event ${eventType.GAME} from ${socket.id}: ${JSON.stringify(data, null, 2)}`);
       onGameEvent(socket, data);
+      sendLobbyToClients();
     });
     socket.on('disconnect', (reason) => {
       dbg.info(`Event disconnect from ${socket.id}: ${reason}`);
