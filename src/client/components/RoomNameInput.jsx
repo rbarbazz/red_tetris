@@ -1,13 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { playerType } from '../../common/enums';
 import * as lobbyActions from '../actions/lobby';
 import PlayerInfo from './PlayerInfo';
 import
 RoomList,
 { propTypes as RoomListPropTypes, defaultProps as RoomListDefaultProps }
   from './RoomList';
+import
+PlayerList,
+{ propTypes as PlayerListPropTypes, defaultProps as PlayerListDefaultProps }
+  from './PlayerList';
 
 
 const RoomNameInput = ({
@@ -63,72 +66,32 @@ const RoomNameInput = ({
         )}
       </div>
       <div className="room-selection-right-side">
-        <div className="room-info-container">
-          <div className="room-info-title">Player List</div>
-          <div className="player-list">
-            {playerList.length > 0
-            && (
-              playerList.map((element, index) => (
-                <div
-                  key={`player-item-${index.toString()}`}
-                  className="player-item"
-                >
-                  {element.name}
-                </div>
-              ))
-            )}
-          </div>
-          <div className="room-action-buttons-container">
-            {isInRoom
-            && (
-              <button
-                type="button"
-                className="generic-button"
-                onClick={leaveRoom}
-              >
-                Leave
-              </button>
-            )}
-            {currentPlayerType === playerType.MASTER
-            && (
-              <button
-                type="button"
-                className="generic-button"
-                onClick={ownerIsReady}
-              >
-                Start
-              </button>
-            )}
-          </div>
-        </div>
+        <PlayerList
+          currentPlayerType={currentPlayerType}
+          isInRoom={isInRoom}
+          leaveRoom={leaveRoom}
+          ownerIsReady={ownerIsReady}
+          playerList={playerList}
+        />
       </div>
     </div>
   </div>
 );
 
 export const propTypes = {
+  ...PlayerListPropTypes,
   ...RoomListPropTypes,
-  currentPlayerType: PropTypes.string,
-  playerList: PropTypes.arrayOf(PropTypes.shape({
-    name: PropTypes.string,
-    type: PropTypes.string,
-  })),
   errorMessage: PropTypes.string,
   handleroomNameSelection: PropTypes.func,
-  leaveRoom: PropTypes.func,
-  ownerIsReady: PropTypes.func,
   playerName: PropTypes.string,
 };
 RoomNameInput.propTypes = propTypes;
 
 export const defaultProps = {
+  ...PlayerListDefaultProps,
   ...RoomListDefaultProps,
-  currentPlayerType: playerType.NONE,
-  playerList: [],
   errorMessage: '',
   handleroomNameSelection: lobbyActions.handleroomNameSelection,
-  leaveRoom: lobbyActions.leaveRoom,
-  ownerIsReady: lobbyActions.ownerIsReady,
   playerName: '',
 };
 RoomNameInput.defaultProps = defaultProps;
