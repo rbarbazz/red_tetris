@@ -1,7 +1,9 @@
 import * as dbg from '../../common/devLog';
-import { CONFIG } from '../../common/enums';
+import { CONFIG, eventType, msgType} from '../../common/enums';
 import Room from './Room';
 import Player from './Player';
+import * as comm from '../../common/sockWrapper';
+import timeline from './Timeline';
 
 function checkName(name) {
   if (name.length < CONFIG.NAME_MIN || name.length > CONFIG.NAME_MAX) {
@@ -10,7 +12,7 @@ function checkName(name) {
   return true;
 }
 
-export default class Lobby {
+class Lobby {
   constructor(slots) {
     this._slots = slots;
     this._players = {}; // key = sock.id, value = Player()
@@ -107,6 +109,10 @@ export default class Lobby {
     if (!this.hasRoom(id)) {
       return false;
     }
+    timeline.push(`Room has been destroyed: ${this._rooms[id].name}`);
+    Object.values(this._rooms[id].spectators).forEach(spec => (
+      comm.sendResponse(spec.socket, eventType.LOBBY, msgType.CLIENT.CONNECT_TO_LOBBY)
+    ));
     delete this._rooms[id];
     return true;
   }
@@ -119,3 +125,6 @@ export default class Lobby {
     };
   }
 }
+
+const lobby = new Lobby(CONFIG.MAX_SLOT);
+export default lobby;
