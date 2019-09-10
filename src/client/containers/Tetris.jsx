@@ -19,7 +19,7 @@ Spectrum,
 { propTypes as SpectrumPropTypes, defaultProps as SpectrumDefaultProps }
   from '../components/Spectrum';
 import LoadingIcon from '../components/LoadingIcon';
-import * as boardActions from '../actions/board';
+import * as gameActions from '../actions/game';
 import * as lobbyActions from '../actions/lobby';
 
 
@@ -38,12 +38,12 @@ const mapStateToProps = state => ({
   currentStep: state.tetris.currentStep,
   playerName: state.tetris.playerName,
   roomName: state.tetris.roomName,
-  score: state.tetris.score,
-  spectrums: state.tetris.spectrums,
+  score: state.game.score,
+  spectrums: state.game.spectrums,
 });
 const mapDispatchToProps = dispatch => (
   bindActionCreators({
-    ...boardActions,
+    ...gameActions,
     ...lobbyActions,
   }, dispatch)
 );
@@ -51,16 +51,16 @@ const mapDispatchToProps = dispatch => (
 export const Tetris = ({
   currentStep,
   leaveRoom,
-  moveTetrimino,
   playerName,
   roomName,
   score,
+  sendGameInput,
   spectrums,
 }) => {
   if (currentStep === 'game') {
     useKeyboardEvent((event) => {
       if ([32, 37, 38, 39, 40].includes(event.keyCode)) {
-        moveTetrimino(event.code, event.type);
+        sendGameInput(event.code, event.type);
       }
     });
   }
@@ -104,7 +104,7 @@ Tetris.propTypes = {
   ...SpectrumPropTypes,
   currentStep: PropTypes.string,
   leaveRoom: PropTypes.func,
-  moveTetrimino: PropTypes.func,
+  sendGameInput: PropTypes.func,
 };
 Tetris.defaultProps = {
   ...PlayerInfoDefaultProps,
@@ -112,7 +112,7 @@ Tetris.defaultProps = {
   ...SpectrumDefaultProps,
   currentStep: 'loading',
   leaveRoom: lobbyActions.leaveRoom,
-  moveTetrimino: boardActions.moveTetrimino,
+  sendGameInput: gameActions.sendGameInput,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Tetris);

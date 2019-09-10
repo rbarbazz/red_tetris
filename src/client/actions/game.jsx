@@ -1,10 +1,10 @@
 import { eventType, msgType } from '../../common/enums';
 
 // Send input move to the server
-export const moveTetrimino = (key, event) => ({
-  type: msgType.CLIENT.MOVE_TETRIMINO,
+export const sendGameInput = (key, event) => ({
+  type: msgType.CLIENT.GAME_INPUT,
   payload: { key, event },
   eventType: eventType.GAME,
 });
 
-export default moveTetrimino;
+export default sendGameInput;

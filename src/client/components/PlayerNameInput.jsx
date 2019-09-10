@@ -24,6 +24,13 @@ const PlayerNameInput = ({
         submitPlayerName(playerName);
       }}
     >
+      <input
+        type="text"
+        placeholder="Username"
+        onChange={event => handlePlayerNameSelection(event.target.value)}
+        value={playerName}
+        style={playerName === '' ? {} : { border: 'solid 3px #eb4d4b' }}
+      />
       <CSSTransition
         in={errorMessage !== ''}
         classNames="error-transition"
@@ -33,13 +40,6 @@ const PlayerNameInput = ({
       >
         <div className="input-error-message">{errorMessage}</div>
       </CSSTransition>
-      <input
-        type="text"
-        placeholder="Username"
-        onChange={event => handlePlayerNameSelection(event.target.value)}
-        value={playerName}
-        style={playerName === '' ? {} : { border: 'solid 3px #eb4d4b' }}
-      />
       <button
         disabled={playerName === ''}
         type="submit"

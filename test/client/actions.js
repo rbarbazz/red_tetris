@@ -9,7 +9,7 @@ import * as tetrisActions from '../../src/client/actions/tetris';
 
 export default () => describe('Actions', () => {
   describe('board', () => {
-    it('should call moveTetrimino and return the correct input', () => {
+    it('should call sendGameInput and return the correct input', () => {
       const key = 'ArrowRight';
       const event = 'keydown';
       const expectedAction = {
@@ -18,7 +18,7 @@ export default () => describe('Actions', () => {
         payload: { key, event },
       };
 
-      expect(boardActions.moveTetrimino(key, event)).to.deep.equal(expectedAction);
+      expect(boardActions.sendGameInput(key, event)).to.deep.equal(expectedAction);
     });
   });
 
