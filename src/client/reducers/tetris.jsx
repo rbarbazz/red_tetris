@@ -32,8 +32,11 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         currentStep: 'roomNameSelection',
+        isInRoom: false,
         isLoading: false,
         message: '',
+        roomName: '',
+        roomObject: undefined,
       };
     case `${msgType.CLIENT.CONNECT_TO_LOBBY}_ERROR`:
       return {
