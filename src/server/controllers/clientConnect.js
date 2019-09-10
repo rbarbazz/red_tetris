@@ -65,22 +65,22 @@ export function clientConnectRoom(sock, data) {
     comm.sendError(sock, eventType.LOBBY, data.type, r);
     return false;
   }
-  timeline.push(`New player: ${playerName}`);
   const player = lobby.getPlayer(sock.id);
   if (!lobby.hasRoom(roomName)) {
     r = lobby.addRoom(roomName, CONFIG.SLOTS_PER_ROOM);
     if (r !== null) {
+      lobby.deletePlayer(player.id);
       comm.sendError(sock, eventType.LOBBY, data.type, r);
       return false;
     }
-    timeline.push(`Room created: ${roomName}`);
   }
   const room = lobby.getRoom(roomName);
   if (!player.joinRoom(room)) {
+    lobby.deletePlayer(player.id);
     comm.sendError(sock, eventType.LOBBY, data.type, 'Room is full');
     return false;
   }
-  timeline.push(`Player ${player.name} join room: ${roomName}`);
+  timeline.push(`New player ${player.name} join new room: ${roomName}`);
   comm.sendResponse(sock, eventType.LOBBY, data.type);
   return true;
 }
@@ -105,7 +105,7 @@ export function clientLeaveRoom(sock, data) {
   return true;
 }
 
-export function clientDisconnect(sock) {
+export function clientDisconnect(sock, data = {}) {
   const player = lobby.getPlayer(sock.id);
   if (player !== null) {
     timeline.push(`Player left: ${player.name}`);

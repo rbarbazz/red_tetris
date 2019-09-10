@@ -21,6 +21,8 @@ function onLobbyEvent(socket, data) {
     clientLeaveRoom(socket, data);
   } else if (data.type === msgType.CLIENT.START_PARTY) {
     clientStartParty(socket, data);
+  } else if (data.type === msgType.CLIENT.DISCONNECT) {
+    clientDisconnect(socket, data);
   } else {
     dbg.error(`Unknown msgType: ${data.type}`);
   }
