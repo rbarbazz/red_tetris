@@ -1,39 +1,32 @@
 /*
 - Quand le client envoie une requête au serveur -> il attend systématiquement une réponse
 - Quand le serveur envoie une requête -> il n'attend PAS de réponse du client
-- La réponse du serveur est: event SERVER_RESPONSE
-  - Cas échec: type ERROR + error message
-  - Cas succès: type SUCCESS + payload demandé
 
 Event MSG {
-  type: msgType,          -> optional suffix _ERROR or _SUCCESS on response
-  message: string,        -> message to print to client (even if no error, can be usefull)
+  type: msgType,          -> optional suffix _ERROR/_SUCCESS on response
+  msg: string,            -> message to print in error/timeline on response
   payload: object         -> data requested by client
 }
 
-Payload:
-Type CONNECT_TO_LOBBY {
-  playerName: string  -> Nickname choosen  by the client
-}
-
-Type JOIN_PARTY {
-  roomName: string    -> Create the room if needed, then join if there is a free slot
-}
-
-Type LOBBY_DATA {
-  rooms: [{name, [slotTaken, slotMax], state, players = [name, ...] }, ...]
-  players: [name, ...],
-}
-
+Payload examples:
+  playerName, roomName,
 
 */
 
 export const CONFIG = {
   MAX_SLOT: 64,
   NAME_MIN: 2,
-  NAME_MAX: 16,
+  NAME_MAX: 15,
   MAX_ROOM: 8,
   SLOTS_PER_ROOM: 8,
+};
+
+export const KEYS = {
+  SPACE: 'SPACE',
+  RIGHT: 'RIGHT',
+  LEFT: 'LEFT',
+  UP: 'UP',
+  DOWN: 'DOWN',
 };
 
 // Type of player when he join a party
@@ -62,21 +55,23 @@ export const msgType = {
   DISCONNECT: 'DISCONNECT',
   // only sent by client to server
   CLIENT: {
+    // LOBBY event
     CONNECT_TO_LOBBY: 'CONNECT_TO_LOBBY', // Connect to lobby with a nickname
+    CONNECT_TO_ROOM: 'CONNECT_TO_ROOM', // Direct connection to a party
     JOIN_ROOM: 'JOIN_ROOM', // Join a party (create/join/spectator)
     LEAVE_ROOM: 'LEAVE_ROOM', // Leave a room
-    CONNECT_TO_ROOM: 'CONNECT_TO_ROOM', // Direct connection to a party
     START_PARTY: 'START_PARTY', // Only for master
-    LEAVE_PARTY: 'LEAVE_PARTY', // Anyone
-    MOVE_TETRIMINO: 'MOVE_TETRIMINO', // Send an input to the server
+    // GAME event
+    GAME_INPUT: 'GAME_INPUT', // Send an input to the server
   },
   // only sent by server to clients
   SERVER: {
+    // LOBBY event
     LOBBY_DATA: 'LOBBY_DATA', // Retrieve lobby informations
-    DISCONNECT_CLIENT: 'DISCONNECT_CLIENT',
-    GAME_INIT: 'GAME_INIT',
-    GAME_TICK: 'GAME_TICK',
-    GAME_END: 'GAME_END',
-    GAME_REPORT: 'GAME_REPORT',
+    // GAME event (doesn't need an answer)
+    GAME_START: 'GAME_READY', // Synchronize client to start the party, start the timer !
+    GAME_TICK: 'GAME_TICK', // Tick to refresh the client
+    GAME_END: 'GAME_END', // Party is over for the client, waiting for the report
+    GAME_REPORT: 'GAME_REPORT', // Party is over, print scores
   },
 };
