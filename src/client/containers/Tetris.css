@@ -234,14 +234,15 @@ html, body {
 	box-shadow: 0 3px 5px rgba(0,0,0,0.22);
 }
 .room-creation-input-container {
-	display: flex;
+	align-items: center;
 	background-color: #454545;
-	border: solid 3px #454545;
 	border-radius: 5px;
+	border: solid 3px #454545;
+	box-shadow: 0 3px 5px rgba(0,0,0,0.22);
+	display: flex;
 	justify-content: space-between;
 	margin: 10px 30px 10px 0;
 	padding: 12px 20px;
-	box-shadow: 0 3px 5px rgba(0,0,0,0.22);
 }
 .room-item:focus {
 	outline:0;

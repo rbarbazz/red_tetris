@@ -3,11 +3,15 @@ import PropTypes from 'prop-types';
 
 import { playerType } from '../../common/enums';
 import * as lobbyActions from '../actions/lobby';
-
+import
+GenericButton,
+{ propTypes as GenericButtonPropTypes, defaultProps as GenericButtonDefaultProps }
+  from './GenericButton';
 
 const PlayerList = ({
   currentPlayerType,
   isInRoom,
+  isLoading,
   leaveRoom,
   ownerIsReady,
   playerList,
@@ -30,29 +34,26 @@ const PlayerList = ({
     <div className="room-action-buttons-container">
       {isInRoom
       && (
-        <button
-          type="button"
-          className="generic-button"
-          onClick={leaveRoom}
-        >
-          Leave
-        </button>
+        <GenericButton
+          action={leaveRoom}
+          isLoading={isLoading}
+          contentText="Leave"
+        />
       )}
-      {currentPlayerType === playerType.MASTER
+      {currentPlayerType === playerType.MASTER && !isLoading
       && (
-        <button
-          type="button"
-          className="generic-button"
-          onClick={ownerIsReady}
-        >
-          Start
-        </button>
+        <GenericButton
+          action={ownerIsReady}
+          isLoading={isLoading}
+          contentText="Start"
+        />
       )}
     </div>
   </div>
 );
 
 export const propTypes = {
+  ...GenericButtonPropTypes,
   currentPlayerType: PropTypes.string,
   isInRoom: PropTypes.bool,
   leaveRoom: PropTypes.func,
@@ -65,6 +66,7 @@ export const propTypes = {
 PlayerList.propTypes = propTypes;
 
 export const defaultProps = {
+  ...GenericButtonDefaultProps,
   currentPlayerType: playerType.NONE,
   isInRoom: false,
   leaveRoom: lobbyActions.leaveRoom,

@@ -11,6 +11,7 @@ import
 PlayerList,
 { propTypes as PlayerListPropTypes, defaultProps as PlayerListDefaultProps }
   from './PlayerList';
+import GenericButton from './GenericButton';
 
 
 const RoomNameInput = ({
@@ -55,14 +56,12 @@ const RoomNameInput = ({
                 type="text"
                 value={roomName}
               />
-              <button
-                className="generic-button"
+              <GenericButton
+                action={() => submitRoomName(roomName)}
+                isLoading={isLoading}
                 disabled={roomName === ''}
-                onClick={() => submitRoomName(roomName)}
-                type="submit"
-              >
-                Create
-              </button>
+                contentText="Create"
+              />
             </div>
           </div>
         )}
@@ -71,6 +70,7 @@ const RoomNameInput = ({
         <PlayerList
           currentPlayerType={currentPlayerType}
           isInRoom={isInRoom}
+          isLoading={isLoading}
           leaveRoom={leaveRoom}
           ownerIsReady={ownerIsReady}
           playerList={playerList}

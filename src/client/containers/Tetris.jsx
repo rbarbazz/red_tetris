@@ -21,6 +21,7 @@ Spectrum,
 import LoadingIcon from '../components/LoadingIcon';
 import * as gameActions from '../actions/game';
 import * as lobbyActions from '../actions/lobby';
+import GenericButton from '../components/GenericButton';
 
 
 const useKeyboardEvent = (callback) => {
@@ -80,13 +81,10 @@ export const Tetris = ({
               <Spectrum spectrums={spectrums} />
             </div>
           </div>
-          <button
-            type="button"
-            className="generic-button"
-            onClick={leaveRoom}
-          >
-            Leave
-          </button>
+          <GenericButton
+            action={leaveRoom}
+            contentText="Leave"
+          />
         </div>
       );
     case 'playerNameSelection':

@@ -82,12 +82,13 @@ const reducer = (state = initialState, action) => {
         message: action.msg,
       };
     case msgType.CLIENT.LEAVE_ROOM:
-      return { ...state, currentStep: 'loading' };
+      return { ...state, isLoading: true };
     case `${msgType.CLIENT.LEAVE_ROOM}_SUCCESS`:
       return {
         ...state,
         currentPlayerType: playerType.NONE,
         currentStep: 'roomNameSelection',
+        isLoading: false,
         isInRoom: false,
       };
     case `${msgType.CLIENT.CONNECT_TO_ROOM}_SUCCESS`:
@@ -104,6 +105,8 @@ const reducer = (state = initialState, action) => {
         roomName: '',
         roomObject: undefined,
       };
+    case msgType.CLIENT.START_PARTY:
+      return { ...state, currentStep: 'loading' };
     default:
       return state;
   }
