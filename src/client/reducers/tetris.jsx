@@ -6,8 +6,9 @@ import { msgType, playerType, roomState } from '../../common/enums';
 const initialState = {
   currentPlayerType: playerType.NONE,
   currentStep: 'loading',
-  errorMessage: '',
   isInRoom: false,
+  isLoading: false,
+  message: '',
   playerList: [],
   playerName: '',
   roomList: [],
@@ -22,22 +23,24 @@ const reducer = (state = initialState, action) => {
     case STORE_PLAYER_NAME:
       return {
         ...state,
+        message: '',
         playerName: action.payload.playerName,
-        errorMessage: '',
       };
     case msgType.CLIENT.CONNECT_TO_LOBBY:
-      return { ...state, currentStep: 'loading' };
+      return { ...state, isLoading: true };
     case `${msgType.CLIENT.CONNECT_TO_LOBBY}_SUCCESS`:
       return {
         ...state,
         currentStep: 'roomNameSelection',
-        errorMessage: '',
+        isLoading: false,
+        message: '',
       };
     case `${msgType.CLIENT.CONNECT_TO_LOBBY}_ERROR`:
       return {
         ...state,
         currentStep: 'playerNameSelection',
-        errorMessage: action.msg,
+        isLoading: false,
+        message: action.msg,
       };
     case msgType.SERVER.LOBBY_DATA: {
       const playerObject = action.payload.players.find(player => player.name === state.playerName);
@@ -50,6 +53,7 @@ const reducer = (state = initialState, action) => {
         currentStep: (roomObject !== undefined && roomObject.state === roomState.BUSY)
           ? 'game'
           : 'roomNameSelection',
+        message: action.msg[0],
         playerList: (roomObject !== undefined ? roomObject.players : action.payload.players),
         roomList: action.payload.rooms,
         roomName: (roomObject !== undefined ? roomObject.name : ''),
@@ -59,18 +63,20 @@ const reducer = (state = initialState, action) => {
     case STORE_ROOM:
       return { ...state, roomName: action.payload.roomName };
     case msgType.CLIENT.JOIN_ROOM:
-      return { ...state, currentStep: 'loading' };
+      return { ...state, isLoading: true };
     case `${msgType.CLIENT.JOIN_ROOM}_SUCCESS`:
       return {
         ...state,
         currentStep: 'roomNameSelection',
+        isLoading: false,
         isInRoom: true,
       };
     case `${msgType.CLIENT.JOIN_ROOM}_ERROR`:
       return {
         ...state,
         currentStep: 'roomNameSelection',
-        errorMessage: action.msg,
+        isLoading: false,
+        message: action.msg,
       };
     case msgType.CLIENT.LEAVE_ROOM:
       return { ...state, currentStep: 'loading' };
@@ -86,6 +92,14 @@ const reducer = (state = initialState, action) => {
         ...state,
         currentStep: 'roomNameSelection',
         isInRoom: true,
+      };
+    case `${msgType.CLIENT.CONNECT_TO_ROOM}_ERROR`:
+      return {
+        ...state,
+        currentStep: 'playerNameSelection',
+        playerName: '',
+        roomName: '',
+        roomObject: undefined,
       };
     default:
       return state;

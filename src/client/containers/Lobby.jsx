@@ -18,8 +18,9 @@ import LoadingIcon from '../components/LoadingIcon';
 const mapStateToProps = state => ({
   currentPlayerType: state.tetris.currentPlayerType,
   currentStep: state.tetris.currentStep,
-  errorMessage: state.tetris.errorMessage,
   isInRoom: state.tetris.isInRoom,
+  isLoading: state.tetris.isLoading,
+  message: state.tetris.message,
   playerList: state.tetris.playerList,
   playerName: state.tetris.playerName,
   roomList: state.tetris.roomList,
@@ -35,11 +36,12 @@ const mapDispatchToProps = dispatch => (
 export const Lobby = ({
   currentPlayerType,
   currentStep,
-  errorMessage,
   handlePlayerNameSelection,
   handleroomNameSelection,
   isInRoom,
+  isLoading,
   leaveRoom,
+  message,
   ownerIsReady,
   playerList,
   playerName,
@@ -53,8 +55,9 @@ export const Lobby = ({
     case 'playerNameSelection':
       return (
         <PlayerNameInput
-          errorMessage={errorMessage}
           handlePlayerNameSelection={handlePlayerNameSelection}
+          isLoading={isLoading}
+          message={message}
           playerName={playerName}
           submitPlayerName={submitPlayerName}
         />
@@ -63,10 +66,11 @@ export const Lobby = ({
       return (
         <RoomNameInput
           currentPlayerType={currentPlayerType}
-          errorMessage={errorMessage}
           handleroomNameSelection={handleroomNameSelection}
           isInRoom={isInRoom}
+          isLoading={isLoading}
           leaveRoom={leaveRoom}
+          message={message}
           ownerIsReady={ownerIsReady}
           playerList={playerList}
           playerName={playerName}

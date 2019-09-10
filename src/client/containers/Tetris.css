@@ -131,12 +131,14 @@ html, body {
 }
 .room-selection-wrapper {
 	background-color: #383838;
-	width: 80vw;
 	border-radius: 5px;
+	box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
 	display: flex;
 	flex-direction: column;
-	box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
 	max-width: 1200px;
+	min-height: 650px;
+	position: relative;
+	width: 80vw;
 }
 .username-input-form {
 	align-items: center;
@@ -314,6 +316,18 @@ input::placeholder {
 	display: flex;
 	justify-content: space-between;
     margin-top: 40px;
+}
+.message-bar {
+	background-color: #454545;
+	border-radius: 0 0 5px 5px;
+	bottom: 0;
+	color: #EFF1F3;
+	font-family: 'Open Sans', sans-serif;
+	font-size: 16px;
+	padding: 15px 0;
+	position: absolute;
+	text-align: center;
+	width: 100%;
 }
 
 /* ==========================================================================

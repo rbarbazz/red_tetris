@@ -15,14 +15,15 @@ PlayerList,
 
 const RoomNameInput = ({
   currentPlayerType,
-  roomList,
-  playerList,
-  isInRoom,
-  errorMessage,
   handleroomNameSelection,
+  isInRoom,
+  isLoading,
   leaveRoom,
+  message,
   ownerIsReady,
+  playerList,
   playerName,
+  roomList,
   roomName,
   roomObject,
   submitRoomName,
@@ -35,8 +36,9 @@ const RoomNameInput = ({
     <div key="room-selection-container" className="room-selection-container">
       <div className="room-selection-left-side">
         <RoomList
-          roomList={roomObject === undefined ? roomList : [roomObject]}
           isInRoom={isInRoom}
+          isLoading={isLoading}
+          roomList={roomObject === undefined ? roomList : [roomObject]}
           roomName={roomName}
           submitRoomName={submitRoomName}
         />
@@ -46,18 +48,18 @@ const RoomNameInput = ({
             <div className="room-creation-title">Create New Room</div>
             <div className="room-creation-input-container">
               <input
-                type="text"
                 className="room-creation-text-input"
                 onChange={event => handleroomNameSelection(event.target.value)}
-                value={roomName}
                 placeholder="Room Name"
                 style={roomName === '' ? {} : { border: 'solid 3px #eb4d4b' }}
+                type="text"
+                value={roomName}
               />
               <button
-                disabled={roomName === ''}
-                type="submit"
                 className="generic-button"
+                disabled={roomName === ''}
                 onClick={() => submitRoomName(roomName)}
+                type="submit"
               >
                 Create
               </button>
@@ -75,14 +77,15 @@ const RoomNameInput = ({
         />
       </div>
     </div>
+    <div className="message-bar">{message}</div>
   </div>
 );
 
 export const propTypes = {
   ...PlayerListPropTypes,
   ...RoomListPropTypes,
-  errorMessage: PropTypes.string,
   handleroomNameSelection: PropTypes.func,
+  message: PropTypes.string,
   playerName: PropTypes.string,
 };
 RoomNameInput.propTypes = propTypes;
@@ -90,8 +93,8 @@ RoomNameInput.propTypes = propTypes;
 export const defaultProps = {
   ...PlayerListDefaultProps,
   ...RoomListDefaultProps,
-  errorMessage: '',
   handleroomNameSelection: lobbyActions.handleroomNameSelection,
+  message: '',
   playerName: '',
 };
 RoomNameInput.defaultProps = defaultProps;

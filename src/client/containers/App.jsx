@@ -39,7 +39,6 @@ export const App = ({
   } else {
     ping();
   }
-
   return <ConnectedTetris />;
 };
 

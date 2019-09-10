@@ -3,10 +3,12 @@ import PropTypes from 'prop-types';
 
 import * as lobbyActions from '../actions/lobby';
 import { roomState } from '../../common/enums';
+import LoadingIcon from './LoadingIcon';
 
 
 const RoomList = ({
   isInRoom,
+  isLoading,
   roomList,
   roomName,
   submitRoomName,
@@ -33,7 +35,7 @@ const RoomList = ({
               <div className="room-item-info">{roomItem.state === roomState.FREE ? 'In Lobby' : 'In Game'}</div>
               <div className="room-item-info">{`Slots ${roomItem.slots[1]}/${roomItem.slots[2]}`}</div>
             </div>
-            {!isInRoom && roomItem.slots[0] > 0
+            {!isInRoom && roomItem.slots[0] > 0 && !isLoading
             && (
             <button
               type="submit"
@@ -46,6 +48,10 @@ const RoomList = ({
                 'Join'
               )}
             </button>
+            )}
+            {!isInRoom && roomItem.slots[0] > 0 && isLoading
+            && (
+              <LoadingIcon />
             )}
           </div>
         ))
@@ -64,6 +70,7 @@ const RoomList = ({
 
 export const propTypes = {
   isInRoom: PropTypes.bool,
+  isLoading: PropTypes.bool,
   roomList: PropTypes.arrayOf(PropTypes.shape({
     name: PropTypes.string,
     players: PropTypes.arrayOf(PropTypes.shape({
@@ -80,6 +87,7 @@ RoomList.propTypes = propTypes;
 
 export const defaultProps = {
   isInRoom: false,
+  isLoading: false,
   roomList: [],
   roomName: '',
   submitRoomName: lobbyActions.submitRoomName,

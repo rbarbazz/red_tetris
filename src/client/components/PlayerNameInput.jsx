@@ -4,11 +4,13 @@ import { CSSTransition } from 'react-transition-group';
 
 import * as lobbyActions from '../actions/lobby';
 import PlayerInfo from './PlayerInfo';
+import LoadingIcon from './LoadingIcon';
 
 
 const PlayerNameInput = ({
   handlePlayerNameSelection,
-  errorMessage,
+  isLoading,
+  message,
   playerName,
   submitPlayerName,
 }) => (
@@ -32,36 +34,42 @@ const PlayerNameInput = ({
         style={playerName === '' ? {} : { border: 'solid 3px #eb4d4b' }}
       />
       <CSSTransition
-        in={errorMessage !== ''}
+        in={message !== ''}
         classNames="error-transition"
         appear
         unmountOnExit
         timeout={0}
       >
-        <div className="input-error-message">{errorMessage}</div>
+        <div className="input-error-message">{message}</div>
       </CSSTransition>
-      <button
-        disabled={playerName === ''}
-        type="submit"
-        className="generic-button"
-      >
-        Play
-      </button>
+      {isLoading ? (
+        <LoadingIcon />
+      ) : (
+        <button
+          disabled={playerName === ''}
+          type="submit"
+          className="generic-button"
+        >
+          Play
+        </button>
+      )}
     </form>
   </div>
 );
 
 export const propTypes = {
-  errorMessage: PropTypes.string,
   handlePlayerNameSelection: PropTypes.func,
+  isLoading: PropTypes.bool,
+  message: PropTypes.string,
   playerName: PropTypes.string,
   submitPlayerName: PropTypes.func,
 };
 PlayerNameInput.propTypes = propTypes;
 
 export const defaultProps = {
-  errorMessage: '',
   handlePlayerNameSelection: lobbyActions.handlePlayerNameSelection,
+  isLoading: false,
+  message: '',
   playerName: '',
   submitPlayerName: lobbyActions.submitPlayerName,
 };
