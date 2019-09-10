@@ -115,7 +115,7 @@ export default class Room {
 
   stop() {
     this._game.stop();
-    this.state = roomState.FREE;
+    this.state = roomState.FREE; // Sera set quand le master relance la partie
   }
 
   serialize() {
