@@ -139,7 +139,7 @@ export default () => describe('Containers', () => {
       expect(connectedWrapper.props().didGameStart).to.equal(false);
       expect(connectedWrapper.props().score).to.equal(0);
       expect(connectedWrapper.props().spectrums).to.deep.equal([]);
-      expect(connectedWrapper.props().moveTetrimino).to.be.instanceOf(Function);
+      expect(connectedWrapper.props().sendGameInput).to.be.instanceOf(Function);
     });
   });
 

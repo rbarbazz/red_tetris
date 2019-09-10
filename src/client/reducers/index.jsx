@@ -1,11 +1,11 @@
 import { combineReducers } from 'redux';
 
-import board from './board';
+import game from './game';
 import server from './server';
 import tetris from './tetris';
 
 const reducers = combineReducers({
-  board,
+  game,
   server,
   tetris,
 });

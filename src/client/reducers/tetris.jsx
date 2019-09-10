@@ -2,6 +2,7 @@ import { DISPLAY_LOBBY } from '../actions/tetris';
 import { STORE_PLAYER_NAME, STORE_ROOM } from '../actions/lobby';
 import { msgType, playerType, roomState } from '../../common/enums';
 
+
 const initialState = {
   currentPlayerType: playerType.NONE,
   currentStep: 'loading',
@@ -12,8 +13,6 @@ const initialState = {
   roomList: [],
   roomName: '',
   roomObject: undefined,
-  score: 0,
-  spectrums: [],
 };
 
 const reducer = (state = initialState, action) => {
@@ -64,7 +63,6 @@ const reducer = (state = initialState, action) => {
     case `${msgType.CLIENT.JOIN_ROOM}_SUCCESS`:
       return {
         ...state,
-        currentPlayerType: action.payload.playerType,
         currentStep: 'roomNameSelection',
         isInRoom: true,
       };
@@ -86,7 +84,6 @@ const reducer = (state = initialState, action) => {
     case `${msgType.CLIENT.CONNECT_TO_ROOM}_SUCCESS`:
       return {
         ...state,
-        currentPlayerType: action.payload.playerType,
         currentStep: 'roomNameSelection',
         isInRoom: true,
       };

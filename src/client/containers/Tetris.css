@@ -139,14 +139,16 @@ html, body {
 	max-width: 1200px;
 }
 .username-input-form {
-	padding: 40px 40px 57px;
-	display: flex;
-    flex-direction: column;
 	align-items: center;
 	background-color: #454545;
 	border-radius: 5px;
-	margin: 50px 80px 80px;
 	box-shadow: 0 3px 5px rgba(0,0,0,0.22);
+	display: flex;
+	margin: 50px 80px 80px;
+	min-height: 185px;
+	justify-content: space-between;
+	padding: 40px 40px 57px;
+    flex-direction: column;
 }
 .input-error-message {
 	background-color: #f5a5a4;
@@ -155,8 +157,7 @@ html, body {
 	font-family: 'Open Sans', sans-serif;
 	font-size: 20px;
 	font-weight: 500;
-	height: 27px;
-	margin-bottom: 20px;
+	height: 28px;
 	padding: 10px 15px;
 	text-align: center;
 	transition: opacity 0.3s;
@@ -184,7 +185,7 @@ html, body {
 }
 .room-list-container,
 .room-creation-container,
-.room-info-container {
+.player-list-container {
 	display: flex;
 	flex-direction: column;
 	width: 100%;
@@ -252,7 +253,7 @@ html, body {
 }
 .room-list-title,
 .room-creation-title,
-.room-info-title {
+.player-list-title {
 	color: #eb4d4b;
 	font-family: 'Open Sans', sans-serif;
 	font-size: 30px;
@@ -266,13 +267,24 @@ html, body {
 }
 .player-item {
 	background-color: #454545;
-	border-radius: 5px;
+	border-top: solid 0.5px #383838;
+	border-bottom: solid 0.5px #383838;
 	color: #EFF1F3;
 	font-family: 'Open Sans', sans-serif;
 	font-size: 20px;
 	padding: 12px 20px;
-	margin: 10px 0;
-	width: max-content;
+}
+.player-list .player-item:first-of-type {
+	border-top-left-radius: 5px;
+	border-top-right-radius: 5px;
+	border-top: none;
+	box-shadow: 0 3px 5px rgba(0,0,0,0.22);
+	margin-top: 10px;
+}
+.player-list .player-item:last-of-type {
+	border-bottom-left-radius: 5px;
+	border-bottom-right-radius: 5px;
+	border-bottom: none;
 	box-shadow: 0 3px 5px rgba(0,0,0,0.22);
 }
 input {
@@ -284,7 +296,6 @@ input {
 	font-family: 'Open Sans', sans-serif;
 	font-size: 20px;
 	font-weight: 600;
-	margin: 0 0 40px;
 	outline: none;
 	padding: 10px 15px;
 	transition: border 0.3s;

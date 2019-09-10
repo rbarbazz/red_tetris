@@ -1,6 +1,12 @@
 import { msgType } from '../../common/enums';
 
-const reducer = (state = Array(200).fill(0), action) => {
+const initialState = {
+  board: Array(200).fill(0),
+  score: 0,
+  spectrums: [],
+};
+
+const reducer = (state = initialState, action) => {
   switch (action.type) {
     case msgType.SERVER.GAME_TICK:
       return action.payload.board;
