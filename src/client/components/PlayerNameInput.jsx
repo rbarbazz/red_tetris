@@ -4,8 +4,10 @@ import { CSSTransition } from 'react-transition-group';
 
 import * as lobbyActions from '../actions/lobby';
 import PlayerInfo from './PlayerInfo';
-import LoadingIcon from './LoadingIcon';
-
+import
+GenericButton,
+{ propTypes as GenericButtonPropTypes, defaultProps as GenericButtonDefaultProps }
+  from './GenericButton';
 
 const PlayerNameInput = ({
   handlePlayerNameSelection,
@@ -42,24 +44,18 @@ const PlayerNameInput = ({
       >
         <div className="input-error-message">{message}</div>
       </CSSTransition>
-      {isLoading ? (
-        <LoadingIcon />
-      ) : (
-        <button
-          disabled={playerName === ''}
-          type="submit"
-          className="generic-button"
-        >
-          Play
-        </button>
-      )}
+      <GenericButton
+        isLoading={isLoading}
+        disabled={playerName === ''}
+        contentText="Play"
+      />
     </form>
   </div>
 );
 
 export const propTypes = {
+  ...GenericButtonPropTypes,
   handlePlayerNameSelection: PropTypes.func,
-  isLoading: PropTypes.bool,
   message: PropTypes.string,
   playerName: PropTypes.string,
   submitPlayerName: PropTypes.func,
@@ -67,8 +63,8 @@ export const propTypes = {
 PlayerNameInput.propTypes = propTypes;
 
 export const defaultProps = {
+  ...GenericButtonDefaultProps,
   handlePlayerNameSelection: lobbyActions.handlePlayerNameSelection,
-  isLoading: false,
   message: '',
   playerName: '',
   submitPlayerName: lobbyActions.submitPlayerName,
