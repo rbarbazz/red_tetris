@@ -1,9 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import * as tetrisActions from '../actions/tetris';
-import Block from '../components/Block';
+import Block from './Block';
 
 
 const colors = {
@@ -11,15 +8,7 @@ const colors = {
   1: 'red',
 };
 
-const mapStateToProps = state => ({
-  board: state.board,
-  currentStep: state.tetris.currentStep,
-});
-const mapDispatchToProps = dispatch => (bindActionCreators({
-  ...tetrisActions,
-}, dispatch));
-
-export const Board = ({
+const Board = ({
   board,
   currentStep,
 }) => (
@@ -43,13 +32,16 @@ export const Board = ({
   </React.Fragment>
 );
 
-Board.propTypes = {
+export const propTypes = {
   board: PropTypes.arrayOf(PropTypes.number),
   currentStep: PropTypes.string,
 };
-Board.defaultProps = {
+Board.propTypes = propTypes;
+
+export const defaultProps = {
   board: Array(200).fill(0),
   currentStep: 'game',
 };
+Board.defaultProps = defaultProps;
 
-export default connect(mapStateToProps, mapDispatchToProps)(Board);
+export default Board;

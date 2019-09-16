@@ -35,6 +35,7 @@ function onLobbyEvent(socket, data) {
 function onGameEvent(socket, data) {
   if (data.type === msgType.CLIENT.GAME_INPUT) {
     comm.sendRequest(socket, eventType.GAME, msgType.SERVER.GAME_END, {});
+    comm.sendRequest(socket, eventType.GAME, msgType.SERVER.GAME_REPORT, {});
     // gameInput(socket, data);
   }
 }

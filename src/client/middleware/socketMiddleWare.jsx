@@ -21,6 +21,7 @@ const fromServerActions = [
   `${msgType.CLIENT.START_PARTY}_SUCCESS`,
   msgType.SERVER.GAME_TICK,
   msgType.SERVER.GAME_END,
+  msgType.SERVER.GAME_REPORT,
   msgType.SERVER.DISCONNECT_CLIENT,
 ];
 

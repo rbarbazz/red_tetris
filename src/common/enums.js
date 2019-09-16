@@ -61,6 +61,7 @@ export const msgType = {
     JOIN_ROOM: 'JOIN_ROOM', // Join a party (create/join/spectator)
     LEAVE_ROOM: 'LEAVE_ROOM', // Leave a room
     START_PARTY: 'START_PARTY', // Only for master
+    RESET_ROOM: 'RESET_ROOM', // Only for master
     // GAME event
     GAME_INPUT: 'GAME_INPUT', // Send an input to the server
   },
