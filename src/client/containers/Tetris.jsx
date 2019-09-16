@@ -67,6 +67,7 @@ export const Tetris = ({
   }
 
   switch (currentStep) {
+    case 'endGame':
     case 'game':
       return (
         <div className="game-container">
@@ -79,16 +80,15 @@ export const Tetris = ({
             <div className="stats-container">
               <Score score={score} />
               <Spectrum spectrums={spectrums} />
+              <GenericButton
+                action={leaveRoom}
+                contentText="Leave"
+              />
             </div>
           </div>
-          <GenericButton
-            action={leaveRoom}
-            contentText="Leave"
-          />
         </div>
       );
     case 'playerNameSelection':
-      return <ConnectedLobby />;
     case 'roomNameSelection':
       return <ConnectedLobby />;
     default:

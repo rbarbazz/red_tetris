@@ -107,6 +107,8 @@ const reducer = (state = initialState, action) => {
       };
     case msgType.CLIENT.START_PARTY:
       return { ...state, currentStep: 'loading' };
+    case msgType.SERVER.GAME_END:
+      return { ...state, currentStep: 'endGame' };
     default:
       return state;
   }
