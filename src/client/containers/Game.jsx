@@ -25,8 +25,10 @@ GameReport,
 { propTypes as GameReportPropTypes, defaultProps as GameReportDefaultProps }
   from '../components/GameReport';
 
+
 const mapStateToProps = state => ({
   board: state.board,
+  currentPlayerType: state.tetris.currentPlayerType,
   currentStep: state.tetris.currentStep,
   playerName: state.tetris.playerName,
   roomName: state.tetris.roomName,
@@ -41,9 +43,11 @@ const mapDispatchToProps = dispatch => (
 
 const Game = ({
   board,
+  currentPlayerType,
   currentStep,
   leaveRoom,
   playerName,
+  resetRoom,
   roomName,
   score,
   spectrums,
@@ -54,7 +58,11 @@ const Game = ({
       roomName={roomName}
     />
     {currentStep === 'gameReport' ? (
-      <GameReport leaveRoom={leaveRoom} />
+      <GameReport
+        currentPlayerType={currentPlayerType}
+        leaveRoom={leaveRoom}
+        resetRoom={resetRoom}
+      />
     ) : (
       <div className="board-stats-container">
         <Board

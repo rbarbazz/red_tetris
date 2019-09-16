@@ -34,3 +34,8 @@ export const ownerIsReady = () => ({
   type: msgType.CLIENT.START_PARTY,
   eventType: eventType.LOBBY,
 });
+
+export const resetRoom = () => ({
+  type: msgType.CLIENT.RESET_ROOM,
+  eventType: eventType.LOBBY,
+});

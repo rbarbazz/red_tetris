@@ -111,6 +111,8 @@ const reducer = (state = initialState, action) => {
       return { ...state, currentStep: 'endGame' };
     case msgType.SERVER.GAME_REPORT:
       return { ...state, currentStep: 'gameReport' };
+    case `${msgType.CLIENT.RESET_ROOM}_SUCCESS`:
+      return { ...state, currentStep: 'roomNameSelection' };
     default:
       return state;
   }

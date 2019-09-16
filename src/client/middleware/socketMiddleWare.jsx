@@ -22,6 +22,7 @@ const fromServerActions = [
   msgType.SERVER.GAME_TICK,
   msgType.SERVER.GAME_END,
   msgType.SERVER.GAME_REPORT,
+  `${msgType.CLIENT.RESET_ROOM}_SUCCESS`,
   msgType.SERVER.DISCONNECT_CLIENT,
 ];
 
