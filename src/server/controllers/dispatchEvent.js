@@ -8,6 +8,7 @@ import {
   clientStartParty,
 } from './clientConnect';
 import { gameStart } from './gameStart';
+import { gameInput } from './gameInput';
 
 function onLobbyEvent(socket, data) {
   if (data.type === msgType.PING) {

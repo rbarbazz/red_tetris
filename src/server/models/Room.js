@@ -56,16 +56,12 @@ export default class Room {
       this._players.splice(toRm, 1);
       // Solo, player left so just delete the party and the room
       if (this._players.length === 0) {
-        if (this.state === roomState.BUSY) {
-          this.stop();
-        }
+        this.stop();
         this._lobby.deleteRoom(this._name);
       }
       // Multi, end the party if only 1 player left
       if (this._players.length === 1) {
-        if (this.state === roomState.BUSY) {
-          this.stop();
-        }
+        this.stop();
       }
     }
     return true;
@@ -114,8 +110,10 @@ export default class Room {
   }
 
   stop() {
-    this._game.stop();
-    this.state = roomState.FREE; // Sera set quand le master relance la partie
+    if (this.state === roomState.BUSY) {
+      this._game.stop();
+      this.state = roomState.FREE; // Sera set quand le master relance la partie
+    }
   }
 
   serialize() {
