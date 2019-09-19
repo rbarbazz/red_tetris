@@ -376,6 +376,32 @@ input::placeholder {
 	height: 28.5px;
 	width: 28.5px;
 }
+.game-end-screen {
+	align-items: center;
+	background-color: #454545;
+	color: #eb4d4b;
+	display: flex;
+	flex-direction: column;
+	font-family: 'Open Sans', sans-serif;
+	font-size: 26px;
+	font-weight: 600;
+	height: 100%;
+	justify-content: center;
+	position: absolute;
+	text-align: center;
+	width: 100%;
+}
+.game-end-screen * {
+	width: 90%
+}
+.game-end-title {
+	margin: 0;
+}
+.game-end-message {
+	font-family: 'Open Sans', sans-serif;
+	font-size: 22px;
+	font-weight: 500;
+}
 
 /* ==========================================================================
    Stats
@@ -432,6 +458,9 @@ input::placeholder {
 	font-size: 41px;
 	color: #eb4d4b;
 	letter-spacing: 2px;
+}
+.stats-container .generic-button {
+	width: 100%;
 }
 
 /* ==========================================================================

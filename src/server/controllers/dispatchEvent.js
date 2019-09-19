@@ -28,6 +28,8 @@ function onLobbyEvent(socket, data) {
     }
   } else if (data.type === msgType.CLIENT.DISCONNECT) {
     clientDisconnect(socket, data);
+  } else if (data.type === msgType.CLIENT.RESET_ROOM) {
+    comm.sendRequest(socket, eventType.LOBBY, `${msgType.CLIENT.RESET_ROOM}_SUCCESS`, {});
   } else {
     dbg.error(`Unknown msgType: ${data.type}`);
   }
@@ -35,7 +37,9 @@ function onLobbyEvent(socket, data) {
 
 function onGameEvent(socket, data) {
   if (data.type === msgType.CLIENT.GAME_INPUT) {
-    gameInput(socket, data);
+    comm.sendRequest(socket, eventType.GAME, msgType.SERVER.GAME_END, {});
+    comm.sendRequest(socket, eventType.GAME, msgType.SERVER.GAME_REPORT, {});
+    // gameInput(socket, data);
   }
 }
 

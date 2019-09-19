@@ -4,24 +4,10 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import './Tetris.css';
-import ConnectedBoard from './Board';
-import ConnectedLobby from './Lobby';
-import
-PlayerInfo,
-{ propTypes as PlayerInfoPropTypes, defaultProps as PlayerInfoDefaultProps }
-  from '../components/PlayerInfo';
-import
-Score,
-{ propTypes as ScorePropTypes, defaultProps as ScoreDefaultProps }
-  from '../components/Score';
-import
-Spectrum,
-{ propTypes as SpectrumPropTypes, defaultProps as SpectrumDefaultProps }
-  from '../components/Spectrum';
-import LoadingIcon from '../components/LoadingIcon';
 import * as gameActions from '../actions/game';
-import * as lobbyActions from '../actions/lobby';
-import GenericButton from '../components/GenericButton';
+import ConnectedGame from './Game';
+import ConnectedLobby from './Lobby';
+import LoadingIcon from '../components/LoadingIcon';
 
 
 const useKeyboardEvent = (callback) => {
@@ -37,26 +23,16 @@ const useKeyboardEvent = (callback) => {
 
 const mapStateToProps = state => ({
   currentStep: state.tetris.currentStep,
-  playerName: state.tetris.playerName,
-  roomName: state.tetris.roomName,
-  score: state.game.score,
-  spectrums: state.game.spectrums,
 });
 const mapDispatchToProps = dispatch => (
   bindActionCreators({
     ...gameActions,
-    ...lobbyActions,
   }, dispatch)
 );
 
 export const Tetris = ({
   currentStep,
-  leaveRoom,
-  playerName,
-  roomName,
-  score,
   sendGameInput,
-  spectrums,
 }) => {
   if (currentStep === 'game') {
     useKeyboardEvent((event) => {
@@ -67,49 +43,24 @@ export const Tetris = ({
   }
 
   switch (currentStep) {
-    case 'game':
-      return (
-        <div className="game-container">
-          <PlayerInfo
-            playerName={playerName}
-            roomName={roomName}
-          />
-          <div className="board-stats-container">
-            <ConnectedBoard />
-            <div className="stats-container">
-              <Score score={score} />
-              <Spectrum spectrums={spectrums} />
-            </div>
-          </div>
-          <GenericButton
-            action={leaveRoom}
-            contentText="Leave"
-          />
-        </div>
-      );
     case 'playerNameSelection':
-      return <ConnectedLobby />;
     case 'roomNameSelection':
       return <ConnectedLobby />;
+    case 'game':
+    case 'endGame':
+    case 'gameReport':
+      return <ConnectedGame />;
     default:
       return <LoadingIcon />;
   }
 };
 
 Tetris.propTypes = {
-  ...PlayerInfoPropTypes,
-  ...ScorePropTypes,
-  ...SpectrumPropTypes,
   currentStep: PropTypes.string,
-  leaveRoom: PropTypes.func,
   sendGameInput: PropTypes.func,
 };
 Tetris.defaultProps = {
-  ...PlayerInfoDefaultProps,
-  ...ScoreDefaultProps,
-  ...SpectrumDefaultProps,
   currentStep: 'loading',
-  leaveRoom: lobbyActions.leaveRoom,
   sendGameInput: gameActions.sendGameInput,
 };
 
