@@ -40,7 +40,6 @@ const RoomNameInput = ({
           isInRoom={isInRoom}
           isLoading={isLoading}
           roomList={roomObject === undefined ? roomList : [roomObject]}
-          roomName={roomName}
           submitRoomName={submitRoomName}
         />
         {!isInRoom

@@ -24,7 +24,7 @@ const PlayerList = ({
         playerList.map((element, index) => (
           <div
             key={`player-item-${index.toString()}`}
-            className="player-item"
+            className="player-item list-item"
           >
             {element.name}
           </div>

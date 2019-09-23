@@ -13,7 +13,6 @@ const RoomList = ({
   isInRoom,
   isLoading,
   roomList,
-  roomName,
   submitRoomName,
 }) => (
   <div className="room-list-container">
@@ -29,9 +28,8 @@ const RoomList = ({
       && (
         roomList.map((roomItem, index) => (
           <div
-            className="room-item"
+            className="room-item list-item"
             key={`room-item-${index.toString()}`}
-            style={roomName === roomItem.name ? { borderColor: '#eb4d4b' } : {}}
           >
             <div className="room-item-info-container">
               <div className="room-item-info" style={{ color: '#eb4d4b' }}>{roomItem.name}</div>
@@ -55,7 +53,7 @@ const RoomList = ({
       )}
       {roomList.length === 0
       && (
-        <div className="room-item">
+        <div className="room-item list-item">
           <div className="room-item-info-container">
             <div className="room-item-info">No Room available</div>
           </div>
@@ -77,7 +75,6 @@ export const propTypes = {
     slots: PropTypes.arrayOf(PropTypes.number),
     state: PropTypes.string,
   })),
-  roomName: PropTypes.string,
   submitRoomName: PropTypes.func,
 };
 RoomList.propTypes = propTypes;
@@ -86,7 +83,6 @@ export const defaultProps = {
   ...GenericButtonDefaultProps,
   isInRoom: false,
   roomList: [],
-  roomName: '',
   submitRoomName: lobbyActions.submitRoomName,
 };
 RoomList.defaultProps = defaultProps;

@@ -7,7 +7,7 @@ import { playerType } from '../../common/enums';
 
 
 const GameReport = ({ currentPlayerType, resetRoom, leaveRoom }) => (
-  <React.Fragment>
+  <div className="button-container">
     <GenericButton
       action={leaveRoom}
       contentText="Leave"
@@ -18,7 +18,7 @@ const GameReport = ({ currentPlayerType, resetRoom, leaveRoom }) => (
         contentText="Restart"
       />
     )}
-  </React.Fragment>
+  </div>
 );
 
 export const propTypes = {
