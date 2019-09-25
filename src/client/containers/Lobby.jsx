@@ -37,7 +37,7 @@ export const Lobby = ({
   currentPlayerType,
   currentStep,
   handlePlayerNameSelection,
-  handleroomNameSelection,
+  handleRoomSelection,
   isInRoom,
   isLoading,
   leaveRoom,
@@ -49,7 +49,7 @@ export const Lobby = ({
   roomName,
   roomObject,
   submitPlayerName,
-  submitRoomName,
+  submitRoom,
 }) => {
   switch (currentStep) {
     case 'playerNameSelection':
@@ -66,7 +66,7 @@ export const Lobby = ({
       return (
         <RoomNameInput
           currentPlayerType={currentPlayerType}
-          handleroomNameSelection={handleroomNameSelection}
+          handleRoomSelection={handleRoomSelection}
           isInRoom={isInRoom}
           isLoading={isLoading}
           leaveRoom={leaveRoom}
@@ -77,7 +77,7 @@ export const Lobby = ({
           roomList={roomList}
           roomName={roomName}
           roomObject={roomObject}
-          submitRoomName={submitRoomName}
+          submitRoom={submitRoom}
         />
       );
     default:

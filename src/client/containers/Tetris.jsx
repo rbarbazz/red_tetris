@@ -36,8 +36,11 @@ export const Tetris = ({
 }) => {
   if (currentStep === 'game') {
     useKeyboardEvent((event) => {
-      if ([32, 37, 38, 39, 40].includes(event.keyCode)) {
-        sendGameInput(event.code, event.type);
+      const { keyCode, type } = event;
+      const inputCodes = [32, 37, 38, 39, 40];
+
+      if (inputCodes.includes(keyCode)) {
+        sendGameInput(keyCode, type);
       }
     });
   }

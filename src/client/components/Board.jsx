@@ -12,24 +12,21 @@ const Board = ({
   board,
   currentStep,
 }) => (
-  <React.Fragment>
-    <div className="board-container">
-      {currentStep === 'endGame' ? (
-        <div className="game-end-screen">
-          <h2 className="game-end-title">Game Over</h2>
-          <p className="game-end-message">Please wait for all players to finish</p>
-        </div>
-      ) : (
-        board.map((num, index) => (
-          <Block
-            key={`game-block-${index.toString()}`}
-            color={colors[num]}
-          />
-        ))
-      )}
-    </div>
-    <div className="window-size-error">Window too small, please resize to minimum 400x740</div>
-  </React.Fragment>
+  <div className="board-container">
+    {currentStep === 'endGame' ? (
+      <div className="game-end-screen">
+        <h2 className="game-end-title">Game Over</h2>
+        <p className="game-end-message">Please wait for all players to finish</p>
+      </div>
+    ) : (
+      board.map((num, index) => (
+        <Block
+          key={`game-block-${index.toString()}`}
+          color={colors[num]}
+        />
+      ))
+    )}
+  </div>
 );
 
 export const propTypes = {

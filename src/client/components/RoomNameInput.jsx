@@ -16,7 +16,7 @@ import GenericButton from './GenericButton';
 
 const RoomNameInput = ({
   currentPlayerType,
-  handleroomNameSelection,
+  handleRoomSelection,
   isInRoom,
   isLoading,
   leaveRoom,
@@ -24,10 +24,11 @@ const RoomNameInput = ({
   ownerIsReady,
   playerList,
   playerName,
+  roomGameMode,
   roomList,
   roomName,
   roomObject,
-  submitRoomName,
+  submitRoom,
 }) => (
   <div className="room-selection-wrapper">
     <PlayerInfo
@@ -36,13 +37,14 @@ const RoomNameInput = ({
     />
     <div key="room-selection-container" className="room-selection-container">
       <div className="room-selection-left-side">
-        <RoomList
-          isInRoom={isInRoom}
-          isLoading={isLoading}
-          roomList={roomObject === undefined ? roomList : [roomObject]}
-          roomName={roomName}
-          submitRoomName={submitRoomName}
-        />
+        {roomList.length > 0 && (
+          <RoomList
+            isInRoom={isInRoom}
+            isLoading={isLoading}
+            roomList={roomObject === undefined ? roomList : [roomObject]}
+            submitRoom={submitRoom}
+          />
+        )}
         {!isInRoom
         && (
           <div className="room-creation-container">
@@ -50,17 +52,27 @@ const RoomNameInput = ({
             <div className="room-creation-input-container">
               <input
                 className="room-creation-text-input"
-                onChange={event => handleroomNameSelection(event.target.value)}
+                onChange={event => handleRoomSelection(event.target.value, roomGameMode)}
                 placeholder="Room Name"
                 style={roomName === '' ? {} : { border: 'solid 3px #eb4d4b' }}
                 type="text"
                 value={roomName}
               />
+              <select
+                className="game-mode-select"
+                defaultValue="gameMode"
+                onChange={event => handleRoomSelection(roomName, event.target.value)}
+                value={roomGameMode}
+              >
+                <option disabled value="gameMode">Game Mode</option>
+                <option value="classic">Classic</option>
+                <option value="tournament">Tournament</option>
+              </select>
               <GenericButton
-                action={() => submitRoomName(roomName)}
-                isLoading={isLoading}
-                disabled={roomName === ''}
+                action={() => submitRoom(roomName, roomGameMode)}
                 contentText="Create"
+                disabled={roomName === ''}
+                isLoading={isLoading}
               />
             </div>
           </div>
@@ -84,7 +96,7 @@ const RoomNameInput = ({
 export const propTypes = {
   ...PlayerListPropTypes,
   ...RoomListPropTypes,
-  handleroomNameSelection: PropTypes.func,
+  handleRoomSelection: PropTypes.func,
   message: PropTypes.string,
   playerName: PropTypes.string,
 };
@@ -93,7 +105,7 @@ RoomNameInput.propTypes = propTypes;
 export const defaultProps = {
   ...PlayerListDefaultProps,
   ...RoomListDefaultProps,
-  handleroomNameSelection: lobbyActions.handleroomNameSelection,
+  handleRoomSelection: lobbyActions.handleRoomSelection,
   message: '',
   playerName: '',
 };

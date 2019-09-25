@@ -116,12 +116,12 @@ export default () => describe('Components', () => {
       expect(wrapper.find('.input-submit-container > button').text()).to.equal('Enter');
     });
 
-    it('should simulate click and call handleroomNameSelection', () => {
+    it('should simulate click and call handleRoomSelection', () => {
       const onButtonClick = sinon.spy();
       const roomList = ['room1', 'room2', 'room3'];
       const wrapper = shallow(
         <RoomNameInput
-          handleroomNameSelection={onButtonClick}
+          handleRoomSelection={onButtonClick}
           roomList={roomList}
         />,
       );
@@ -130,12 +130,12 @@ export default () => describe('Components', () => {
       expect(onButtonClick).to.have.property('callCount', 1);
     });
 
-    it('should simulate change and call handleroomNameSelection', () => {
+    it('should simulate change and call handleRoomSelection', () => {
       const onInputChange = sinon.spy();
       const roomList = ['room1', 'room2', 'room3'];
       const wrapper = shallow(
         <RoomNameInput
-          handleroomNameSelection={onInputChange}
+          handleRoomSelection={onInputChange}
           roomList={roomList}
         />,
       );
@@ -144,11 +144,11 @@ export default () => describe('Components', () => {
       expect(onInputChange).to.have.property('callCount', 1);
     });
 
-    it('should simulate click and call submitRoomName', () => {
+    it('should simulate click and call submitRoom', () => {
       const onButtonClick = sinon.spy();
       const wrapper = shallow(
         <RoomNameInput
-          submitRoomName={onButtonClick}
+          submitRoom={onButtonClick}
           roomName="room1"
         />,
       );

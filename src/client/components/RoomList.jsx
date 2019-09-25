@@ -13,8 +13,7 @@ const RoomList = ({
   isInRoom,
   isLoading,
   roomList,
-  roomName,
-  submitRoomName,
+  submitRoom,
 }) => (
   <div className="room-list-container">
     <div className="room-list-title">
@@ -25,42 +24,30 @@ const RoomList = ({
       )}
     </div>
     <div className="room-list-items-container">
-      {roomList.length > 0
-      && (
-        roomList.map((roomItem, index) => (
-          <div
-            className="room-item"
-            key={`room-item-${index.toString()}`}
-            style={roomName === roomItem.name ? { borderColor: '#eb4d4b' } : {}}
-          >
-            <div className="room-item-info-container">
-              <div className="room-item-info" style={{ color: '#eb4d4b' }}>{roomItem.name}</div>
-              <div className="room-item-info">{roomItem.state === roomState.FREE ? 'In Lobby' : 'In Game'}</div>
-              <div className="room-item-info">{`Slots ${roomItem.slots[1]}/${roomItem.slots[2]}`}</div>
-            </div>
-            {!isInRoom && roomItem.slots[0] > 0
-            && (
-              <GenericButton
-                action={() => submitRoomName(roomItem.name)}
-                isLoading={isLoading}
-                contentText={roomItem.state === roomState.BUSY ? (
-                  'Join as spectator'
-                ) : (
-                  'Join'
-                )}
-              />
-            )}
-          </div>
-        ))
-      )}
-      {roomList.length === 0
-      && (
-        <div className="room-item">
+      {roomList.map((roomItem, index) => (
+        <div
+          className="room-item list-item"
+          key={`room-item-${index.toString()}`}
+        >
           <div className="room-item-info-container">
-            <div className="room-item-info">No Room available</div>
+            <div className="room-item-info" style={{ color: '#eb4d4b' }}>{roomItem.name}</div>
+            <div className="room-item-info">{roomItem.state === roomState.FREE ? 'In Lobby' : 'In Game'}</div>
+            <div className="room-item-info">{`Slots ${roomItem.slots[1]}/${roomItem.slots[2]}`}</div>
           </div>
+          {!isInRoom && roomItem.slots[0] > 0
+          && (
+            <GenericButton
+              action={() => submitRoom(roomItem.name)}
+              isLoading={isLoading}
+              contentText={roomItem.state === roomState.BUSY ? (
+                'Join as spectator'
+              ) : (
+                'Join'
+              )}
+            />
+          )}
         </div>
-      )}
+      ))}
     </div>
   </div>
 );
@@ -77,8 +64,7 @@ export const propTypes = {
     slots: PropTypes.arrayOf(PropTypes.number),
     state: PropTypes.string,
   })),
-  roomName: PropTypes.string,
-  submitRoomName: PropTypes.func,
+  submitRoom: PropTypes.func,
 };
 RoomList.propTypes = propTypes;
 
@@ -86,8 +72,7 @@ export const defaultProps = {
   ...GenericButtonDefaultProps,
   isInRoom: false,
   roomList: [],
-  roomName: '',
-  submitRoomName: lobbyActions.submitRoomName,
+  submitRoom: lobbyActions.submitRoom,
 };
 RoomList.defaultProps = defaultProps;
 

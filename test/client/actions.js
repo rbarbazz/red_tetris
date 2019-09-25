@@ -45,17 +45,17 @@ export default () => describe('Actions', () => {
       expect(lobbyActions.submitPlayerName(playerName)).to.deep.equal(expectedAction);
     });
 
-    it('should call handleroomNameSelection and return the correct input', () => {
+    it('should call handleRoomSelection and return the correct input', () => {
       const roomName = 'room303';
       const expectedAction = {
         type: lobbyActions.STORE_ROOM,
         payload: { roomName },
       };
 
-      expect(lobbyActions.handleroomNameSelection(roomName)).to.deep.equal(expectedAction);
+      expect(lobbyActions.handleRoomSelection(roomName)).to.deep.equal(expectedAction);
     });
 
-    it('should call submitRoomName and return the correct input', () => {
+    it('should call submitRoom and return the correct input', () => {
       const roomName = 'room303';
       const expectedAction = {
         eventType: eventType.LOBBY,
@@ -63,7 +63,7 @@ export default () => describe('Actions', () => {
         payload: { roomName },
       };
 
-      expect(lobbyActions.submitRoomName(roomName)).to.deep.equal(expectedAction);
+      expect(lobbyActions.submitRoom(roomName)).to.deep.equal(expectedAction);
     });
   });
 

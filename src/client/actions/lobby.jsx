@@ -14,14 +14,14 @@ export const submitPlayerName = playerName => ({
   eventType: eventType.LOBBY,
 });
 
-export const handleroomNameSelection = roomName => ({
+export const handleRoomSelection = (roomName, roomGameMode) => ({
   type: STORE_ROOM,
-  payload: { roomName },
+  payload: { roomName, roomGameMode },
 });
 
-export const submitRoomName = roomName => ({
+export const submitRoom = (roomName, roomGameMode) => ({
   type: msgType.CLIENT.JOIN_ROOM,
-  payload: { roomName },
+  payload: { roomName, roomGameMode },
   eventType: eventType.LOBBY,
 });
 
