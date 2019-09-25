@@ -105,13 +105,14 @@ export default class Room {
       return 'Player is not master';
     }
     this.state = roomState.BUSY;
-    this._game = new Game(this.players);
+    this._game = new Game(0, 0, this.players);
     return null;
   }
 
   stop() {
     if (this.state === roomState.BUSY) {
       this._game.stop();
+      delete this._game;
       this.state = roomState.FREE; // Sera set quand le master relance la partie
     }
   }

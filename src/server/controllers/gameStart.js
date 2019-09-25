@@ -3,10 +3,10 @@ import { eventType, msgType, playerType } from '../../common/enums';
 import * as comm from '../../common/sockWrapper';
 
 export function gameStart(room) {
-  const game = room.game;
+  const { game } = room;
   Object.values(room.players).forEach(player => (
     comm.sendRequest(player.socket, eventType.GAME, msgType.SERVER.GAME_START,
-      { })
+      { timer: 3000 })
   ));
   game.start();
 }

@@ -1,14 +1,3 @@
-
-export const TETRIS = {
-  I: 'I',
-  O: 'O',
-  T: 'T',
-  L: 'L',
-  J: 'J',
-  Z: 'Z',
-  S: 'S',
-};
-
 export const ORIENTATION = [0, 1, 2, 3]; // Default, 90deg, 180deg, -90deg
 
 export class Piece {
@@ -25,15 +14,8 @@ export class Piece {
     return this._orientation;
   }
 
-  _turn(n) {
+  rotate(n) {
     this._orientation = (ORIENTATION.length + this._orientation + n) % ORIENTATION.length;
   }
 
-  turnRight() {
-    this._turn(1);
-  }
-
-  turnLeft() {
-    this._turn(-1);
-  }
 }

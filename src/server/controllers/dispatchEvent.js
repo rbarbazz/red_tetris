@@ -9,6 +9,7 @@ import {
 } from './clientConnect';
 import { gameStart } from './gameStart';
 import { gameInput } from './gameInput';
+import PNRG from './prng';
 
 function onLobbyEvent(socket, data) {
   if (data.type === msgType.PING) {
@@ -37,9 +38,9 @@ function onLobbyEvent(socket, data) {
 
 function onGameEvent(socket, data) {
   if (data.type === msgType.CLIENT.GAME_INPUT) {
-    comm.sendRequest(socket, eventType.GAME, msgType.SERVER.GAME_END, {});
-    comm.sendRequest(socket, eventType.GAME, msgType.SERVER.GAME_REPORT, {});
-    // gameInput(socket, data);
+    // comm.sendRequest(socket, eventType.GAME, msgType.SERVER.GAME_END, {});
+    // comm.sendRequest(socket, eventType.GAME, msgType.SERVER.GAME_REPORT, {});
+    gameInput(socket, data))
   }
 }
 
@@ -52,7 +53,7 @@ export default function dispatchEvent(io) {
       sendLobbyToClients();
     });
     socket.on(eventType.GAME, (data) => {
-      dbg.info(`Event ${eventType.GAME} from ${socket.id}: ${JSON.stringify(data, null, 2)}`);
+      // dbg.info(`Event ${eventType.GAME} from ${socket.id}: ${JSON.stringify(data, null, 2)}`);
       onGameEvent(socket, data);
       sendLobbyToClients();
     });
