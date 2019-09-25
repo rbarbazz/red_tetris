@@ -13,6 +13,7 @@ const initialState = {
   playerName: '',
   roomList: [],
   roomName: '',
+  roomGameMode: 'classic',
   roomObject: undefined,
 };
 
@@ -64,7 +65,11 @@ const reducer = (state = initialState, action) => {
       };
     }
     case STORE_ROOM:
-      return { ...state, roomName: action.payload.roomName };
+      return {
+        ...state,
+        roomName: action.payload.roomName,
+        roomGameMode: action.payload.roomGameMode,
+      };
     case msgType.CLIENT.JOIN_ROOM:
       return { ...state, isLoading: true };
     case `${msgType.CLIENT.JOIN_ROOM}_SUCCESS`:

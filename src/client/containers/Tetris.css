@@ -134,7 +134,8 @@ html, body {
 .error-transition-appear-active {
 	opacity: 1;
 }
-input {
+input,
+select {
 	background-color: #EFF1F3;
 	border-radius: 5px;
 	border: solid 3px #454545;
@@ -268,12 +269,12 @@ div .list-item:last-of-type {
 	text-align: center;
 	width: 100%;
 }
+
 /* Room Creation
    ========================================================================== */
 
 .room-creation-text-input {
-	margin: 5px 10px 5px 0;
-	width: 50%;
+	margin: 5px 0;
 }
 .room-creation-input-container {
 	align-items: center;
@@ -284,6 +285,10 @@ div .list-item:last-of-type {
 	display: flex;
 	justify-content: space-between;
 	padding: 12px 20px;
+}
+.game-mode-select {
+	margin: 0 10px;
+	height: 53px;
 }
 
 /* Room List
@@ -509,7 +514,7 @@ div .list-item:last-of-type {
 /* Tablet
    ========================================================================== */
 
-@media (max-width: 865px) {
+@media (max-width: 990px) {
 	.room-selection-container {
 		flex-wrap: wrap;
 	}
@@ -550,7 +555,7 @@ div .list-item:last-of-type {
 	.username-input-form {
 		margin: 20px;
 	}
-	.three-dots-container {
+	.player-base-info-label {
 		display: none;
 	}
 	.board-stats-container {

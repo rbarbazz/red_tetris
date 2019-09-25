@@ -22,7 +22,7 @@ export const App = ({
   clientInit,
   displayLobby,
   handlePlayerNameSelection,
-  handleroomNameSelection,
+  handleRoomSelection,
   matches,
   ping,
   submitHashBasedData,
@@ -32,7 +32,7 @@ export const App = ({
     const roomName = matches[1];
 
     handlePlayerNameSelection(playerName);
-    handleroomNameSelection(roomName);
+    handleRoomSelection(roomName);
     submitHashBasedData(playerName, roomName);
   } else if (clientInit) {
     displayLobby();
@@ -46,7 +46,7 @@ App.propTypes = {
   clientInit: PropTypes.bool,
   displayLobby: PropTypes.func,
   handlePlayerNameSelection: PropTypes.func,
-  handleroomNameSelection: PropTypes.func,
+  handleRoomSelection: PropTypes.func,
   matches: PropTypes.arrayOf(PropTypes.string),
   ping: PropTypes.func,
   submitHashBasedData: PropTypes.func,
@@ -55,7 +55,7 @@ App.defaultProps = {
   clientInit: false,
   displayLobby: tetrisActions.displayLobby,
   handlePlayerNameSelection: lobbyActions.handlePlayerNameSelection,
-  handleroomNameSelection: lobbyActions.handleroomNameSelection,
+  handleRoomSelection: lobbyActions.handleRoomSelection,
   matches: [],
   ping: serverActions.ping,
   submitHashBasedData: tetrisActions.submitHashBasedData,

@@ -185,9 +185,9 @@ export default () => describe('Containers', () => {
       expect(connectedWrapper.props().playerName).to.equal('');
       expect(connectedWrapper.props().roomName).to.equal('');
       expect(connectedWrapper.props().handlePlayerNameSelection).to.be.instanceOf(Function);
-      expect(connectedWrapper.props().handleroomNameSelection).to.be.instanceOf(Function);
+      expect(connectedWrapper.props().handleRoomSelection).to.be.instanceOf(Function);
       expect(connectedWrapper.props().submitPlayerName).to.be.instanceOf(Function);
-      expect(connectedWrapper.props().submitRoomName).to.be.instanceOf(Function);
+      expect(connectedWrapper.props().submitRoom).to.be.instanceOf(Function);
     });
   });
 
