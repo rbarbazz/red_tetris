@@ -1,9 +1,7 @@
 import * as dbg from '../../common/devLog';
-import { CONFIG, TETRIS } from '../../common/enums';
-import PRNG from '../controllers/prng';
-import Board from './Board';
+import { CONFIG } from '../../common/enums';
+import Field from './Field';
 import Score from './Score';
-import { Piece } from './Piece';
 import timeNow from '../controllers/time';
 
 /*
@@ -13,16 +11,13 @@ class Game {
   constructor(type, speed, players) {
     this._type = type;
     this._speed = speed;
-    this._rng = new PRNG();
-    this._pieces = [this._rng.rand(0, TETRIS.length)]; // Id of piece in the TETRIS list
+    this._bag = [];
     this._instances = {};
     Object.values(players).forEach((player) => {
       this._instances[player.id] = {
-        field: new Board(20, 10), // Field of the player
+        field: new Field(24, 10), // Field of the player
         score: new Score(), // Score instance
-        pieceId: 0, // Current pos of the piece list
-        piece: new Piece(TETRIS[0]), // Current instance of piece
-        pos: { x: 5, y: 0 },
+        pieceId: [0, 0], // Current pos of the piece list [bag, pos]
         cooldown: 0, // Time before next action is available
         hitDown: false, // Speed up the fall until release
         lock: false, // Auto fall until next piece
@@ -35,7 +30,7 @@ class Game {
     const instance = this._instances[player.id];
     const now = timeNow();
     if (instance.cooldown - now > 0) return false;
-    instance.cooldown = now + (CONFIG.COOLDOWN * 1000);
+    instance.cooldown = now + CONFIG.COOLDOWN;
     if (action.event === 'keydown') {
       if (action.code === 'ArrowDown') {
         instance.hitDown = true;
@@ -58,7 +53,9 @@ class Game {
         instance.hitDown = false;
       }
       if (action.code === 'ArrowUp') {
-        instance.piece.rotate(1);
+        if (instance.field.turnRight() === false) {
+          return false;
+        }
       }
     }
     return true;

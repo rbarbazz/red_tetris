@@ -9,7 +9,6 @@ import {
 } from './clientConnect';
 import { gameStart } from './gameStart';
 import { gameInput } from './gameInput';
-import PNRG from './prng';
 
 function onLobbyEvent(socket, data) {
   if (data.type === msgType.PING) {
@@ -40,7 +39,7 @@ function onGameEvent(socket, data) {
   if (data.type === msgType.CLIENT.GAME_INPUT) {
     // comm.sendRequest(socket, eventType.GAME, msgType.SERVER.GAME_END, {});
     // comm.sendRequest(socket, eventType.GAME, msgType.SERVER.GAME_REPORT, {});
-    gameInput(socket, data))
+    gameInput(socket, data);
   }
 }
 

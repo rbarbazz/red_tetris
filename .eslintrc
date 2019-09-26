@@ -7,5 +7,6 @@
 	"rules": {
 		"no-param-reassign": "off", // Don't detect get/set
 		"no-underscore-dangle": "off", // Private members
+		"no-plusplus" : "off", // ++i or i++
 	},
 }

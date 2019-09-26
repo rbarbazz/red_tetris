@@ -19,7 +19,7 @@ export const CONFIG = {
   NAME_MAX: 15,
   MAX_ROOM: 8,
   SLOTS_PER_ROOM: 8,
-  COOLDOWN: 100, // In microseconds
+  COOLDOWN: 16666, // In microseconds
 };
 
 export const GAME_TYPE = {
@@ -33,17 +33,6 @@ export const GAME_SPEED = {
   NORMAL: 0.6,
   FAST: 0.33,
   SUPERFAST: 0.2,
-};
-
-export const TETRIS = ['I', 'O', 'T', 'L', 'J', 'Z', 'S'];
-export const TETRIS_SHAPE = {
-  I: '',
-  O: '',
-  T: '',
-  L: '',
-  J: '',
-  Z: '',
-  S: '',
 };
 
 export const KEYS = {
