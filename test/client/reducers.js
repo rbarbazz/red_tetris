@@ -22,7 +22,7 @@ export default () => describe('Reducers', () => {
 
 
   describe('board', () => {
-    const initialState = new Array(200).fill(0);
+    const initialState = new Array(20).fill(Array(10).fill(0));
 
     it('should return the initial state', () => {
       expect(board(undefined, {})).to.deep.equal(initialState);

@@ -210,7 +210,7 @@ export default () => describe('Containers', () => {
 
     it('should get the correct props from mapStateToProps and mapDispatchToProps', () => {
       const initialState = {
-        board: Array(200).fill(0),
+        board: Array(20).fill(Array(10).fill(0)),
         tetris: {
           didGameStart: false,
           currentPlayerType: playerType.NONE,
@@ -219,7 +219,7 @@ export default () => describe('Containers', () => {
       const store = mockStore(initialState);
       const connectedWrapper = shallow(<ConnectedBoard store={store} />).dive();
 
-      expect(connectedWrapper.props().board).to.deep.equal(Array(200).fill(0));
+      expect(connectedWrapper.props().board).to.deep.equal(Array(20).fill(Array(10).fill(0)));
       expect(connectedWrapper.props().didGameStart).to.equal(false);
       expect(connectedWrapper.props().currentPlayerType).to.equal(playerType.NONE);
       expect(connectedWrapper.props().ownerIsReady).to.be.instanceOf(Function);
