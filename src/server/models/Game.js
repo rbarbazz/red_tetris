@@ -30,35 +30,38 @@ class Game {
 
   playerAction(player, action) {
     const instance = this._instances[player.id];
+    let doSmth = null;
+    if (action.event === 'keydown') {
+      if (action.key === KEYS.DOWN) {
+        doSmth = () => {
+          instance.hitDown = true;
+          return instance.field.moveDown();
+        };
+      } else if (action.key === KEYS.LEFT) {
+        doSmth = () => instance.field.moveLeft();
+      } else if (action.key === KEYS.RIGHT) {
+        doSmth = () => instance.field.moveRight();
+      }
+    } else if (action.event === 'keyup') {
+      if (action.key === KEYS.DOWN) {
+        doSmth = () => {
+          instance.hitDown = false;
+          return false;
+        };
+      } else if (action.key === KEYS.UP) {
+        doSmth = () => instance.field.turnRight();
+      } else if (action.key === KEYS.SPACE) {
+        doSmth = () => {
+          instance.lock = true;
+          return false;
+        };
+      }
+    }
+    if (doSmth === null) return false;
     const now = timeNow();
     if (instance.cooldown - now > 0) return false;
     instance.cooldown = now + CONFIG.COOLDOWN;
-    let doSmth = true;
-    if (action.event === 'keydown') {
-      if (action.key === KEYS.DOWN) {
-        instance.hitDown = true;
-        instance.field.moveDown();
-      } else if (action.key === KEYS.SPACE) {
-        instance.lock = true;
-      } else if (action.key === KEYS.LEFT) {
-        if (instance.field.moveLeft() === false) {
-          doSmth = false;
-        }
-      } else if (action.key === KEYS.RIGHT) {
-        if (instance.field.moveRight() === false) {
-          doSmth = false;
-        }
-      } else doSmth = false;
-    } else if (action.event === 'keyup') {
-      if (action.key === KEYS.DOWN) {
-        instance.hitDown = false;
-      } else if (action.key === KEYS.UP) {
-        if (instance.field.turnRight() === false) {
-          doSmth = false;
-        }
-      } else doSmth = false;
-    } else doSmth = false;
-    return doSmth;
+    return doSmth();
   }
 
   tick(player) {
