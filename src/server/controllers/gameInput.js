@@ -9,6 +9,8 @@ export function gameInput(socket, data) {
   // TODO: Add checks
   const player = lobby.getPlayer(socket.id);
   const { game } = player.room;
-  const action = { code: data.code, event: data.event };
-  game.playerAction(player, action);
+  const r = game.playerAction(player, data.payload);
+  if (r === true) {
+    game.tick(player);
+  }
 }
