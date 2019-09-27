@@ -27,7 +27,7 @@ GameReport,
 
 
 const mapStateToProps = state => ({
-  board: state.board,
+  board: state.game.board,
   currentPlayerType: state.tetris.currentPlayerType,
   currentStep: state.tetris.currentStep,
   playerName: state.tetris.playerName,

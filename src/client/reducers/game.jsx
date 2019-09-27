@@ -9,7 +9,7 @@ const initialState = {
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case msgType.SERVER.GAME_TICK:
-      return action.payload.board;
+      return { ...state, board: action.payload.board };
     default:
       return state;
   }
