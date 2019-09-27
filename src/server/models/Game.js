@@ -17,7 +17,7 @@ class Game {
     this._instances = {};
     Object.values(players).forEach((player) => {
       this._instances[player.id] = {
-        field: new Field(10, 24), // Field of the player
+        field: new Field(10, 23), // Field of the player
         score: new Score(), // Score instance
         pieceId: [0, 0], // Current pos of the piece list [bag, pos]
         cooldown: 0, // Time before next action is available
@@ -70,6 +70,7 @@ class Game {
     this._bag.push(new RandomBag());
     Object.values(this._instances).forEach((player) => {
       player.field.spawn(this._bag[0].piece(0));
+      this.tick(player.player);
     });
   }
 

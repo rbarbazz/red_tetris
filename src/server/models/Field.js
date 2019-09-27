@@ -25,7 +25,7 @@ export default class Field {
 
   spawn(tetrosId) {
     this._tetros = new Piece(tetrosId);
-    this._pos = this._tetros.spawn;
+    this._pos = Array.from(this._tetros.spawn);
   }
 
   addUnbreakLine() {
@@ -76,23 +76,26 @@ export default class Field {
 
   serialize() {
     // Copy entire board
-    const board = Array.from(this._map);
+    const board = Array(this._size.height);
+    for (let i = 0; i < board.length; ++i) {
+      board[i] = Array.from(this._map[i]);
+    }
     // Paste the current tetros
     if (this._tetros !== null) {
       const { shape } = this._tetros;
       for (let y = 0; y < shape.length; ++y) {
-        const yPos = this._pos[1] + y;
+        const yPos = this._pos[1] - y;
         for (let x = 0; x < shape.length; ++x) {
           const xPos = this._pos[0] + x;
           if (shape[y][x] === '1') {
-            if (xPos >= 0 && xPos < this._size.width - 1
-              && yPos >= 0 && yPos < this._size.height - 1) {
+            if (xPos >= 0 && xPos < this._size.width
+              && yPos >= 0 && yPos < this._size.height) {
               board[yPos][xPos] = this._tetros.id;
             }
           }
         }
       }
     }
-    return board;
+    return board.slice(0, 20).reverse();
   }
 }

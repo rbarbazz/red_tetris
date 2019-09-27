@@ -86,7 +86,7 @@ const TETROS_KICKS = {
 */
 const TETROS_SPAWN = {
   O: [4, 21],
-  I: [3, 21],
+  I: [3, 20],
   T: [3, 21],
   L: [3, 21],
   J: [3, 21],

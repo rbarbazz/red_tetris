@@ -3,9 +3,9 @@ import { eventType, msgType, KEYS } from '../../common/enums';
 
 const keyIds = {
   32: KEYS.SPACE,
-  37: KEYS.RIGHT,
-  38: KEYS.LEFT,
-  39: KEYS.UP,
+  39: KEYS.RIGHT,
+  37: KEYS.LEFT,
+  38: KEYS.UP,
   40: KEYS.DOWN,
 };
 

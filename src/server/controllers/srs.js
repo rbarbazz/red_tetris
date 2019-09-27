@@ -1,3 +1,5 @@
+import * as dbg from '../../common/devLog';
+
 /*
   Test if a piece can be translate
 
@@ -10,14 +12,14 @@
 export function tryTranslate(field, shape, to) {
   // Top left to bottom right
   for (let y = 0; y < shape.length; ++y) {
-    const yPos = to[1] + y;
+    const yPos = to[1] - y;
     for (let x = 0; x < shape.length; ++x) {
       const xPos = to[0] + x;
       // Tile to test
       if (shape[y][x] === '1') {
         // First check bound, then free slot
-        if (!(xPos >= 0 && xPos < field.size.width - 1)) return null;
-        if (!(yPos >= 0 && yPos < field.size.height - 1)) return null;
+        if (!(xPos >= 0 && xPos < field.size.width)) return null;
+        if (!(yPos >= 0 && yPos < field.size.height)) return null;
         if (field.field[yPos][xPos] !== 0) return null;
       }
     }
@@ -36,13 +38,14 @@ export function tryTranslate(field, shape, to) {
 */
 export function tryRotate(field, tetros, toOr) {
   const shape = tetros.shapes[toOr];
-  const kicks = tetros.kicks[tetros.orientation][toOr];
+  let { kicks } = tetros;
   // If no kicks for this tetros
   if (kicks === null) return null;
-  for (const kick in kicks) {
+  kicks = kicks[tetros.orientation][toOr];
+  for (const kick of kicks) {
     const to = [field.pos[0] + kick[0], field.pos[1] + kick[1]];
     const r = tryTranslate(field, shape, to);
-    if (r !== null) return { pos: to, orientation: toOr };
+    if (r !== null) return { pos: r, orientation: toOr };
   }
   return null;
 }
