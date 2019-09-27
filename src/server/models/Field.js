@@ -1,5 +1,6 @@
 import { Piece } from './Piece';
 import { tryTranslate, tryRotate } from '../controllers/srs';
+import * as dbg from '../../common/devLog';
 
 export default class Field {
   constructor(width, height) {

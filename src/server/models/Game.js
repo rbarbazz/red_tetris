@@ -17,7 +17,7 @@ class Game {
     this._instances = {};
     Object.values(players).forEach((player) => {
       this._instances[player.id] = {
-        field: new Field(24, 10), // Field of the player
+        field: new Field(10, 24), // Field of the player
         score: new Score(), // Score instance
         pieceId: [0, 0], // Current pos of the piece list [bag, pos]
         cooldown: 0, // Time before next action is available
@@ -62,8 +62,8 @@ class Game {
   }
 
   tick(player) {
-    comm.sendRequest(player.socket, eventType.GAME, msgType.GAME_TICK,
-      { field: this._instances[player.id].field.serialize() });
+    comm.sendRequest(player.socket, eventType.GAME, msgType.SERVER.GAME_TICK,
+      { board: this._instances[player.id].field.serialize() });
   }
 
   start() {
