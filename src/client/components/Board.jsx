@@ -5,7 +5,13 @@ import Block from './Block';
 
 const colors = {
   0: 'white',
-  1: 'red',
+  1: 'cyan',
+  2: 'yellow',
+  3: 'purple',
+  4: 'green',
+  5: 'red',
+  6: 'blue',
+  7: 'orange',
 };
 
 const Board = ({
@@ -19,24 +25,26 @@ const Board = ({
         <p className="game-end-message">Please wait for all players to finish</p>
       </div>
     ) : (
-      board.map((num, index) => (
-        <Block
-          key={`game-block-${index.toString()}`}
-          color={colors[num]}
-        />
+      board.map((line, indexLine) => (
+        line.map((num, indexBlock) => (
+          <Block
+            key={`game-block-${indexLine.toString()}${indexBlock.toString()}`}
+            color={colors[num]}
+          />
+        ))
       ))
     )}
   </div>
 );
 
 export const propTypes = {
-  board: PropTypes.arrayOf(PropTypes.number),
+  board: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.number)),
   currentStep: PropTypes.string,
 };
 Board.propTypes = propTypes;
 
 export const defaultProps = {
-  board: Array(200).fill(0),
+  board: Array(20).fill(Array(10).fill(0)),
   currentStep: 'game',
 };
 Board.defaultProps = defaultProps;

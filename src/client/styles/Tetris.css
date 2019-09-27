@@ -18,9 +18,39 @@ html, body {
 	background-color: white;
 	border: solid 0.75px #f5f6fa;
 }
+.cyan {
+	background-color: #81ecec;
+	border: solid 2px #00cec9;
+
+}
+.yellow {
+	background-color: #ffeaa7;
+	border: solid 2px #fdcb6e;
+
+}
+.purple {
+	background-color: #a29bfe;
+	border: solid 2px #6c5ce7;
+
+}
+.green {
+	background-color: #55efc4;
+	border: solid 2px #00b894;
+
+}
 .red {
-	background-color: #eb4d4b;
-	border: solid 2px #c31715;
+	background-color: #ff7675;
+	border: solid 2px #d63031;
+}
+.blue {
+	background-color: #74b9ff;
+	border: solid 2px #0984e3;
+
+}
+.orange {
+	background-color: #fab1a0;
+	border: solid 2px #e17055;
+
 }
 .loading-icon {
 	width: 3em;
@@ -488,11 +518,8 @@ div .list-item:last-of-type {
 	border: #454545 solid 7px;
 	border-radius: 5px;
 }
-.spectrum-container .white,
-.spectrum-container .red {
-	border: none;
-}
 .spectrum-container .block{
+	border: none;
 	height: 6px;
 	width: 6px;
 }
@@ -574,13 +601,15 @@ div .list-item:last-of-type {
    ========================================================================== */
 
 @media (min-width: 890px) and (min-height: 935px) {
-	.white {
-		background-color: white;
-		border: solid 1px #f5f6fa;
+	.block {
+		border-width: 3px;
+		height: 34px;
+		width: 34px;
 	}
-	.red {
-		background-color: #eb4d4b;
-		border: solid 3px #c31715;
+	.block.white {
+		border-width: 1px;
+		height: 38px;
+		width: 38px;
 	}
 	.stats-container {
 		height: 800px;
@@ -589,14 +618,6 @@ div .list-item:last-of-type {
 	.board-container {
 		height: 800px;
 		width: 400px;
-	}
-	.block {
-		height: 34px;
-		width: 34px;
-	}
-	.block.white {
-		height: 38px;
-		width: 38px;
 	}
 	.spectrum-container {
 		height: 160px;

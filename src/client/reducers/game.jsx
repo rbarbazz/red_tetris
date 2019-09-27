@@ -1,7 +1,7 @@
 import { msgType } from '../../common/enums';
 
 const initialState = {
-  board: Array(200).fill(0),
+  board: Array(20).fill(Array(10).fill(0)),
   score: 0,
   spectrums: [],
 };
