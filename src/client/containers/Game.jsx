@@ -41,7 +41,7 @@ const mapDispatchToProps = dispatch => (
   }, dispatch)
 );
 
-const Game = ({
+export const Game = ({
   board,
   currentPlayerType,
   currentStep,

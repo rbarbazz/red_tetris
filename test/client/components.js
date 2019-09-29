@@ -2,17 +2,21 @@
 import React from 'react';
 import sinon from 'sinon';
 import { expect } from 'chai';
-import { shallow } from 'enzyme';
+import { shallow, mount } from 'enzyme';
 
-import { playerType } from '../../src/common/enums';
-import Spectrum from '../../src/client/components/Spectrum';
-import Score from '../../src/client/components/Score';
+import { playerType, roomState } from '../../src/common/enums';
 import Block from '../../src/client/components/Block';
-import BoardWaitingScreen from '../../src/client/components/BoardWaitingScreen';
+import Board from '../../src/client/components/Board';
+import GameReport from '../../src/client/components/GameReport';
+import GenericButton from '../../src/client/components/GenericButton';
 import LoadingIcon from '../../src/client/components/LoadingIcon';
 import PlayerInfo from '../../src/client/components/PlayerInfo';
+import PlayerList from '../../src/client/components/PlayerList';
 import PlayerNameInput from '../../src/client/components/PlayerNameInput';
+import RoomList from '../../src/client/components/RoomList';
 import RoomNameInput from '../../src/client/components/RoomNameInput';
+import Score from '../../src/client/components/Score';
+import Spectrum from '../../src/client/components/Spectrum';
 
 
 export default () => describe('Components', () => {
@@ -23,19 +27,46 @@ export default () => describe('Components', () => {
     expect(wrapper.exists('.block')).to.equal(true);
   });
 
-  describe('BoardWaitingScreen', () => {
-    it('should render <BoardWaitingScreen currentPlayerType={playerType.MASTER} />', () => {
-      const wrapper = shallow(<BoardWaitingScreen currentPlayerType={playerType.MASTER} />);
+  describe('Board', () => {
+    it('should render <Board />', () => {
+      const wrapper = shallow(<Board />);
 
       expect(wrapper.exists()).to.equal(true);
-      expect(wrapper.exists('.board-waiting-message.owner-message')).to.equal(true);
     });
 
-    it('should render <BoardWaitingScreen currentPlayerType={playerType.SLAVE} />', () => {
-      const wrapper = shallow(<BoardWaitingScreen currentPlayerType={playerType.SLAVE} />);
+    it('should render <Board currentStep="endGame" />', () => {
+      const wrapper = shallow(<Board currentStep="endGame" />);
 
       expect(wrapper.exists()).to.equal(true);
-      expect(wrapper.exists('.board-waiting-screen')).to.equal(true);
+      expect(wrapper.exists('.game-end-screen')).to.equal(true);
+    });
+  });
+
+  describe('GameReport', () => {
+    it('should render <GameReport />', () => {
+      const wrapper = shallow(<GameReport />);
+
+      expect(wrapper.exists()).to.equal(true);
+    });
+
+    it('should render <GameReport currentPlayerType={playerType.MASTER} />', () => {
+      const wrapper = shallow(<GameReport currentPlayerType={playerType.MASTER} />);
+
+      expect(wrapper.exists()).to.equal(true);
+    });
+  });
+
+  describe('GenericButton', () => {
+    it('should render <GenericButton />', () => {
+      const wrapper = shallow(<GenericButton />);
+
+      expect(wrapper.exists()).to.equal(true);
+    });
+
+    it('should render <GenericButton isLoading />', () => {
+      const wrapper = shallow(<GenericButton isLoading />);
+
+      expect(wrapper.exists()).to.equal(true);
     });
   });
 
@@ -54,9 +85,37 @@ export default () => describe('Components', () => {
     expect(wrapper.exists('.player-base-info')).to.equal(true);
   });
 
-  describe('PlayerInputName', () => {
+  describe('PlayerList', () => {
+    it('should render <PlayerList playerList={playerList} />', () => {
+      const playerList = [{ name: 'raph' }];
+      const wrapper = shallow(<PlayerList playerList={playerList} />);
+
+      expect(wrapper.exists()).to.equal(true);
+    });
+
+    it('should render <PlayerList isInRoom />', () => {
+      const wrapper = shallow(<PlayerList isInRoom />);
+
+      expect(wrapper.exists()).to.equal(true);
+    });
+
+    it('should render <PlayerList currentPlayerType={playerType.MASTER} />', () => {
+      const wrapper = shallow(<PlayerList currentPlayerType={playerType.MASTER} />);
+
+      expect(wrapper.exists()).to.equal(true);
+    });
+  });
+
+  describe('PlayerNameInput', () => {
     it('should render <PlayerNameInput />', () => {
       const wrapper = shallow(<PlayerNameInput />);
+
+      expect(wrapper.exists()).to.equal(true);
+      expect(wrapper.exists('.username-input-container')).to.equal(true);
+    });
+
+    it('should render <PlayerNameInput playerName="raph" />', () => {
+      const wrapper = shallow(<PlayerNameInput playerName="raph" />);
 
       expect(wrapper.exists()).to.equal(true);
       expect(wrapper.exists('.username-input-container')).to.equal(true);
@@ -75,11 +134,62 @@ export default () => describe('Components', () => {
     });
 
     it('should simulate click and call submitPlayerName', () => {
-      const onButtonClick = sinon.spy();
-      const wrapper = shallow(
+      const onSubmit = sinon.spy();
+      const wrapper = mount(
         <PlayerNameInput
-          submitPlayerName={onButtonClick}
+          submitPlayerName={onSubmit}
           playerName="Bob"
+        />,
+      );
+
+      wrapper.find('form').simulate('submit', { target: { value: 'Bob' } });
+      expect(onSubmit).to.have.property('callCount', 1);
+    });
+  });
+
+  describe('RoomList', () => {
+    it('should render <RoomList />', () => {
+      const wrapper = shallow(<RoomList />);
+
+      expect(wrapper.exists()).to.equal(true);
+    });
+
+    it('should render <RoomList isInRoom />', () => {
+      const wrapper = shallow(<RoomList isInRoom />);
+
+      expect(wrapper.exists()).to.equal(true);
+    });
+
+    it('should render <RoomList roomList={roomList} />', () => {
+      const roomList = [{
+        name: 'room303',
+        state: roomState.FREE,
+        slots: [7, 1, 8],
+      }, {
+        name: 'room304',
+        state: roomState.BUSY,
+        slots: [7, 1, 8],
+      }];
+      const wrapper = shallow(<RoomList roomList={roomList} />);
+
+      expect(wrapper.exists()).to.equal(true);
+    });
+
+    it('should simulate click and call submitRoom', () => {
+      const roomList = [{
+        name: 'room303',
+        state: roomState.FREE,
+        slots: [7, 1, 8],
+      }, {
+        name: 'room304',
+        state: roomState.BUSY,
+        slots: [0, 8, 8],
+      }];
+      const onButtonClick = sinon.spy();
+      const wrapper = mount(
+        <RoomList
+          roomList={roomList}
+          submitRoom={onButtonClick}
         />,
       );
 
@@ -89,71 +199,90 @@ export default () => describe('Components', () => {
   });
 
   describe('RoomNameInput', () => {
-    it('should render <RoomNameInput />', () => {
-      const wrapper = shallow(<RoomNameInput />);
+    it('should render <RoomNameInput  roomName=""', () => {
+      const wrapper = shallow(<RoomNameInput roomName="" />);
 
       expect(wrapper.exists()).to.equal(true);
-      expect(wrapper.exists('.room-selection-container')).to.equal(true);
-      expect(wrapper.find('.input-submit-container > button').text()).to.equal('Create');
+      expect(wrapper.exists('.room-selection-wrapper')).to.equal(true);
     });
 
-    it('should render <RoomNameInput roomList={Array(3)} />', () => {
-      const roomList = ['room1', 'room2', 'room3'];
+    it('should render <RoomNameInput isInRoom />', () => {
+      const wrapper = shallow(<RoomNameInput isInRoom />);
+
+      expect(wrapper.exists()).to.equal(true);
+      expect(wrapper.exists('.room-selection-wrapper')).to.equal(true);
+    });
+
+    it('should render <RoomNameInput roomList={roomList} />', () => {
+      const roomList = [{
+        name: 'room303',
+        state: roomState.FREE,
+        slots: [7, 1, 8],
+      }, {
+        name: 'room304',
+        state: roomState.BUSY,
+        slots: [0, 8, 8],
+      }];
       const wrapper = shallow(<RoomNameInput roomList={roomList} />);
 
-      expect(wrapper.exists('.room-list-container')).to.equal(true);
+      expect(wrapper.exists('.room-selection-wrapper')).to.equal(true);
     });
 
-    it('should render <RoomNameInput roomList={Array(3)} roomName={Array[0]} />', () => {
-      const roomList = ['room1', 'room2', 'room3'];
-      const wrapper = shallow(
-        <RoomNameInput
-          roomList={roomList}
-          roomName="room3"
-        />,
-      );
+    it('should render <RoomNameInput roomObject={roomObject} />', () => {
+      const roomObject = {
+        name: 'room303',
+        state: roomState.FREE,
+        slots: [7, 1, 8],
+      };
+      const roomList = [{
+        name: 'room303',
+        state: roomState.FREE,
+        slots: [7, 1, 8],
+      }, {
+        name: 'room304',
+        state: roomState.BUSY,
+        slots: [0, 8, 8],
+      }];
 
-      expect(wrapper.find('.input-submit-container > button').text()).to.equal('Enter');
-    });
+      const wrapper = shallow(<RoomNameInput roomList={roomList} roomObject={roomObject} />);
 
-    it('should simulate click and call handleRoomSelection', () => {
-      const onButtonClick = sinon.spy();
-      const roomList = ['room1', 'room2', 'room3'];
-      const wrapper = shallow(
-        <RoomNameInput
-          handleRoomSelection={onButtonClick}
-          roomList={roomList}
-        />,
-      );
-
-      wrapper.find('.room-list-items-container > button').first().simulate('click', { target: { value: 'Bob' } });
-      expect(onButtonClick).to.have.property('callCount', 1);
+      expect(wrapper.exists('.room-selection-wrapper')).to.equal(true);
     });
 
     it('should simulate change and call handleRoomSelection', () => {
       const onInputChange = sinon.spy();
-      const roomList = ['room1', 'room2', 'room3'];
       const wrapper = shallow(
         <RoomNameInput
           handleRoomSelection={onInputChange}
-          roomList={roomList}
         />,
       );
 
-      wrapper.find('input').first().simulate('change', { target: { value: 'Bob' } });
+      wrapper.find('input').simulate('change', { target: { value: 'room303' } });
+      expect(onInputChange).to.have.property('callCount', 1);
+    });
+
+    it('should simulate click and call handleRoomSelection', () => {
+      const onInputChange = sinon.spy();
+      const wrapper = shallow(
+        <RoomNameInput
+          handleRoomSelection={onInputChange}
+        />,
+      );
+
+      wrapper.find('select').simulate('change', { target: { value: 'tournament' } });
       expect(onInputChange).to.have.property('callCount', 1);
     });
 
     it('should simulate click and call submitRoom', () => {
       const onButtonClick = sinon.spy();
-      const wrapper = shallow(
+      const wrapper = mount(
         <RoomNameInput
+          roomName="room303"
           submitRoom={onButtonClick}
-          roomName="room1"
         />,
       );
 
-      wrapper.find('.input-submit-container > button').simulate('click');
+      wrapper.find('button').simulate('click');
       expect(onButtonClick).to.have.property('callCount', 1);
     });
   });

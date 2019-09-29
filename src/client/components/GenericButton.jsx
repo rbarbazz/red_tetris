@@ -8,18 +8,19 @@ const GenericButton = ({
   isLoading,
   disabled,
   contentText,
-}) => (isLoading ? (
-  <LoadingIcon />
-) : (
-  <button
-    className="generic-button"
-    disabled={disabled}
-    onClick={action}
-    type="submit"
-  >
-    {contentText}
-  </button>
-));
+}) => (
+  isLoading ? (
+    <LoadingIcon />
+  ) : (
+    <button
+      className="generic-button"
+      disabled={disabled}
+      onClick={action}
+      type="submit"
+    >
+      {contentText}
+    </button>
+  ));
 
 export const propTypes = {
   action: PropTypes.func,
@@ -30,7 +31,7 @@ export const propTypes = {
 GenericButton.propTypes = propTypes;
 
 export const defaultProps = {
-  action: () => {},
+  action: undefined,
   contentText: '',
   disabled: false,
   isLoading: false,
