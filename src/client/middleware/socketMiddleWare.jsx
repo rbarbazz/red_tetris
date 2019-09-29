@@ -43,7 +43,7 @@ export default () => {
           });
         });
       });
-    } else if (action.type === msgType.SERVER.DISCONNECT_CLIENT) {
+    } else if (action.type === msgType.DISCONNECT) {
       socket.disconnect();
     }
     if (!clientSideActions.includes(action.type) && !fromServerActions.includes(action.type)) {

@@ -24,7 +24,7 @@ export default () => describe('Middleware', () => {
 
     store.dispatch({ type: msgType.PING });
     store.dispatch({ type: msgType.PONG });
-    store.dispatch({ type: msgType.SERVER.DISCONNECT_CLIENT });
+    store.dispatch({ type: msgType.DISCONNECT });
     expect(mockConsoleError).to.have.property('callCount', 0);
   });
 });

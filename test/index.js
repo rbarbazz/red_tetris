@@ -5,9 +5,9 @@ import './helpers/ignoreStyle';
 import mockReactDomRender from './helpers/react';
 import containers from './client/containers';
 import components from './client/components';
-// import actions from './client/actions';
-// import reducers from './client/reducers';
-// import middleware from './client/middleware';
+import actions from './client/actions';
+import reducers from './client/reducers';
+import middleware from './client/middleware';
 import '../src/client/index';
 
 
@@ -23,7 +23,7 @@ describe('React', () => {
 });
 
 describe('Redux', () => {
-  // actions();
-  // middleware();
-  // reducers();
+  actions();
+  middleware();
+  reducers();
 });

@@ -1,24 +1,24 @@
 import { expect } from 'chai';
 
-import { eventType, msgType } from '../../src/common/enums';
-import * as boardActions from '../../src/client/actions/board';
+import { eventType, msgType, KEYS } from '../../src/common/enums';
+import * as gameActions from '../../src/client/actions/game';
 import * as lobbyActions from '../../src/client/actions/lobby';
 import * as serverActions from '../../src/client/actions/server';
 import * as tetrisActions from '../../src/client/actions/tetris';
 
 
 export default () => describe('Actions', () => {
-  describe('board', () => {
+  describe('game', () => {
     it('should call sendGameInput and return the correct input', () => {
-      const key = 'ArrowRight';
+      const key = 37;
       const event = 'keydown';
       const expectedAction = {
         eventType: eventType.GAME,
-        type: msgType.CLIENT.MOVE_TETRIMINO,
-        payload: { key, event },
+        type: msgType.CLIENT.GAME_INPUT,
+        payload: { key: KEYS.LEFT, event },
       };
 
-      expect(boardActions.sendGameInput(key, event)).to.deep.equal(expectedAction);
+      expect(gameActions.sendGameInput(key, event)).to.deep.equal(expectedAction);
     });
   });
 
@@ -47,23 +47,53 @@ export default () => describe('Actions', () => {
 
     it('should call handleRoomSelection and return the correct input', () => {
       const roomName = 'room303';
+      const roomGameMode = 'classic';
       const expectedAction = {
         type: lobbyActions.STORE_ROOM,
-        payload: { roomName },
+        payload: { roomName, roomGameMode },
       };
 
-      expect(lobbyActions.handleRoomSelection(roomName)).to.deep.equal(expectedAction);
+      expect(lobbyActions.handleRoomSelection(roomName, roomGameMode))
+        .to.deep.equal(expectedAction);
     });
 
     it('should call submitRoom and return the correct input', () => {
       const roomName = 'room303';
+      const roomGameMode = 'classic';
       const expectedAction = {
         eventType: eventType.LOBBY,
-        type: msgType.CLIENT.JOIN_PARTY,
-        payload: { roomName },
+        type: msgType.CLIENT.JOIN_ROOM,
+        payload: { roomName, roomGameMode },
       };
 
-      expect(lobbyActions.submitRoom(roomName)).to.deep.equal(expectedAction);
+      expect(lobbyActions.submitRoom(roomName, roomGameMode)).to.deep.equal(expectedAction);
+    });
+
+    it('should call leaveRoom and return the correct input', () => {
+      const expectedAction = {
+        eventType: eventType.LOBBY,
+        type: msgType.CLIENT.LEAVE_ROOM,
+      };
+
+      expect(lobbyActions.leaveRoom()).to.deep.equal(expectedAction);
+    });
+
+    it('should call ownerIsReady and return the correct input', () => {
+      const expectedAction = {
+        eventType: eventType.LOBBY,
+        type: msgType.CLIENT.START_PARTY,
+      };
+
+      expect(lobbyActions.ownerIsReady()).to.deep.equal(expectedAction);
+    });
+
+    it('should call resetRoom and return the correct input', () => {
+      const expectedAction = {
+        eventType: eventType.LOBBY,
+        type: msgType.CLIENT.RESET_ROOM,
+      };
+
+      expect(lobbyActions.resetRoom()).to.deep.equal(expectedAction);
     });
   });
 
@@ -94,20 +124,11 @@ export default () => describe('Actions', () => {
       const roomName = 'room303';
       const expectedAction = {
         eventType: eventType.LOBBY,
-        type: msgType.CLIENT.CONNECT_TO_PARTY,
+        type: msgType.CLIENT.CONNECT_TO_ROOM,
         payload: { playerName, roomName },
       };
 
       expect(tetrisActions.submitHashBasedData(playerName, roomName)).to.deep.equal(expectedAction);
-    });
-
-    it('should call ownerIsReady and return the correct output', () => {
-      const expectedAction = {
-        eventType: eventType.LOBBY,
-        type: msgType.CLIENT.START_PARTY,
-      };
-
-      expect(tetrisActions.ownerIsReady()).to.deep.equal(expectedAction);
     });
   });
 });

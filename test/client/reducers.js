@@ -1,9 +1,8 @@
 import { expect } from 'chai';
 
-import { playerType, msgType } from '../../src/common/enums';
+import { playerType, msgType, roomState } from '../../src/common/enums';
 import reducers from '../../src/client/reducers';
-import board from '../../src/client/reducers/board';
-import lobby from '../../src/client/reducers/lobby';
+import game from '../../src/client/reducers/game';
 import tetris from '../../src/client/reducers/tetris';
 import server from '../../src/client/reducers/server';
 import {
@@ -20,24 +19,27 @@ export default () => describe('Reducers', () => {
     });
   });
 
-
-  describe('board', () => {
-    const initialState = new Array(20).fill(Array(10).fill(0));
+  describe('game', () => {
+    const initialState = {
+      board: Array(20).fill(Array(10).fill(0)),
+      score: 0,
+      spectrums: [],
+    };
 
     it('should return the initial state', () => {
-      expect(board(undefined, {})).to.deep.equal(initialState);
+      expect(game(undefined, {})).to.deep.equal(initialState);
     });
 
-    it('should return the correct state for NEXT_BOARD action', () => {
+    it('should return the correct state for GAME_TICK action', () => {
       const action = {
         type: msgType.SERVER.GAME_TICK,
         payload: {
           board: Array(200).fill(1),
         },
       };
-      const expectedState = Array(200).fill(1);
+      const expectedState = { ...initialState, board: Array(200).fill(1) };
 
-      expect(board(initialState, action)).to.deep.equal(expectedState);
+      expect(game(initialState, action)).to.deep.equal(expectedState);
     });
   });
 
@@ -57,16 +59,23 @@ export default () => describe('Reducers', () => {
     });
   });
 
-  describe('lobby', () => {
+  describe('tetris', () => {
     const initialState = {
-      currentStep: 'playerNameSelection',
+      currentPlayerType: playerType.NONE,
+      currentStep: 'loading',
+      isInRoom: false,
+      isLoading: false,
+      message: '',
+      playerList: [],
       playerName: '',
-      roomName: '',
       roomList: [],
+      roomName: '',
+      roomGameMode: 'classic',
+      roomObject: undefined,
     };
 
     it('should return the initial state', () => {
-      expect(lobby(undefined, {})).to.deep.equal(initialState);
+      expect(tetris(undefined, {})).to.deep.equal(initialState);
     });
 
     it('should return the correct state for STORE_PLAYER_NAME action', () => {
@@ -78,143 +87,297 @@ export default () => describe('Reducers', () => {
       };
       const expectedState = { ...initialState, playerName: action.payload.playerName };
 
-      expect(lobby(initialState, action)).to.deep.equal(expectedState);
+      expect(tetris(initialState, action)).to.deep.equal(expectedState);
     });
 
     it('should return the correct state for CONNECT_TO_LOBBY action', () => {
       const action = { type: msgType.CLIENT.CONNECT_TO_LOBBY };
-      const expectedState = { ...initialState, currentStep: 'loading' };
+      const expectedState = { ...initialState, isLoading: true };
 
-      expect(lobby(initialState, action)).to.deep.equal(expectedState);
+      expect(tetris(initialState, action)).to.deep.equal(expectedState);
     });
 
     it('should return the correct state for CONNECT_TO_LOBBY_SUCCESS action', () => {
+      const action = { type: `${msgType.CLIENT.CONNECT_TO_LOBBY}_SUCCESS` };
+      const expectedState = {
+        ...initialState,
+        currentStep: 'roomNameSelection',
+        isInRoom: false,
+        isLoading: false,
+        message: '',
+        roomName: '',
+        roomObject: undefined,
+      };
+
+      expect(tetris(initialState, action)).to.deep.equal(expectedState);
+    });
+
+    it('should return the correct state for CONNECT_TO_LOBBY_ERROR action', () => {
       const action = {
-        type: `${msgType.CLIENT.CONNECT_TO_LOBBY}_SUCCESS`,
-        payload: {
-          playerName: 'Bob',
-        },
+        type: `${msgType.CLIENT.CONNECT_TO_LOBBY}_ERROR`,
+        msg: 'error',
       };
       const expectedState = {
         ...initialState,
-        playerName: action.payload.playerName,
+        currentStep: 'playerNameSelection',
+        isLoading: false,
+        message: action.msg,
       };
 
-      expect(lobby(initialState, action)).to.deep.equal(expectedState);
+      expect(tetris(initialState, action)).to.deep.equal(expectedState);
     });
+
+    it('should return the correct state for LOBBY_DATA action', () => {
+      const action = {
+        type: msgType.SERVER.LOBBY_DATA,
+        payload: {
+          players: [{
+            name: 'raph',
+            type: playerType.NONE,
+            room: 'room303',
+          }],
+          rooms: [],
+        },
+        msg: ['nothing happened here'],
+      };
+      const expectedState = {
+        ...initialState,
+        currentPlayerType: (playerType.NONE),
+        currentStep: 'roomNameSelection',
+        message: action.msg[0],
+        playerList: action.payload.players,
+        roomList: action.payload.rooms,
+        roomName: '',
+        roomObject: undefined,
+      };
+
+      expect(tetris(initialState, action)).to.deep.equal(expectedState);
+    });
+
+    it('should return the correct state for LOBBY_DATA action', () => {
+      const action = {
+        type: msgType.SERVER.LOBBY_DATA,
+        payload: {
+          players: [{
+            name: '',
+            type: playerType.NONE,
+            room: 'room303',
+          }],
+          rooms: [{
+            name: 'room',
+          }],
+        },
+        msg: ['nothing happened here'],
+      };
+      const expectedState = {
+        ...initialState,
+        currentPlayerType: (playerType.NONE),
+        currentStep: 'roomNameSelection',
+        message: action.msg[0],
+        playerList: action.payload.players,
+        roomList: action.payload.rooms,
+        roomName: '',
+        roomObject: undefined,
+      };
+
+      expect(tetris(initialState, action)).to.deep.equal(expectedState);
+    });
+
+    it('should return the correct state for LOBBY_DATA action', () => {
+      const action = {
+        type: msgType.SERVER.LOBBY_DATA,
+        payload: {
+          players: [{
+            name: '',
+            type: playerType.NONE,
+            room: 'room303',
+          }],
+          rooms: [{
+            name: 'room303',
+            state: roomState.BUSY,
+          }],
+        },
+        msg: ['nothing happened here'],
+      };
+      const expectedState = {
+        ...initialState,
+        currentPlayerType: (playerType.NONE),
+        currentStep: 'game',
+        message: action.msg[0],
+        playerList: undefined,
+        roomList: action.payload.rooms,
+        roomName: 'room303',
+        roomObject: action.payload.rooms[0],
+      };
+
+      expect(tetris(initialState, action)).to.deep.equal(expectedState);
+    });
+
+    // it('should return the correct state for LOBBY_DATA action', () => {
+    //   const action = {
+    //     type: msgType.SERVER.LOBBY_DATA,
+    //     payload: {
+    //       players: [{
+    //         name: 'raph',
+    //         type: playerType.NONE,
+    //         room: '',
+    //       }],
+    //       rooms: [{
+    //         name: '',
+    //         players: [{
+    //           name: 'raph',
+    //           room: '',
+    //           type: 'none',
+    //         }],
+    //         state: roomState.NONE,
+    //       }],
+    //     },
+    //     msg: ['raph joined room: '],
+    //   };
+    //   const playerObject = action.payload.players[0];
+    //   const roomObject = action.payload.rooms[0];
+    //   const expectedState = {
+    //     ...initialState,
+    //     currentPlayerType: (playerObject !== undefined ? playerObject.type : playerType.NONE),
+    //     currentStep: (roomObject !== undefined && roomObject.state === roomState.BUSY)
+    //       ? 'game'
+    //       : 'roomNameSelection',
+    //     message: action.msg[0],
+    //     playerList: (roomObject !== undefined ? roomObject.players : action.payload.players),
+    //     roomList: action.payload.rooms,
+    //     roomName: (roomObject !== undefined ? roomObject.name : ''),
+    //     roomObject,
+    //   };
+
+    //   expect(tetris(initialState, action)).to.deep.equal(expectedState);
+    // });
 
     it('should return the correct state for STORE_ROOM action', () => {
       const action = {
         type: STORE_ROOM,
         payload: {
           roomName: 'room303',
-        },
-      };
-      const expectedState = { ...initialState, roomName: action.payload.roomName };
-
-      expect(lobby(initialState, action)).to.deep.equal(expectedState);
-    });
-
-    it('should return the correct state for JOIN_PARTY action', () => {
-      const action = { type: msgType.CLIENT.JOIN_PARTY };
-      const expectedState = { ...initialState, currentStep: 'loading' };
-
-      expect(lobby(initialState, action)).to.deep.equal(expectedState);
-    });
-
-    it('should return the correct state for JOIN_PARTY_SUCCESS action', () => {
-      const action = {
-        type: `${msgType.CLIENT.JOIN_PARTY}_SUCCESS`,
-        payload: {
-          roomName: 'room303',
-          playerType: playerType.NONE,
+          roomGameMode: 'classic',
         },
       };
       const expectedState = {
         ...initialState,
         roomName: action.payload.roomName,
+        roomGameMode: action.payload.roomGameMode,
       };
 
-      expect(lobby(initialState, action)).to.deep.equal(expectedState);
+      expect(tetris(initialState, action)).to.deep.equal(expectedState);
     });
 
-    it('should return the correct state for CONNECT_TO_PARTY_SUCCESS action', () => {
+    it('should return the correct state for JOIN_ROOM action', () => {
+      const action = { type: msgType.CLIENT.JOIN_ROOM };
+      const expectedState = { ...initialState, isLoading: true };
+
+      expect(tetris(initialState, action)).to.deep.equal(expectedState);
+    });
+
+    it('should return the correct state for JOIN_ROOM_SUCCESS action', () => {
+      const action = { type: `${msgType.CLIENT.JOIN_ROOM}_SUCCESS` };
+      const expectedState = {
+        ...initialState,
+        currentStep: 'roomNameSelection',
+        isLoading: false,
+        isInRoom: true,
+      };
+
+      expect(tetris(initialState, action)).to.deep.equal(expectedState);
+    });
+
+    it('should return the correct state for JOIN_ROOM_ERROR action', () => {
       const action = {
-        type: `${msgType.CLIENT.CONNECT_TO_PARTY}_SUCCESS`,
-        payload: {
-          playerName: 'Bob',
-          roomName: 'room303',
-          playerType: playerType.NONE,
-        },
+        type: `${msgType.CLIENT.JOIN_ROOM}_ERROR`,
+        msg: 'error',
       };
       const expectedState = {
         ...initialState,
-        playerName: action.payload.playerName,
-        roomName: action.payload.roomName,
+        currentStep: 'roomNameSelection',
+        isLoading: false,
+        message: action.msg,
       };
 
-      expect(lobby(initialState, action)).to.deep.equal(expectedState);
+      expect(tetris(initialState, action)).to.deep.equal(expectedState);
     });
-  });
 
-  describe('tetris', () => {
-    const initialState = {
-      currentStep: 'loading',
-      didGameStart: false,
-      playerType: playerType.NONE,
-      score: 0,
-      spectrums: Array(7).fill([...Array(125).fill(0), ...Array(75).fill(1)]),
-    };
+    it('should return the correct state for LEAVE_ROOM action', () => {
+      const action = { type: msgType.CLIENT.LEAVE_ROOM };
+      const expectedState = { ...initialState, isLoading: true };
 
-    it('should return the initial state', () => {
-      expect(tetris(undefined, {})).to.deep.equal(initialState);
+      expect(tetris(initialState, action)).to.deep.equal(expectedState);
+    });
+
+    it('should return the correct state for LEAVE_ROOM_SUCCESS action', () => {
+      const action = { type: `${msgType.CLIENT.LEAVE_ROOM}_SUCCESS` };
+      const expectedState = {
+        ...initialState,
+        currentPlayerType: playerType.NONE,
+        currentStep: 'roomNameSelection',
+        isLoading: false,
+        isInRoom: false,
+      };
+
+      expect(tetris(initialState, action)).to.deep.equal(expectedState);
+    });
+
+    it('should return the correct state for CONNECT_TO_ROOM_SUCCESS action', () => {
+      const action = { type: `${msgType.CLIENT.CONNECT_TO_ROOM}_SUCCESS` };
+      const expectedState = {
+        ...initialState,
+        currentStep: 'roomNameSelection',
+        isInRoom: true,
+      };
+
+      expect(tetris(initialState, action)).to.deep.equal(expectedState);
+    });
+
+    it('should return the correct state for CONNECT_TO_ROOM_ERROR action', () => {
+      const action = { type: `${msgType.CLIENT.CONNECT_TO_ROOM}_ERROR` };
+      const expectedState = {
+        ...initialState,
+        currentStep: 'playerNameSelection',
+        playerName: '',
+        roomName: '',
+        roomObject: undefined,
+      };
+
+      expect(tetris(initialState, action)).to.deep.equal(expectedState);
     });
 
     it('should return the correct state for DISPLAY_LOBBY action', () => {
       const action = { type: DISPLAY_LOBBY };
-      const expectedState = { ...initialState, currentStep: 'lobby' };
+      const expectedState = { ...initialState, currentStep: 'playerNameSelection' };
 
       expect(tetris(initialState, action)).to.deep.equal(expectedState);
     });
 
-    it('should return the correct state for JOIN_PARTY_SUCCESS action', () => {
-      const action = {
-        type: `${msgType.CLIENT.JOIN_PARTY}_SUCCESS`,
-        payload: {
-          roomName: 'room303',
-          playerType: playerType.NONE,
-        },
-      };
-      const expectedState = {
-        ...initialState,
-        currentStep: 'game',
-        playerType: action.payload.playerType,
-      };
+    it('should return the correct state for START_PARTY action', () => {
+      const action = { type: msgType.CLIENT.START_PARTY };
+      const expectedState = { ...initialState, currentStep: 'loading' };
 
       expect(tetris(initialState, action)).to.deep.equal(expectedState);
     });
 
-    it('should return the correct state for CONNECT_TO_PARTY_SUCCESS action', () => {
-      const action = {
-        type: `${msgType.CLIENT.CONNECT_TO_PARTY}_SUCCESS`,
-        payload: {
-          playerName: 'Bob',
-          roomName: 'room303',
-          playerType: playerType.NONE,
-        },
-      };
-      const expectedState = {
-        ...initialState,
-        currentStep: 'game',
-        playerType: action.payload.playerType,
-      };
+    it('should return the correct state for GAME_END action', () => {
+      const action = { type: msgType.SERVER.GAME_END };
+      const expectedState = { ...initialState, currentStep: 'endGame' };
 
       expect(tetris(initialState, action)).to.deep.equal(expectedState);
     });
 
-    it('should return the correct state for START_PARTY_SUCCESS action', () => {
-      const action = { type: `${msgType.CLIENT.START_PARTY}_SUCCESS` };
-      const expectedState = { ...initialState, didGameStart: true };
+    it('should return the correct state for GAME_REPORT action', () => {
+      const action = { type: msgType.SERVER.GAME_REPORT };
+      const expectedState = { ...initialState, currentStep: 'gameReport' };
+
+      expect(tetris(initialState, action)).to.deep.equal(expectedState);
+    });
+
+    it('should return the correct state for RESET_ROOM action', () => {
+      const action = { type: `${msgType.CLIENT.RESET_ROOM}_SUCCESS` };
+      const expectedState = { ...initialState, currentStep: 'roomNameSelection' };
 
       expect(tetris(initialState, action)).to.deep.equal(expectedState);
     });
