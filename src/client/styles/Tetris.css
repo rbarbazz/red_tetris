@@ -134,6 +134,38 @@ html, body {
 	border-bottom-width: 0;
 	margin-top: 4px;
 }
+.music-toggle {
+	-moz-appearance: none;
+	-webkit-appearance: none;
+	appearance: none;
+	background-color: #eb4d4b;
+	border-radius: 50%;
+	border: none;
+	box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+	color: white;
+	cursor: pointer;
+	font-size: 28px;
+	height: 50px;
+	position: absolute;
+	right: 15px;
+	top: 15px;
+	transition: all 0.3s ease 0s;
+	width: 50px;
+	z-index: 50;
+}
+.music-toggle:hover {
+	transform: translateY(5px);
+}
+.music-toggle-linethrough {
+	border-bottom: 3px solid white;
+	display: block;
+	height: 1px;
+	position: absolute;
+	transform: rotate(30deg);
+	width: 34px;
+    right: 8px;
+    top: 23px;
+}
 
 /* ==========================================================================
    Lobby
@@ -548,6 +580,9 @@ div .list-item:last-of-type {
 	.room-selection-container > * {
 		width: 90%;
 	}
+	.music-toggle:hover {
+		transform: none;
+	}
 }
 @media (max-width: 745px) {
 	.board-stats-container {
@@ -575,12 +610,18 @@ div .list-item:last-of-type {
 	}
 }
 @media (max-width: 435px) and (max-height: 768px) {
+	.music-toggle {
+		top: 33px;
+	}
 	.username-input-container {
 		max-width: 95%;
 		justify-content: space-between;
 	}
 	.username-input-form {
 		margin: 20px;
+	}
+	.player-base-info {
+		margin-bottom: 34px;
 	}
 	.player-base-info-label {
 		display: none;

@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
 import ConnectedTetris from './Tetris';
+import MusicToggle from '../components/MusicToggle';
 import * as serverActions from '../actions/server';
 import * as tetrisActions from '../actions/tetris';
 import * as lobbyActions from '../actions/lobby';
@@ -39,7 +40,12 @@ export const App = ({
   } else {
     ping();
   }
-  return <ConnectedTetris />;
+  return (
+    <>
+      <MusicToggle url="https://upload.wikimedia.org/wikipedia/commons/e/e5/Tetris_theme.ogg" />
+      <ConnectedTetris />
+    </>
+  );
 };
 
 App.propTypes = {
