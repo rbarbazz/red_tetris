@@ -33,6 +33,6 @@ Tests unitaires:
 - [ ] Plusieurs type de parties, implémentation des guidelines officielles (SRS, 7-bag, timer etc...)
 - [x] Site responsive toute plateforme/format
 - [ ] Sauvegarde des highscores par pseudo persistant
-- [ ] Musique activable/desactivable
+- [x] Musique activable/desactivable
 - [ ] C'est pas moche, y'a des couleurs, quelques animations etc... ça tourne bien, sympa à jouer...
 - [ ] ???

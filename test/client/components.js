@@ -10,6 +10,7 @@ import Board from '../../src/client/components/Board';
 import GameReport from '../../src/client/components/GameReport';
 import GenericButton from '../../src/client/components/GenericButton';
 import LoadingIcon from '../../src/client/components/LoadingIcon';
+import '../../src/client/components/MusicToggle';
 import PlayerInfo from '../../src/client/components/PlayerInfo';
 import PlayerList from '../../src/client/components/PlayerList';
 import PlayerNameInput from '../../src/client/components/PlayerNameInput';
