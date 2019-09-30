@@ -108,6 +108,21 @@ export default class Field {
     return this._turn(-1);
   }
 
+  spectrum() {
+    const board = Array(this._size.height - 3);
+    for (let i = 0; i < board.length; ++i) {
+      board[i] = Array.from(this._map[i]);
+    }
+    for (let j = 0; j < board[0].length; ++j) {
+      let write = false;
+      for (let i = board.length - 1; i >= 0; --i) {
+        if (this._map[i][j] !== 0 && write === false) write = true;
+        board[i][j] = write === true ? 1 : 0;
+      }
+    }
+    return board.reverse();
+  }
+
   serialize() {
     // Copy entire board
     const board = Array(this._size.height);

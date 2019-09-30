@@ -11,11 +11,13 @@ const Spectrum = ({ spectrums }) => (
         className="spectrum-container"
         key={`spectrum-${spectrumIndex.toString()}`}
       >
-        {spectrum.map((num, blockIndex) => (
-          <Block
-            color={num > 0 ? 'red' : 'white'}
-            key={`spectrum-${spectrumIndex.toString()}-block-${blockIndex.toString()}`}
-          />
+        {spectrum.board.map((line, indexLine) => (
+          line.map((num, indexBlock) => (
+            <Block
+              color={num > 0 ? 'red' : 'white'}
+              key={`spectrum-${indexLine.toString()}${indexBlock.toString()}`}
+            />
+          ))
         ))}
       </div>
     ))}

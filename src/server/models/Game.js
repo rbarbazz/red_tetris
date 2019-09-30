@@ -55,7 +55,7 @@ class Game {
         if (instance.field.spawn(this._bag.piece(instance.pieceId)) === false) {
           instance.run = false;
         }
-        this.send(instance);
+        this.send(instance, true);
         this.cancelTimer(instance);
         this.startTimer(instance);
       }, 500);
@@ -137,7 +137,7 @@ class Game {
     for (const instance of Object.values(this._instances)) {
       instance.field.spawn(this._bag.piece(instance.pieceId));
       instance.speed = computeSpeed(this._difficulty, instance.score.lvl);
-      this.send(instance);
+      this.send(instance, true);
       this.startTimer(instance);
     }
   }
@@ -148,13 +148,22 @@ class Game {
     }
   }
 
-  send(instance) {
+  send(instance, spectrums = false) {
+    let specs = [];
+    if (spectrums === true) {
+      for (const player of Object.values(this._instances)) {
+        specs.push({
+          board: player.field.spectrum(),
+          name: player.player.name,
+        });
+      }
+    }
     comm.sendRequest(instance.player.socket, eventType.GAME, msgType.SERVER.GAME_TICK,
       {
         board: instance.field.serialize(),
         nextPiece: this._bag.piece(instance.pieceId + 1),
+        spectrums: specs,
       });
-    return this;
   }
 }
 
