@@ -11,6 +11,6 @@ export function gameInput(socket, data) {
   const { game } = player.room;
   const r = game.playerAction(player, data.payload);
   if (r === true) {
-    game.tick(player);
+    game.send(game._instances[player.id]);
   }
 }

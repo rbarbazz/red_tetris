@@ -1,5 +1,5 @@
 import * as dbg from '../../common/devLog';
-import { roomState, playerType } from '../../common/enums';
+import { roomState, playerType, GAME_SPEED, GAME_TYPE } from '../../common/enums';
 import Game from './Game';
 
 export default class Room {
@@ -105,7 +105,7 @@ export default class Room {
       return 'Player is not master';
     }
     this.state = roomState.BUSY;
-    this._game = new Game(0, 0, this.players);
+    this._game = new Game(GAME_TYPE.CLASSIC, GAME_SPEED.NORMAL, this.players);
     return null;
   }
 

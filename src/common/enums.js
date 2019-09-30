@@ -19,7 +19,7 @@ export const CONFIG = {
   NAME_MAX: 15,
   MAX_ROOM: 8,
   SLOTS_PER_ROOM: 8,
-  COOLDOWN: 16666, // In microseconds
+  COOLDOWN: 3000, // In microseconds
 };
 
 export const GAME_TYPE = {
@@ -28,11 +28,11 @@ export const GAME_TYPE = {
 };
 
 export const GAME_SPEED = {
-  SUPERSLOW: 1.0,
-  SLOW: 0.8,
-  NORMAL: 0.6,
-  FAST: 0.33,
-  SUPERFAST: 0.2,
+  SUPERSLOW: 1.25,
+  SLOW: 1.0,
+  NORMAL: 0.8,
+  FAST: 0.6,
+  SUPERFAST: 0.33,
 };
 
 export const KEYS = {

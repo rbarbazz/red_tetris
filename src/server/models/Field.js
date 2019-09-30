@@ -2,10 +2,32 @@ import { Piece } from './Piece';
 import { tryTranslate, tryRotate } from '../controllers/srs';
 import * as dbg from '../../common/devLog';
 
+function pasteTetros(board, field, tetros) {
+  if (tetros !== null) {
+    const { shape } = tetros;
+    for (let y = 0; y < shape.length; ++y) {
+      const yPos = field.pos[1] - y;
+      for (let x = 0; x < shape.length; ++x) {
+        const xPos = field.pos[0] + x;
+        if (shape[y][x] === '1') {
+          if (xPos >= 0 && xPos < field.size.width
+            && yPos >= 0 && yPos < field.size.height) {
+            board[yPos][xPos] = tetros.id;
+          }
+        }
+      }
+    }
+  }
+}
+
 export default class Field {
   constructor(width, height) {
     this._size = { width, height };
-    this._map = Array(height).fill(Array(width).fill(0));
+    this._map = new Array(height);
+    for (let i = 0; i < height; ++i) {
+      this._map[i] = new Array(width);
+      this._map[i].fill(0);
+    }
     this._hardline = 0; // Unbreakable lines
     this._tetros = null; // Actual tetris
     this._pos = null; // Position x,y of the actual tetris
@@ -26,6 +48,18 @@ export default class Field {
   spawn(tetrosId) {
     this._tetros = new Piece(tetrosId);
     this._pos = Array.from(this._tetros.spawn);
+    // Blocked at spawn, end of game
+    if (tryTranslate(this, this._tetros.shape, this._pos) === null) {
+      return false;
+    }
+    return true;
+  }
+
+  lock() {
+    pasteTetros(this._map, this, this._tetros);
+    delete this._tetros;
+    this._tetros = null;
+    this._pos = null;
   }
 
   addUnbreakLine() {
@@ -80,22 +114,7 @@ export default class Field {
     for (let i = 0; i < board.length; ++i) {
       board[i] = Array.from(this._map[i]);
     }
-    // Paste the current tetros
-    if (this._tetros !== null) {
-      const { shape } = this._tetros;
-      for (let y = 0; y < shape.length; ++y) {
-        const yPos = this._pos[1] - y;
-        for (let x = 0; x < shape.length; ++x) {
-          const xPos = this._pos[0] + x;
-          if (shape[y][x] === '1') {
-            if (xPos >= 0 && xPos < this._size.width
-              && yPos >= 0 && yPos < this._size.height) {
-              board[yPos][xPos] = this._tetros.id;
-            }
-          }
-        }
-      }
-    }
+    pasteTetros(board, this, this._tetros);
     return board.slice(0, 20).reverse();
   }
 }
