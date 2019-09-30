@@ -6,7 +6,7 @@ const useAudioLoop = (url) => {
   const audio = new Audio(url);
   audio.loop = true;
   const [audioLoop] = useState(audio);
-  const [playing, setPlaying] = useState(true);
+  const [playing, setPlaying] = useState(false);
   const toggle = () => setPlaying(!playing);
 
   useEffect(() => {

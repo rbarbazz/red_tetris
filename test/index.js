@@ -8,22 +8,32 @@ import components from './client/components';
 import actions from './client/actions';
 import reducers from './client/reducers';
 import middleware from './client/middleware';
+import serverIndex from './server/index';
+import controllers from './server/controllers';
+import models from './server/models';
 import '../src/client/index';
 
-
-describe('React', () => {
-  describe('index', () => {
-    it('should call ReactDom.render once', () => {
-      expect(mockReactDomRender).to.have.property('callCount', 1);
-      mockReactDomRender.restore();
+describe('Client', () => {
+  describe('React', () => {
+    describe('index', () => {
+      it('should call ReactDom.render once', () => {
+        expect(mockReactDomRender).to.have.property('callCount', 1);
+        mockReactDomRender.restore();
+      });
     });
+    components();
+    containers();
   });
-  components();
-  containers();
+
+  describe('Redux', () => {
+    actions();
+    middleware();
+    reducers();
+  });
 });
 
-describe('Redux', () => {
-  actions();
-  middleware();
-  reducers();
+describe('Server', () => {
+  serverIndex();
+  controllers();
+  models();
 });
