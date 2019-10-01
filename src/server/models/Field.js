@@ -158,8 +158,8 @@ export default class Field {
     for (let i = 0; i < board.length; ++i) {
       board[i] = Array.from(this._map[i]);
     }
+    pasteTetros(board, this, this._tetros, this._shadow, true);
     pasteTetros(board, this, this._tetros, this._pos, false);
-    // pasteTetros(board, this, this._tetros, this._shadow, true);
     return board.slice(0, 20).reverse();
   }
 }
