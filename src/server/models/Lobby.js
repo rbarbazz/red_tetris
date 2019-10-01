@@ -46,7 +46,7 @@ class Lobby {
       return 'Player already connected';
     }
     if (this.hasPlayerName(name)) {
-      return 'Nickname alredy taken';
+      return 'Nickname already taken';
     }
     this._players[sock.id] = new Player(name, sock);
     return null;

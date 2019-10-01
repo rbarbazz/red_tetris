@@ -11,7 +11,7 @@ const permutations = 127;
 */
 class RandomBag {
   constructor() {
-    this._bag = Array.from(Object.keys(TETROS));
+    this._bag = Array.from(Object.keys(TETROS)).map(k => parseInt(k, 10));
     for (let i = 0; i < permutations; ++i) {
       const from = i % TETROS.length;
       const to = rng.rand(0, TETROS.length);
