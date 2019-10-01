@@ -482,7 +482,8 @@ div .list-item:last-of-type {
 	padding: 0 10px;
 	width: 310px;
 }
-.score-container {
+.score-container,
+.next-piece-container {
 	margin-bottom: 10px;
 	width: 100%;
 }
@@ -507,7 +508,8 @@ div .list-item:last-of-type {
 .player-base-info .player-base-info-label:nth-of-type(3) {
 	margin: 0 5px;
 }
-.score-display {
+.score-display,
+.next-piece-display {
 	align-items: center;
 	background-color: #454545;
 	border-radius: 5px;
