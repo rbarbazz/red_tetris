@@ -42,7 +42,7 @@ export const App = ({
   }
   return (
     <>
-      <MusicToggle url="https://upload.wikimedia.org/wikipedia/commons/e/e5/Tetris_theme.ogg" />
+      <MusicToggle url="/static/tetris_theme_a.mp3" />
       <ConnectedTetris />
     </>
   );

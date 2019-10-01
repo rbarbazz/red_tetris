@@ -39,7 +39,7 @@ MusicToggle.propTypes = {
   url: Proptypes.string,
 };
 MusicToggle.defaultProps = {
-  url: 'https://upload.wikimedia.org/wikipedia/commons/e/e5/Tetris_theme.ogg',
+  url: '',
 };
 
 export default MusicToggle;
