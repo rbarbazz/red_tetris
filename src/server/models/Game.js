@@ -43,7 +43,7 @@ class Game {
   actionDown(instance) {
     const r = instance.field.moveDown();
     if (r === false && instance.lock === false) {
-      this.cancelTimer(instance);
+      // this.cancelTimer(instance);
       instance.lock = true;
       // Add this part in lock timer function
       setTimeout(() => {
@@ -92,6 +92,7 @@ class Game {
       } else if (action.key === KEYS.SPACE) {
         doSmth = () => {
           instance.field.goToShadow();
+          this.actionDown(instance);
           return true;
         };
       }
@@ -118,6 +119,7 @@ class Game {
       if (instance.run === true) {
         this.startTimer(instance);
       } else {
+        // Check end of party
         comm.sendRequest(instance.player.socket, eventType.GAME,
           msgType.SERVER.GAME_END);
       }

@@ -49,11 +49,11 @@ export default class Field {
   spawn(tetrosId) {
     this._tetros = new Piece(tetrosId);
     this._pos = Array.from(this._tetros.spawn);
+    this.computeShadow();
     // Blocked at spawn, end of game
     if (tryTranslate(this, this._tetros.shape, this._pos) === null) {
       return false;
     }
-    this.computeShadow();
     return true;
   }
 
@@ -114,24 +114,16 @@ export default class Field {
   }
 
   goToShadow() {
-    dbg.info(this._shadow);
     this._pos = Array.from(this._shadow);
   }
 
   computeShadow() {
     const solution = Array.from(this._pos);
-    const to = Array.from(this._pos);
-    let start = 0;
-    let end = this.pos[1];
-    while (start <= end) {
-      const mid = Math.trunc((start + end) / 2);
-      to[1] = mid;
-      const r = tryTranslate(this, this._tetros.shape, to);
-      if (r !== null) {
-        end = mid - 1;
-        solution[1] = mid;
-      } else {
-        start = mid + 1;
+    for (let i = this._pos[1]; i >= 0; --i) {
+      solution[1] = i;
+      if (tryTranslate(this, this._tetros.shape, solution) === null) {
+        solution[1] = (solution[1] < 1) ? 1 : solution[1] + 1;
+        break;
       }
     }
     this._shadow = solution;
@@ -153,7 +145,6 @@ export default class Field {
   }
 
   serialize() {
-    // Copy entire board
     const board = Array(this._size.height);
     for (let i = 0; i < board.length; ++i) {
       board[i] = Array.from(this._map[i]);
