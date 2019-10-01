@@ -11,7 +11,9 @@
     "srv-dev": "DEBUG=tetris:* babel-watch -w src src/server/main.js",
     "srv-dist": "DEBUG=tetris:* babel src --out-dir dist",
     "test": "mocha",
-    "coverage": "NODE_ENV=test nyc -e .jsx --include src --all -r text -r lcov --require @babel/register mocha "
+    "coverage": "NODE_ENV=test nyc -e .jsx --include src --all -r text -r lcov --require @babel/register mocha ",
+    "build": "npm run client-dist && npm run srv-dist",
+    "start": "node dist/server/main.js"
   },
   "dependencies": {
     "debug": "^4.1.1",
