@@ -109,6 +109,7 @@ const reducer = (state = initialState, action) => {
         playerName: '',
         roomName: '',
         roomObject: undefined,
+        message: action.msg,
       };
     case msgType.CLIENT.START_PARTY:
       return { ...state, currentStep: 'loading' };

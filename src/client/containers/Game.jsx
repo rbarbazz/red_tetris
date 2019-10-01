@@ -71,7 +71,10 @@ export const Game = ({
         />
         <div className="stats-container">
           <Score score={score} />
-          <Spectrum spectrums={spectrums} />
+          <Spectrum
+            playerName={playerName}
+            spectrums={spectrums}
+          />
           <GenericButton
             action={leaveRoom}
             contentText="Leave"

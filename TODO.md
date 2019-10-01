@@ -28,7 +28,8 @@ Tests unitaires:
 ## BONUS
 
 ### Slider libre 0 à 5
-- [ ] Lobby avancé avec connexion par pseudo, création de parties paramétrés, affichage infos, rejoindre une partie, timeline infos, mode spectateur
+- [ ] Lobby avancé avec connexion par pseudo, création de parties paramétrés, affichage infos, rejoindre une partie, timeline infos
+- [ ] Mode spectateur
 - [ ] Taux de tests unitaires très largement supérieur au sujet (100% client, 100% serveur ?)
 - [ ] Plusieurs type de parties, implémentation des guidelines officielles (SRS, 7-bag, timer etc...)
 - [x] Site responsive toute plateforme/format

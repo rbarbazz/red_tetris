@@ -11,7 +11,7 @@ const initApp = (app, params, cb) => {
   const { host, port } = params;
   const handler = (req, res) => {
     const file = req.url === '/bundle.js' ? '/../../build/bundle.js' : '/../../index.html';
-    fs.readFile(__dirname.join(file), (err, data) => {
+    fs.readFile(__dirname.concat(file), (err, data) => {
       if (err) {
         logerror(err);
         res.writeHead(500);

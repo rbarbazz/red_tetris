@@ -10,7 +10,11 @@ const reducer = (state = initialState, action) => {
   switch (action.type) {
     case msgType.SERVER.GAME_TICK: {
       const { spectrums } = action.payload;
-      return { ...state, board: action.payload.board, spectrums: spectrums.length > 0 ? spectrums : state.spectrums };
+      return {
+        ...state,
+        board: action.payload.board,
+        spectrums: spectrums.length > 0 ? spectrums : state.spectrums,
+      };
     }
     default:
       return state;

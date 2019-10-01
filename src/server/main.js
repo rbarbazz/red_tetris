@@ -1,4 +1,4 @@
-import params from '../../params';
+import params from '../params';
 import * as server from './index';
 
 
