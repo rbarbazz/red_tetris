@@ -3,7 +3,6 @@ import ReactDom from 'react-dom';
 import thunk from 'redux-thunk';
 import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
-import { createLogger } from 'redux-logger';
 
 import createSocket from './middleware/socketMiddleWare';
 import reducers from './reducers';
@@ -13,13 +12,18 @@ import ConnectedApp from './containers/App';
 const hashRegex = /^#(.+)\[(.+)\]$/;
 const matches = hashRegex.exec(window.location.hash);
 
+let middlewares;
+if (process.env.NODE_ENV === 'development') {
+  // eslint-disable-next-line global-require
+  const createLogger = require('redux-logger');
+  middlewares = [thunk, createSocket(), createLogger.createLogger()];
+} else {
+  middlewares = [thunk, createSocket()];
+}
+
 const store = createStore(
   reducers,
-  applyMiddleware(
-    thunk,
-    createSocket(),
-    createLogger(),
-  ),
+  applyMiddleware(...middlewares),
 );
 
 ReactDom.render((
