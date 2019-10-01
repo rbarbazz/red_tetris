@@ -8,8 +8,8 @@ export default class Score {
 
   addLineBreak(n) {
     this.lines += n;
-    this.pts = n * 100;
-    this.lvl = this.updateLvl();
+    this.pts += n * 100;
+    this.updateLvl();
   }
 
   updateLvl() {
