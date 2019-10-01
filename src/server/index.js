@@ -8,7 +8,7 @@ const logerror = debug('tetris:error');
 export const loginfo = debug('tetris:info');
 
 const initApp = (app, params, cb) => {
-  const { host, port } = params;
+  const { port } = params;
   const handler = (req, res) => {
     const file = req.url === '/bundle.js' ? '/../../build/bundle.js' : '/../../index.html';
     fs.readFile(__dirname.concat(file), (err, data) => {
@@ -25,7 +25,7 @@ const initApp = (app, params, cb) => {
 
   app.on('request', handler);
 
-  app.listen({ host, port }, () => {
+  app.listen({ port }, () => {
     loginfo(`tetris listen on ${params.url}`);
     cb();
   });
