@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+
 import Block from './Block';
 
 
@@ -29,7 +30,8 @@ const Board = ({
       line.map((num, indexBlock) => (
         <Block
           key={`game-block-${indexLine.toString()}${indexBlock.toString()}`}
-          color={colors[num]}
+          color={colors[num] || colors[num - 10]}
+          shadowPiece={num > 10}
         />
       ))
     ))

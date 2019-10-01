@@ -21,22 +21,18 @@ html, body {
 .cyan {
 	background-color: #81ecec;
 	border: solid 2px #00cec9;
-
 }
 .yellow {
 	background-color: #ffeaa7;
 	border: solid 2px #fdcb6e;
-
 }
 .purple {
 	background-color: #a29bfe;
 	border: solid 2px #6c5ce7;
-
 }
 .green {
 	background-color: #55efc4;
 	border: solid 2px #00b894;
-
 }
 .red {
 	background-color: #ff7675;
@@ -45,12 +41,13 @@ html, body {
 .blue {
 	background-color: #74b9ff;
 	border: solid 2px #0984e3;
-
 }
 .orange {
 	background-color: #fab1a0;
 	border: solid 2px #e17055;
-
+}
+.shadow-color {
+	opacity: 0.7;
 }
 .loading-icon {
 	width: 3em;

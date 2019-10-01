@@ -11,12 +11,14 @@ const NextPiece = ({ nextPiece }) => (
 );
 
 export const propTypes = {
-  nextPiece: PropTypes.string,
+  nextPiece: PropTypes.arrayOf(
+    PropTypes.arrayOf(PropTypes.string),
+  ),
 };
 NextPiece.propTypes = propTypes;
 
 export const defaultProps = {
-  nextPiece: '0',
+  nextPiece: [],
 };
 NextPiece.defaultProps = defaultProps;
 
