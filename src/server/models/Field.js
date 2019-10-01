@@ -113,20 +113,25 @@ export default class Field {
     return this._turn(-1);
   }
 
+  goToShadow() {
+    dbg.info(this._shadow);
+    this._pos = Array.from(this._shadow);
+  }
+
   computeShadow() {
     const solution = Array.from(this._pos);
     const to = Array.from(this._pos);
-    let start = this.pos[1];
-    let end = this._size.height - 2;
-    while (start > end) {
+    let start = 0;
+    let end = this.pos[1];
+    while (start <= end) {
       const mid = Math.trunc((start + end) / 2);
       to[1] = mid;
       const r = tryTranslate(this, this._tetros.shape, to);
       if (r !== null) {
-        start = mid;
+        end = mid - 1;
         solution[1] = mid;
       } else {
-        end = mid;
+        start = mid + 1;
       }
     }
     this._shadow = solution;

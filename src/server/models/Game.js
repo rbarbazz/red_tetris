@@ -31,7 +31,6 @@ class Game {
         pieceId: 0, // Current pos of the piece
         cooldown: 0, // Time before next action is available
         hitDown: false, // Speed up the fall until release
-        autoFall: false, // Auto fall until next piece
         lock: false, // Are we inside the lock timer frame
         timer: null, // setTimeout object
         speed: 0, // Current speed timer
@@ -46,7 +45,6 @@ class Game {
     if (r === false && instance.lock === false) {
       this.cancelTimer(instance);
       instance.lock = true;
-      instance.speed = computeSpeed(this._difficulty, instance.score.lvl);
       // Add this part in lock timer function
       setTimeout(() => {
         instance.field.lock();
@@ -93,7 +91,8 @@ class Game {
         doSmth = () => instance.field.turnRight();
       } else if (action.key === KEYS.SPACE) {
         doSmth = () => {
-          instance.autoFall = true;
+          instance.field.goToShadow();
+          return true;
         };
       }
     }
