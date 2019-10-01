@@ -42,7 +42,7 @@ export const App = ({
   }
   return (
     <>
-      <MusicToggle url="/static/tetris_theme_a.wav" />
+      <MusicToggle url="http://23.237.126.42/ost/tetris-gameboy-rip/mpkrawiu/tetris-gameboy-02.mp3" />
       <ConnectedTetris />
     </>
   );
