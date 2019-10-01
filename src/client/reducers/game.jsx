@@ -16,6 +16,7 @@ const reducer = (state = initialState, action) => {
         board: action.payload.board,
         nextPiece: action.payload.nextPiece,
         spectrums: spectrums.length > 0 ? spectrums : state.spectrums,
+        score: action.payload.score,
       };
     }
     default:
