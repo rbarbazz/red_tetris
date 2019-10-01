@@ -42,7 +42,7 @@ export const App = ({
   }
   return (
     <>
-      <MusicToggle url="/static/tetris_theme_a.mp3" />
+      <MusicToggle url="/static/tetris_theme_a.wav" />
       <ConnectedTetris />
     </>
   );
