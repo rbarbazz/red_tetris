@@ -52,7 +52,7 @@ class Game {
         if (n !== null) {
           // linebreak
           instance.field.breakLines(n);
-          instance.score.addLineBreak(r.length);
+          instance.score.addLineBreak(n.length);
         }
         instance.pieceId += 1;
         instance.lock = false;
@@ -207,7 +207,9 @@ class Game {
     delete instance.field;
     delete instance.score;
     delete this._instances[instance.player.id];
-    this.send(null, true);
+    if (ping === true) {
+      this.send(null, true);
+    }
   }
 
   send(instance, spectrums = false) {
