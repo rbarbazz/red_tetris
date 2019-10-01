@@ -5,13 +5,14 @@ import Field from './Field';
 import Score from './Score';
 import timeNow from '../controllers/time';
 import Bag from './7bag';
+import { TETROS } from '../models/Piece';
 
 function computeSpeed(difficulty, lvl, autofall = false) {
-  let sec = ((difficulty - ((lvl - 1) * 0.007)) ** (lvl - 1)) * 1000;
+  let msec = ((difficulty - ((lvl - 1) * 0.007)) ** (lvl - 1)) * 1000.0;
   if (autofall === true) {
-    sec = 12.0;
+    msec = CONFIG.FALL_SPEED;
   }
-  return parseInt(Math.floor(sec), 10);
+  return parseInt(Math.floor(msec), 10);
 }
 
 /*
@@ -45,7 +46,6 @@ class Game {
     if (r === false && instance.lock === false) {
       this.cancelTimer(instance);
       instance.lock = true;
-      instance.autoFall = false;
       instance.speed = computeSpeed(this._difficulty, instance.score.lvl);
       // Add this part in lock timer function
       setTimeout(() => {
@@ -58,7 +58,7 @@ class Game {
         this.send(instance, true);
         this.cancelTimer(instance);
         this.startTimer(instance);
-      }, 500);
+      }, CONFIG.LOCK_COOLDOWN);
     }
     return r;
   }
@@ -67,37 +67,37 @@ class Game {
     const instance = this._instances[player.id];
     let doSmth = null;
     if (action.event === 'keydown') {
-      if (action.key === KEYS.DOWN) {
+      if (action.key === KEYS.DOWN && instance.hitDown === false) {
         doSmth = () => {
           instance.hitDown = true;
+          instance.speed = computeSpeed(this._difficulty, instance.score.lvl, true);
           this.cancelTimer(instance);
-          return this.actionDown(instance);
+          this.startTimer(instance);
+          return false;
         };
-      } else if (action.key === KEYS.LEFT) {
-        doSmth = () => instance.field.moveLeft();
-      } else if (action.key === KEYS.RIGHT) {
-        doSmth = () => instance.field.moveRight();
       }
     } else if (action.event === 'keyup') {
       if (action.key === KEYS.DOWN) {
         doSmth = () => {
           instance.hitDown = false;
+          instance.speed = computeSpeed(this._difficulty, instance.score.lvl);
+          this.cancelTimer(instance);
           this.startTimer(instance);
           return false;
         };
+      } else if (action.key === KEYS.LEFT) {
+        doSmth = () => instance.field.moveLeft();
+      } else if (action.key === KEYS.RIGHT) {
+        doSmth = () => instance.field.moveRight();
       } else if (action.key === KEYS.UP) {
         doSmth = () => instance.field.turnRight();
       } else if (action.key === KEYS.SPACE) {
         doSmth = () => {
           instance.autoFall = true;
-          instance.speed = computeSpeed(this._difficulty, instance.score.lvl, true);
-          this.cancelTimer(instance);
-          this.startTimer(instance);
         };
       }
     }
     if (doSmth === null) return false;
-    if (instance.autoFall === true) return true;
     const now = timeNow();
     if (instance.cooldown - now > 0) return false;
     instance.cooldown = now + CONFIG.COOLDOWN;
@@ -126,11 +126,13 @@ class Game {
     return this; // eslint
   }
 
+  // eslint-disable-next-line class-methods-use-this
   cancelTimer(instance) {
-    clearTimeout(instance.timer);
+    if (instance.timer !== null) {
+      clearTimeout(instance.timer);
+    }
     delete instance.timer;
     instance.timer = null;
-    return this; // eslint
   }
 
   start() {
@@ -149,7 +151,7 @@ class Game {
   }
 
   send(instance, spectrums = false) {
-    let specs = [];
+    const specs = [];
     if (spectrums === true) {
       for (const player of Object.values(this._instances)) {
         specs.push({
@@ -157,13 +159,22 @@ class Game {
           name: player.player.name,
         });
       }
+      for (const player of Object.values(this._instances)) {
+        comm.sendRequest(player.player.socket, eventType.GAME, msgType.SERVER.GAME_TICK,
+          {
+            board: player.field.serialize(),
+            nextPiece: TETROS[this._bag.piece(player.pieceId + 1)][0],
+            spectrums: specs,
+          });
+      }
+    } else {
+      comm.sendRequest(instance.player.socket, eventType.GAME, msgType.SERVER.GAME_TICK,
+        {
+          board: instance.field.serialize(),
+          nextPiece: TETROS[this._bag.piece(instance.pieceId + 1)][0],
+          spectrums: specs,
+        });
     }
-    comm.sendRequest(instance.player.socket, eventType.GAME, msgType.SERVER.GAME_TICK,
-      {
-        board: instance.field.serialize(),
-        nextPiece: this._bag.piece(instance.pieceId + 1),
-        spectrums: specs,
-      });
   }
 }
 

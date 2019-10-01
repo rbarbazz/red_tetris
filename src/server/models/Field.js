@@ -2,17 +2,17 @@ import { Piece } from './Piece';
 import { tryTranslate, tryRotate } from '../controllers/srs';
 import * as dbg from '../../common/devLog';
 
-function pasteTetros(board, field, tetros) {
+function pasteTetros(board, field, tetros, pos, shadow = false) {
   if (tetros !== null) {
     const { shape } = tetros;
     for (let y = 0; y < shape.length; ++y) {
-      const yPos = field.pos[1] - y;
+      const yPos = pos[1] - y;
       for (let x = 0; x < shape.length; ++x) {
-        const xPos = field.pos[0] + x;
+        const xPos = pos[0] + x;
         if (shape[y][x] === '1') {
           if (xPos >= 0 && xPos < field.size.width
             && yPos >= 0 && yPos < field.size.height) {
-            board[yPos][xPos] = tetros.id;
+            board[yPos][xPos] = (shadow === true) ? tetros.id + 10 : tetros.id;
           }
         }
       }
@@ -31,6 +31,7 @@ export default class Field {
     this._hardline = 0; // Unbreakable lines
     this._tetros = null; // Actual tetris
     this._pos = null; // Position x,y of the actual tetris
+    this._shadow = null; // Shadow of the piece, [x,y] pos
   }
 
   get size() {
@@ -52,14 +53,16 @@ export default class Field {
     if (tryTranslate(this, this._tetros.shape, this._pos) === null) {
       return false;
     }
+    this.computeShadow();
     return true;
   }
 
   lock() {
-    pasteTetros(this._map, this, this._tetros);
+    pasteTetros(this._map, this, this._tetros, this._pos, false);
     delete this._tetros;
     this._tetros = null;
     this._pos = null;
+    this._shadow = null;
   }
 
   addUnbreakLine() {
@@ -73,6 +76,7 @@ export default class Field {
     const r = tryTranslate(this, this._tetros.shape, to);
     if (r === null) return false;
     this._pos = r;
+    this.computeShadow();
     return true;
   }
 
@@ -82,6 +86,7 @@ export default class Field {
     if (r === null) return false;
     this._pos = r.pos;
     this._tetros.orientation = r.orientation;
+    this.computeShadow();
     return true;
   }
 
@@ -108,6 +113,25 @@ export default class Field {
     return this._turn(-1);
   }
 
+  computeShadow() {
+    const solution = Array.from(this._pos);
+    const to = Array.from(this._pos);
+    let start = this.pos[1];
+    let end = this._size.height - 2;
+    while (start > end) {
+      const mid = Math.trunc((start + end) / 2);
+      to[1] = mid;
+      const r = tryTranslate(this, this._tetros.shape, to);
+      if (r !== null) {
+        start = mid;
+        solution[1] = mid;
+      } else {
+        end = mid;
+      }
+    }
+    this._shadow = solution;
+  }
+
   spectrum() {
     const board = Array(this._size.height - 3);
     for (let i = 0; i < board.length; ++i) {
@@ -129,7 +153,8 @@ export default class Field {
     for (let i = 0; i < board.length; ++i) {
       board[i] = Array.from(this._map[i]);
     }
-    pasteTetros(board, this, this._tetros);
+    pasteTetros(board, this, this._tetros, this._pos, false);
+    // pasteTetros(board, this, this._tetros, this._shadow, true);
     return board.slice(0, 20).reverse();
   }
 }
