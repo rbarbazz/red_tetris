@@ -24,12 +24,17 @@ import
 GameReport,
 { propTypes as GameReportPropTypes, defaultProps as GameReportDefaultProps }
   from '../components/GameReport';
+import
+NextPiece,
+{ propTypes as NextPiecePropTypes, defaultProps as NextPieceDefaultProps }
+  from '../components/NextPiece';
 
 
 const mapStateToProps = state => ({
   board: state.game.board,
   currentPlayerType: state.tetris.currentPlayerType,
   currentStep: state.tetris.currentStep,
+  nextPiece: state.game.nextPiece,
   playerName: state.tetris.playerName,
   roomName: state.tetris.roomName,
   score: state.game.score,
@@ -46,6 +51,7 @@ export const Game = ({
   currentPlayerType,
   currentStep,
   leaveRoom,
+  nextPiece,
   playerName,
   resetRoom,
   roomName,
@@ -71,6 +77,7 @@ export const Game = ({
         />
         <div className="stats-container">
           <Score score={score} />
+          <NextPiece nextPiece={nextPiece} />
           <Spectrum
             playerName={playerName}
             spectrums={spectrums}
@@ -88,6 +95,7 @@ export const Game = ({
 export const propTypes = {
   ...BoardPropTypes,
   ...GameReportPropTypes,
+  ...NextPiecePropTypes,
   ...PlayerInfoPropTypes,
   ...ScorePropTypes,
   ...SpectrumPropTypes,
@@ -97,6 +105,7 @@ Game.propTypes = propTypes;
 export const defaultProps = {
   ...BoardDefaultProps,
   ...GameReportDefaultProps,
+  ...NextPieceDefaultProps,
   ...PlayerInfoDefaultProps,
   ...ScoreDefaultProps,
   ...SpectrumDefaultProps,

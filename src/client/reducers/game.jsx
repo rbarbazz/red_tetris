@@ -2,6 +2,7 @@ import { msgType } from '../../common/enums';
 
 const initialState = {
   board: Array(20).fill(Array(10).fill(0)),
+  nextPiece: '0',
   score: 0,
   spectrums: [],
 };
@@ -13,6 +14,7 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         board: action.payload.board,
+        nextPiece: action.payload.nextPiece,
         spectrums: spectrums.length > 0 ? spectrums : state.spectrums,
       };
     }
