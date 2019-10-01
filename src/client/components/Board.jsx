@@ -19,21 +19,21 @@ const Board = ({
   currentStep,
 }) => (
   <div className="board-container">
-    {currentStep === 'endGame' ? (
+    {currentStep === 'endGame' && (
       <div className="game-end-screen">
         <h2 className="game-end-title">Game Over</h2>
         <p className="game-end-message">Please wait for all players to finish</p>
       </div>
-    ) : (
-      board.map((line, indexLine) => (
-        line.map((num, indexBlock) => (
-          <Block
-            key={`game-block-${indexLine.toString()}${indexBlock.toString()}`}
-            color={colors[num]}
-          />
-        ))
-      ))
     )}
+    {board.map((line, indexLine) => (
+      line.map((num, indexBlock) => (
+        <Block
+          key={`game-block-${indexLine.toString()}${indexBlock.toString()}`}
+          color={colors[num]}
+        />
+      ))
+    ))
+    }
   </div>
 );
 

@@ -1,5 +1,5 @@
 import io from 'socket.io-client';
-import params from '../../../params';
+import params from '../../params';
 import { eventType, msgType } from '../../common/enums';
 import { sendRequest } from '../../common/sockWrapper';
 import { DISPLAY_LOBBY } from '../actions/tetris';
