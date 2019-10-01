@@ -1,8 +1,11 @@
 const params = {
   server: {
-    host: '0.0.0.0',
+    host: 'localhost',
     port: process.env.PORT || 3004,
     get url() {
+      if (process.env.NODE_ENV === 'production' && process.env.URL) {
+        return (process.env.URL);
+      }
       return (`http://${this.host}:${this.port}`);
     },
   },

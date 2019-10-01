@@ -1,4 +1,4 @@
-import { msgType, TETROS_SHAPE } from '../../common/enums';
+import { msgType } from '../../common/enums';
 
 const initialState = {
   board: Array(20).fill(Array(10).fill(0)),
@@ -14,7 +14,7 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         board: action.payload.board,
-        nextPiece: TETROS_SHAPE[action.payload.nextPiece],
+        nextPiece: action.payload.nextPiece,
         spectrums: spectrums.length > 0 ? spectrums : state.spectrums,
       };
     }

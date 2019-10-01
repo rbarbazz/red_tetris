@@ -46,6 +46,10 @@ html, body {
 	background-color: #fab1a0;
 	border: solid 2px #e17055;
 }
+.dark {
+	background-color: #454545;
+	border: solid 2px #454545;
+}
 .shadow-color {
 	opacity: 0.2;
 }
@@ -433,11 +437,11 @@ div .list-item:last-of-type {
 	position: relative;
 	width: 300px;
 }
-.block {
+.board-container .block {
 	width: 26px;
 	height: 26px;
 }
-.block.white {
+.board-container .block.white {
 	height: 28.5px;
 	width: 28.5px;
 }
@@ -481,6 +485,11 @@ div .list-item:last-of-type {
 }
 .score-container,
 .next-piece-container {
+	align-items: center;
+	background-color: #454545;
+	border-radius: 5px;
+	display: flex;
+	justify-content: center;
 	margin-bottom: 10px;
 	width: 100%;
 }
@@ -508,12 +517,17 @@ div .list-item:last-of-type {
 .score-display,
 .next-piece-display {
 	align-items: center;
-	background-color: #454545;
-	border-radius: 5px;
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
 	padding: 15px;
+}
+.next-piece-display {
+	flex-wrap: wrap;
+	flex-direction: row;
+}
+.next-piece-container {
+	min-height: 80px
 }
 .score-label {
 	color: #EFF1F3;
@@ -528,6 +542,14 @@ div .list-item:last-of-type {
 }
 .stats-container .generic-button {
 	width: 100%;
+}
+.next-piece-display .block {
+	width: 26px;
+	height: 26px;
+}
+.next-piece-display .block.white {
+	height: 28.5px;
+	width: 28.5px;
 }
 
 /* ==========================================================================
@@ -652,12 +674,12 @@ div .list-item:last-of-type {
    ========================================================================== */
 
 @media (min-width: 915px) and (min-height: 935px) {
-	.block {
+	.board-container .block {
 		border-width: 3px;
 		height: 34px;
 		width: 34px;
 	}
-	.block.white {
+	.board-container .block.white {
 		border-width: 1px;
 		height: 38px;
 		width: 38px;

@@ -32,7 +32,7 @@ export default () => {
   return ({ dispatch, getState }) => next => (action) => {
     const currState = getState();
     if (action.type === msgType.PING && !currState.server.clientInit) {
-      socket = io(server.url);
+      socket = io(server.url, { secure: true });
 
       Object.values(eventType).forEach((event) => {
         socket.on(event, (actionSent) => {
