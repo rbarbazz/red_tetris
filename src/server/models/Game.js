@@ -33,6 +33,7 @@ class Game {
         hitDown: false, // Speed up the fall until release
         lock: false, // Are we inside the lock timer frame
         timer: null, // setTimeout object
+        lockTimer: null,
         speed: 0, // Current speed timer
         run: true, // false when end of party
         player, // Player instance
@@ -46,16 +47,22 @@ class Game {
       // this.cancelTimer(instance);
       instance.lock = true;
       // Add this part in lock timer function
-      setTimeout(() => {
-        instance.field.lock();
+      instance.lockTimer = setTimeout(() => {
+        const n = instance.field.lock();
+        if (n !== null) {
+          // linebreak
+          instance.field.breakLines(n);
+          instance.score.addLineBreak(r.length);
+        }
         instance.pieceId += 1;
         instance.lock = false;
         if (instance.field.spawn(this._bag.piece(instance.pieceId)) === false) {
           instance.run = false;
+        } else {
+          this.cancelTimer(instance);
+          this.send(instance, true);
+          this.startTimer(instance);
         }
-        this.send(instance, true);
-        this.cancelTimer(instance);
-        this.startTimer(instance);
       }, CONFIG.LOCK_COOLDOWN);
     }
     return r;
@@ -63,6 +70,7 @@ class Game {
 
   playerAction(player, action) {
     const instance = this._instances[player.id];
+    if (instance.run === false) return false;
     let doSmth = null;
     if (action.event === 'keydown') {
       if (action.key === KEYS.DOWN && instance.hitDown === false) {
@@ -119,12 +127,51 @@ class Game {
       if (instance.run === true) {
         this.startTimer(instance);
       } else {
-        // Check end of party
-        comm.sendRequest(instance.player.socket, eventType.GAME,
-          msgType.SERVER.GAME_END);
+        this.checkEndParty(instance);
+        this.cancelLockTimer(instance);
+        this.cancelTimer(instance);
       }
     }, instance.speed);
     return this; // eslint
+  }
+
+  soloMode() {
+    return Object.keys(this._instances).length === 1;
+  }
+
+  checkEndParty(instance) {
+    // Go to report directly
+    if (this.soloMode()) {
+      comm.sendRequest(instance.player.socket, eventType.GAME,
+        msgType.SERVER.GAME_REPORT);
+    } else {
+      let stillRunning = 0;
+      for (const player of Object.values(this._instances)) {
+        if (player.run === true) stillRunning += 1;
+      }
+      // 0 or 1 player left, go to report for ALL
+      if (stillRunning < 2) {
+        for (const player of Object.values(this._instances)) {
+          this.cancelTimer(player);
+          this.cancelLockTimer(player);
+          comm.sendRequest(player.player.socket, eventType.GAME,
+            msgType.SERVER.GAME_REPORT, { });
+        }
+      // 2 or more players left, go to end for the current player
+      } else {
+        comm.sendRequest(instance.player.socket, eventType.GAME,
+          msgType.SERVER.GAME_END);
+      }
+    }
+  }
+
+  // eslint-disable-next-line class-methods-use-this
+  cancelLockTimer(instance) {
+    if (instance.lockTimer !== null) {
+      clearTimeout(instance.lockTimer);
+    }
+    delete instance.lockTimer;
+    instance.lockTimer = null;
   }
 
   // eslint-disable-next-line class-methods-use-this
@@ -147,8 +194,20 @@ class Game {
 
   stop() {
     for (const instance of Object.values(this._instances)) {
-      this.cancelTimer(instance);
+      this.removePlayer(instance.player, false);
     }
+    delete this._instances;
+    delete this._bag;
+  }
+
+  removePlayer(player, ping = true) {
+    const instance = this._instances[player.id];
+    this.cancelTimer(instance);
+    this.cancelLockTimer(instance);
+    delete instance.field;
+    delete instance.score;
+    delete this._instances[instance.player.id];
+    this.send(null, true);
   }
 
   send(instance, spectrums = false) {
@@ -164,6 +223,7 @@ class Game {
         comm.sendRequest(player.player.socket, eventType.GAME, msgType.SERVER.GAME_TICK,
           {
             board: player.field.serialize(),
+            score: player.score.serialize(),
             nextPiece: TETROS[this._bag.piece(player.pieceId + 1)][0],
             spectrums: specs,
           });
@@ -172,6 +232,7 @@ class Game {
       comm.sendRequest(instance.player.socket, eventType.GAME, msgType.SERVER.GAME_TICK,
         {
           board: instance.field.serialize(),
+          score: instance.score.serialize(),
           nextPiece: TETROS[this._bag.piece(instance.pieceId + 1)][0],
           spectrums: specs,
         });

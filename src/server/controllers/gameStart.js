@@ -8,6 +8,9 @@ export function gameStart(room) {
     comm.sendRequest(player.socket, eventType.GAME, msgType.SERVER.GAME_START,
       { timer: 3000 })
   ));
+  /*
+      setTimeout(() => game.start(), 3100);
+  */
   game.start();
 }
 

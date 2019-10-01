@@ -57,12 +57,42 @@ export default class Field {
     return true;
   }
 
+  breakLines(lines) {
+    const nLines = lines.length;
+    for (let i = lines[nLines - 1]; i < 20; ++i) {
+      this._map[i] = Array.from(this._map[i + nLines]);
+    }
+  }
+
+  // Go through each y of a tile in the tetros
+  // Check entire line
+  checkLineBreak() {
+    const lines = [];
+    for (let i = 0; i < this._tetros.shape.length; ++i) {
+      const y = this._pos[1] - i;
+      if (y < 0) break;
+      let full = true;
+      for (let x = 0; x < this._size.width; ++x) {
+        if (this._map[y][x] === 0) {
+          full = false;
+          break;
+        }
+      }
+      if (full === true) {
+        lines.push(y);
+      }
+    }
+    return (lines.length === 0) ? null : lines;
+  }
+
   lock() {
     pasteTetros(this._map, this, this._tetros, this._pos, false);
+    const linebreak = this.checkLineBreak();
     delete this._tetros;
     this._tetros = null;
     this._pos = null;
     this._shadow = null;
+    return linebreak;
   }
 
   addUnbreakLine() {

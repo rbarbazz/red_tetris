@@ -53,6 +53,9 @@ export default class Room {
       if (toRm === -1) {
         return false;
       }
+      if (this._game !== null) {
+        this._game.removePlayer(this._players[toRm]);
+      }
       this._players.splice(toRm, 1);
       // Solo, player left so just delete the party and the room
       if (this._players.length === 0) {
@@ -109,10 +112,16 @@ export default class Room {
     return null;
   }
 
+  restart(player) {
+    this.stop();
+    return this.start(player);
+  }
+
   stop() {
     if (this.state === roomState.BUSY) {
       this._game.stop();
       delete this._game;
+      this._game = null;
       this.state = roomState.FREE; // Sera set quand le master relance la partie
     }
   }

@@ -86,7 +86,7 @@ export const msgType = {
     // LOBBY event
     LOBBY_DATA: 'LOBBY_DATA', // Retrieve lobby informations
     // GAME event (doesn't need an answer)
-    GAME_START: 'GAME_READY', // Synchronize client to start the party, start the timer !
+    GAME_START: 'GAME_START', // Synchronize client to start the party, start the timer !
     GAME_TICK: 'GAME_TICK', // Tick to refresh the client
     GAME_END: 'GAME_END', // Party is over for the client, waiting for the report
     GAME_REPORT: 'GAME_REPORT', // Party is over, print scores
