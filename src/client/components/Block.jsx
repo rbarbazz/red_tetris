@@ -3,7 +3,9 @@ import PropTypes from 'prop-types';
 
 
 const Block = ({ color, shadowPiece }) => (
-  <div className={shadowPiece ? `block ${color} shadow-color` : `block ${color}`} />
+  <div className={shadowPiece ? `block ${color} shadow-color` : `block ${color}`}>
+    <div className="inner-block" />
+  </div>
 );
 
 Block.propTypes = {

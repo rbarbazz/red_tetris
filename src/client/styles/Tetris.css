@@ -15,44 +15,67 @@ html, body {
 	align-items: center;
 }
 .black {
+	background-color: #636e72;
+	border: solid 0.75px #dfe6e9;
+}
+.black .inner-block {
 	background-color: #2d3436;
-	border: solid 0.75px #636e72;
-
 }
 .white {
-	background-color: white;
+	background-color: #dfe6e9;
 }
 .cyan {
-	background-color: #81ecec;
-	border: solid 2px #00cec9;
+	background-color: #60a3bc;
+	border: solid 0.75px #dfe6e9;
+}
+.cyan .inner-block {
+	background-color: #82ccdd;
 }
 .yellow {
-	background-color: #ffeaa7;
-	border: solid 2px #fdcb6e;
+	background-color: #f6b93b;
+	border: solid 0.75px #dfe6e9;
+}
+.yellow .inner-block {
+	background-color: #fad390;
 }
 .purple {
-	background-color: #a29bfe;
-	border: solid 2px #6c5ce7;
+	background-color: #8e44ad;
+	border: solid 0.75px #dfe6e9;
+}
+.purple .inner-block {
+	background-color: #9b59b6;
 }
 .green {
-	background-color: #55efc4;
-	border: solid 2px #00b894;
+	background-color: #009432;
+	border: solid 0.75px #dfe6e9;
+}
+.green .inner-block {
+	background-color: #6ab04c;
 }
 .red {
-	background-color: #ff7675;
-	border: solid 2px #d63031;
+	background-color: #c23616;
+	border: solid 0.75px #dfe6e9;
+}
+.red .inner-block {
+	background-color: #e84118;
 }
 .blue {
-	background-color: #74b9ff;
-	border: solid 2px #0984e3;
+	background-color: #4a69bd;
+	border: solid 0.75px #dfe6e9;
+}
+.blue .inner-block {
+	background-color: #6a89cc;
 }
 .orange {
-	background-color: #fab1a0;
-	border: solid 2px #e17055;
+	background-color: #e58e26;
+	border: solid 0.75px #dfe6e9;
+}
+.orange .inner-block {
+	background-color: #fa983a;
 }
 .dark {
 	background-color: #454545;
-	border: solid 2px #454545;
+	border: solid 0.75px #dfe6e9;
 }
 .shadow-color {
 	opacity: 0.2;
@@ -431,8 +454,14 @@ div > .list-item:last-of-type {
    Board
    ========================================================================== */
 
+.block {
+	border-radius: 3px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
 .board-container {
-	background-color: #383838;
+	background-color: #dfe6e9;
 	border-radius: 5px;
 	border: solid 10px #454545;
 	display: flex;
@@ -442,12 +471,17 @@ div > .list-item:last-of-type {
 	width: 300px;
 }
 .board-container .block {
-	width: 26px;
-	height: 26px;
+	width: 28.5px;
+	height: 28.5px;
 }
 .board-container .block.white {
 	height: 30px;
 	width: 30px;
+}
+.inner-block {
+	border-radius: 3px;
+	height: 60%;
+	width: 60%;
 }
 .game-end-screen {
 	align-items: center;
@@ -564,8 +598,9 @@ div > .list-item:last-of-type {
 	width: 100%;
 }
 .next-piece-display .block {
-	width: 26px;
-	height: 26px;
+	border-color: #454545;
+	width: 28.5px;
+	height: 28.5px;
 }
 .next-piece-display .block.white {
 	height: 30px;
@@ -730,9 +765,9 @@ div > .list-item:last-of-type {
 
 @media (min-width: 915px) and (min-height: 935px) {
 	.board-container .block {
-		border-width: 3px;
-		height: 34px;
-		width: 34px;
+		border-width: 1px;
+		height: 38px;
+		width: 38px;
 	}
 	.board-container .block.white {
 		height: 40px;
