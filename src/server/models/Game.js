@@ -132,7 +132,7 @@ class Game {
   tick(instance) {
     const r = this.actionDown(instance);
     if (r === true) {
-      this.send(instance);
+      this.send(instance, false);
     }
   }
 
@@ -240,7 +240,7 @@ class Game {
     }
   }
 
-  send(instance, spectrums = false) {
+  send(instance, spectrums, firstTick = false) {
     const specs = [];
     if (spectrums === true) {
       for (const player of Object.values(this._instances)) {
@@ -250,20 +250,22 @@ class Game {
         });
       }
       for (const player of Object.values(this._instances)) {
+        const pid = (firstTick === true) ? 0 : player.pieceId + 1;
         comm.sendRequest(player.player.socket, eventType.GAME, msgType.SERVER.GAME_TICK,
           {
             board: player.field.serialize(),
             score: player.score.serialize(),
-            nextPiece: TETROS[this._bag.piece(player.pieceId + 1)][0],
+            nextPiece: TETROS[this._bag.piece(pid)][0],
             spectrums: specs,
           });
       }
     } else {
+      const pid = (firstTick === true) ? 0 : instance.pieceId + 1;
       comm.sendRequest(instance.player.socket, eventType.GAME, msgType.SERVER.GAME_TICK,
         {
           board: instance.field.serialize(),
           score: instance.score.serialize(),
-          nextPiece: TETROS[this._bag.piece(instance.pieceId + 1)][0],
+          nextPiece: TETROS[this._bag.piece(pid)][0],
           spectrums: specs,
         });
     }

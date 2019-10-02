@@ -22,9 +22,9 @@ function onLobbyEvent(socket, data) {
   } else if (data.type === msgType.CLIENT.LEAVE_ROOM) {
     clientLeaveRoom(socket, data);
   } else if (data.type === msgType.CLIENT.START_PARTY) {
-    const room = clientStartParty(socket, data);
-    if (room !== false) {
-      gameStart(room);
+    const r = clientStartParty(socket, data);
+    if (r !== false) {
+      gameStart(r);
     }
   } else if (data.type === msgType.CLIENT.DISCONNECT) {
     clientDisconnect(socket, data);

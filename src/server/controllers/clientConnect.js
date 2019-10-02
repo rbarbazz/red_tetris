@@ -150,5 +150,5 @@ export function clientStartParty(sock, data) {
   }
   timeline.push(`Party in room '${room.name}' has started`);
   comm.sendResponse(sock, eventType.LOBBY, data.type);
-  return room;
+  return { player, room };
 }
