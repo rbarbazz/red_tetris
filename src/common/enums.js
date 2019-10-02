@@ -19,8 +19,8 @@ export const CONFIG = {
   NAME_MAX: 15,
   MAX_ROOM: 8,
   SLOTS_PER_ROOM: 8,
-  COOLDOWN: 5000, // In microseconds
-  LOCK_COOLDOWN: 600,
+  COOLDOWN: 6666, // In microseconds
+  LOCK_COOLDOWN: 500,
   FALL_SPEED: 16.667,
 };
 
