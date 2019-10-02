@@ -5,7 +5,7 @@ import {
   sendLobbyToClients, clientDisconnect,
   clientConnectLobby, clientConnectRoom,
   clientJoinRoom, clientLeaveRoom,
-  clientStartParty,
+  clientStartParty, clientResetRoom,
 } from './clientConnect';
 import { gameStart } from './gameStart';
 import { gameInput } from './gameInput';
@@ -29,7 +29,7 @@ function onLobbyEvent(socket, data) {
   } else if (data.type === msgType.CLIENT.DISCONNECT) {
     clientDisconnect(socket, data);
   } else if (data.type === msgType.CLIENT.RESET_ROOM) {
-    comm.sendRequest(socket, eventType.LOBBY, `${msgType.CLIENT.RESET_ROOM}_SUCCESS`, {});
+    clientResetRoom(socket, data);
   } else {
     dbg.error(`Unknown msgType: ${data.type}`);
   }

@@ -20,13 +20,14 @@ function computeSpeed(difficulty, lvl, autofall = false) {
 */
 class Game {
   constructor(type, difficulty, players) {
+    this.running = false;
     this._type = type;
     this._difficulty = difficulty;
     this._bag = new Bag();
     this._instances = {};
     Object.values(players).forEach((player) => {
       this._instances[player.id] = {
-        field: new Field(10, 23), // Field of the player
+        field: new Field(10, 24), // Field of the player
         score: new Score(), // Score instance
         pieceId: 0, // Current pos of the piece
         cooldown: 0, // Time before next action is available
@@ -143,7 +144,7 @@ class Game {
     // Go to report directly
     if (this.soloMode()) {
       comm.sendRequest(instance.player.socket, eventType.GAME,
-        msgType.SERVER.GAME_REPORT);
+        msgType.SERVER.GAME_REPORT, { report: this.makeReport() });
     } else {
       let stillRunning = 0;
       for (const player of Object.values(this._instances)) {
@@ -155,7 +156,7 @@ class Game {
           this.cancelTimer(player);
           this.cancelLockTimer(player);
           comm.sendRequest(player.player.socket, eventType.GAME,
-            msgType.SERVER.GAME_REPORT, { });
+            msgType.SERVER.GAME_REPORT, { report: this.makeReport() });
         }
       // 2 or more players left, go to end for the current player
       } else {
@@ -163,6 +164,15 @@ class Game {
           msgType.SERVER.GAME_END);
       }
     }
+  }
+
+  makeReport() {
+    const report = [];
+    for (const player of Object.values(this._instances)) {
+      report.push({ name: player.player.name, score: player.score.serialize() });
+    }
+    report.sort((a, b) => (a.pts < b.pts));
+    return report;
   }
 
   // eslint-disable-next-line class-methods-use-this
@@ -184,6 +194,7 @@ class Game {
   }
 
   start() {
+    this.running = true;
     for (const instance of Object.values(this._instances)) {
       instance.field.spawn(this._bag.piece(instance.pieceId));
       instance.speed = computeSpeed(this._difficulty, instance.score.lvl);
@@ -193,6 +204,7 @@ class Game {
   }
 
   stop() {
+    this.running = false;
     for (const instance of Object.values(this._instances)) {
       this.removePlayer(instance.player, false);
     }
