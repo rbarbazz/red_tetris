@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 
 import Block from './Block';
@@ -19,36 +19,59 @@ const colors = {
 const Board = ({
   board,
   currentStep,
-}) => (
-  <div className="board-container">
-    {currentStep === 'endGame' && (
-      <div className="game-end-screen">
-        <h2 className="game-end-title">Game Over</h2>
-        <p className="game-end-message">Please wait for all players to finish</p>
-      </div>
-    )}
-    {board.map((line, indexLine) => (
-      line.map((num, indexBlock) => (
-        <Block
-          key={`game-block-${indexLine.toString()}${indexBlock.toString()}`}
-          color={colors[num] || colors[num - 10]}
-          shadowPiece={num > 10}
-        />
+  startTimer,
+}) => {
+  const [timeLeft, setTimeLeft] = useState(startTimer / 1000);
+
+  useEffect(() => {
+    if (!timeLeft) return;
+
+    const intervalId = setInterval(() => {
+      setTimeLeft(timeLeft - 1);
+    }, 1000);
+
+    // eslint-disable-next-line consistent-return
+    return () => clearInterval(intervalId);
+  }, [timeLeft]);
+
+  return (
+    <div className="board-container">
+      {currentStep === 'endGame' && (
+        <div className="game-end-screen">
+          <h2 className="game-end-title">Game Over</h2>
+          <p className="game-end-message">Please wait for all players to finish</p>
+        </div>
+      )}
+      {currentStep === 'game' && timeLeft > 0 && (
+        <div className="game-end-screen">
+          <h2 className="game-end-title">{timeLeft}</h2>
+        </div>
+      )}
+      {board.map((line, indexLine) => (
+        line.map((num, indexBlock) => (
+          <Block
+            key={`game-block-${indexLine.toString()}${indexBlock.toString()}`}
+            color={colors[num] || colors[num - 10]}
+            shadowPiece={num > 10}
+          />
+        ))
       ))
-    ))
-    }
-  </div>
-);
+      }
+    </div>
+  );
+};
 
 export const propTypes = {
   board: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.number)),
   currentStep: PropTypes.string,
+  startTimer: PropTypes.number,
 };
 Board.propTypes = propTypes;
 
 export const defaultProps = {
   board: Array(20).fill(Array(10).fill(0)),
   currentStep: 'game',
+  startTimer: 3000,
 };
 Board.defaultProps = defaultProps;
 
