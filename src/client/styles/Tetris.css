@@ -471,12 +471,12 @@ div > .list-item:last-of-type {
 	width: 300px;
 }
 .board-container .block {
-	width: 28.5px;
-	height: 28.5px;
+	width: 27.5px;
+	height: 27.5px;
 }
 .board-container .block.white {
-	height: 30px;
-	width: 30px;
+	height: 29px;
+	width: 29px;
 }
 .inner-block {
 	border-radius: 3px;
@@ -599,12 +599,12 @@ div > .list-item:last-of-type {
 }
 .next-piece-display .block {
 	border-color: #454545;
-	width: 28.5px;
-	height: 28.5px;
+	width: 27.5px;
+	height: 27.5px;
 }
 .next-piece-display .block.white {
-	height: 30px;
-	width: 30px;
+	height: 29px;
+	width: 29px;
 }
 
 /* ==========================================================================
@@ -766,12 +766,12 @@ div > .list-item:last-of-type {
 @media (min-width: 915px) and (min-height: 935px) {
 	.board-container .block {
 		border-width: 1px;
-		height: 38px;
-		width: 38px;
+		height: 37px;
+		width: 37px;
 	}
 	.board-container .block.white {
-		height: 40px;
-		width: 40px;
+		height: 39px;
+		width: 39px;
 	}
 	.stats-container {
 		height: 800px;
