@@ -95,9 +95,16 @@ export default class Field {
     return linebreak;
   }
 
-  addUnbreakLine() {
-    if (this._hardline < this._size.height) {
-      this._harline += 1;
+  addUnbreakLines(n) {
+    this._hardline += n;
+    if (this._hardline > 20) {
+      this._hardline = 20;
+    }
+    for (let i = this._size.height - 1; i >= n; --i) {
+      this._map[i] = Array.from(this._map[i - n]);
+    }
+    for (let i = 0; i < n; ++i) {
+      this._map[i].fill(10);
     }
   }
 

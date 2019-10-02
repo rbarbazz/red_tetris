@@ -1,5 +1,5 @@
 import * as dbg from '../../common/devLog';
-import { CONFIG, eventType, msgType} from '../../common/enums';
+import { CONFIG, eventType, msgType, GAME_TYPE } from '../../common/enums';
 import Room from './Room';
 import Player from './Player';
 import * as comm from '../../common/sockWrapper';
@@ -80,7 +80,7 @@ class Lobby {
     return true;
   }
 
-  addRoom(name, slots) {
+  addRoom(name, slots, mode = GAME_TYPE.CLASSIC) {
     if (!checkName(name)) {
       return 'Invalid room name';
     }
@@ -90,7 +90,7 @@ class Lobby {
     if (this.freeSlots() === 0) {
       return 'No slot available for a new room';
     }
-    this._rooms[name] = new Room(this, name, slots);
+    this._rooms[name] = new Room(this, name, slots, mode);
     return null;
   }
 

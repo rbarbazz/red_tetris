@@ -44,9 +44,9 @@ export function clientJoinRoom(sock, data) {
     return false;
   }
   // Create the room first if it does not exist
-  const { roomName } = data.payload;
+  const { roomName, roomGameMode } = data.payload;
   if (!lobby.hasRoom(roomName)) {
-    const r = lobby.addRoom(roomName, CONFIG.SLOTS_PER_ROOM);
+    const r = lobby.addRoom(roomName, CONFIG.SLOTS_PER_ROOM, roomGameMode);
     if (r !== null) {
       comm.sendError(sock, eventType.LOBBY, data.type, r);
       return false;
@@ -122,7 +122,7 @@ export function clientLeaveRoom(sock, data) {
   return true;
 }
 
-export function clientDisconnect(sock, data = {}) {
+export function clientDisconnect(sock) {
   const player = lobby.getPlayer(sock.id);
   if (player !== null) {
     timeline.push(`Player left: ${player.name}`);
