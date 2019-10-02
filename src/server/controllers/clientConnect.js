@@ -15,6 +15,22 @@ export function sendLobbyToClients() {
   }
 }
 
+export function clientResetRoom(sock, data) {
+  const player = lobby.getPlayer(sock.id);
+  if (player === null) {
+    comm.sendError(sock, eventType.LOBBY, data.type, 'Player not connected');
+    return false;
+  }
+  const { room } = player;
+  if (room === null) {
+    comm.sendError(sock, eventType.LOBBY, data.type, 'Player not in a room');
+    return false;
+  }
+  room.stop();
+  comm.sendRequest(sock, eventType.LOBBY, `${msgType.CLIENT.RESET_ROOM}_SUCCESS`, {});
+  return true;
+}
+
 export function clientJoinRoom(sock, data) {
   // Check if player exists
   const player = lobby.getPlayer(sock.id);

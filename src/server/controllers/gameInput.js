@@ -8,9 +8,13 @@ import lobby from '../models/Lobby';
 export function gameInput(socket, data) {
   // TODO: Add checks
   const player = lobby.getPlayer(socket.id);
+  if (player === null) return false;
   const { game } = player.room;
+  if (game === null) return false;
+  if (game.running === false) return false;
   const r = game.playerAction(player, data.payload);
   if (r === true) {
     game.send(game._instances[player.id]);
   }
+  return true;
 }
