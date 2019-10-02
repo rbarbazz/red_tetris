@@ -305,13 +305,13 @@ input::placeholder {
 	font-size: 20px;
 	padding: 12px 20px;
 }
-div .list-item:first-of-type {
+div > .list-item:first-of-type {
 	border-top-left-radius: 5px;
 	border-top-right-radius: 5px;
 	border-top: none;
 	box-shadow: 0 3px 5px rgba(0,0,0,0.22);
 }
-div .list-item:last-of-type {
+div > .list-item:last-of-type {
 	border-bottom-left-radius: 5px;
 	border-bottom-right-radius: 5px;
 	border-bottom: none;
@@ -596,6 +596,26 @@ div .list-item:last-of-type {
 }
 .spectrums-container::-webkit-scrollbar-thumb {
 	background-color: #eb4d4b;	
+}
+
+/* ==========================================================================
+   Game Report
+   ========================================================================== */
+
+.game-report-container {
+	display: flex;
+    flex-direction: column;
+}
+.final-scores-container {
+	margin: auto;
+    width: 90%;
+}
+.player-score-container {
+	display: flex;
+	justify-content: center;
+}
+.player-score-container > div {
+	width: 25%;
 }
 
 /* ==========================================================================
