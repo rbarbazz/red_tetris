@@ -11,12 +11,17 @@ const initialState = {
     pts: 0,
   },
   spectrums: [],
+  startTimer: 3000,
 };
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case msgType.SERVER.GAME_START:
-      return initialState;
+      return {
+        ...initialState,
+        nextPiece: action.payload.nextPiece,
+        startTimer: action.payload.timer,
+      };
     case msgType.SERVER.GAME_TICK: {
       const { spectrums } = action.payload;
       return {

@@ -40,6 +40,7 @@ const mapStateToProps = state => ({
   roomName: state.tetris.roomName,
   score: state.game.score,
   spectrums: state.game.spectrums,
+  startTimer: state.game.startTimer,
 });
 const mapDispatchToProps = dispatch => (
   bindActionCreators({
@@ -59,6 +60,7 @@ export const Game = ({
   roomName,
   score,
   spectrums,
+  startTimer,
 }) => (
   <div className="game-container">
     <PlayerInfo
@@ -77,6 +79,7 @@ export const Game = ({
         <Board
           board={board}
           currentStep={currentStep}
+          startTimer={startTimer}
         />
         <div className="stats-container">
           <Score score={score} />
