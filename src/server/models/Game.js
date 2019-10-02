@@ -63,7 +63,7 @@ class Game {
           // linebreak
           instance.field.breakLines(n);
           instance.score.addLineBreak(n.length);
-          if (this.mode === GAME_TYPE.CLASSIC) {
+          if (this.type === GAME_TYPE.CLASSIC) {
             this.addUnbreakLines(instance, n);
           }
         }

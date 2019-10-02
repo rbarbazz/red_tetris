@@ -96,16 +96,16 @@ export default class Field {
   }
 
   addUnbreakLines(n) {
-    const oldHard = this._hardline;
     this._hardline += n;
     if (this._hardline > 20) {
-      this._harline = 20;
+      this._hardline = 20;
     }
-    for (let i = oldHard + 1; i < 20; ++i) {
-      this._map[i] = Array.from(this._map[i - 1]);
-      this._map[i - 1].fill(10);
+    for (let i = this._size.height - 1; i >= n; --i) {
+      this._map[i] = Array.from(this._map[i - n]);
     }
-    dbg.info("Ok");
+    for (let i = 0; i < n; ++i) {
+      this._map[i].fill(10);
+    }
   }
 
   _move(to) {

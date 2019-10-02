@@ -26,8 +26,8 @@ export const CONFIG = {
 };
 
 export const GAME_TYPE = {
-  CLASSIC: 'CLASSIC',
-  TOURNAMENT: 'TOURNAMENT',
+  CLASSIC: 'classic',
+  TOURNAMENT: 'tournament',
 };
 
 export const GAME_SPEED = {
