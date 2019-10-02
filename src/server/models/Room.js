@@ -3,7 +3,8 @@ import { roomState, playerType, GAME_SPEED, GAME_TYPE } from '../../common/enums
 import Game from './Game';
 
 export default class Room {
-  constructor(lobby, name, slots) {
+  constructor(lobby, name, slots, mode) {
+    this._mode = mode;
     this._lobby = lobby; // Back link to lobby
     this._name = name;
     this.state = roomState.FREE;
@@ -108,7 +109,7 @@ export default class Room {
       return 'Player is not master';
     }
     this.state = roomState.BUSY;
-    this._game = new Game(GAME_TYPE.CLASSIC, GAME_SPEED.NORMAL, this.players);
+    this._game = new Game(this._mode, GAME_SPEED.NORMAL, this.players);
     return null;
   }
 

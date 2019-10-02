@@ -1,13 +1,14 @@
 import * as dbg from '../../common/devLog';
 import * as comm from '../../common/sockWrapper';
-import { eventType, msgType, CONFIG, KEYS } from '../../common/enums';
+import { eventType, msgType, GAME_TYPE, CONFIG, KEYS } from '../../common/enums';
 import Field from './Field';
 import Score from './Score';
 import timeNow from '../controllers/time';
 import Bag from './7bag';
-import { TETROS } from '../models/Piece';
+import { TETROS } from './Piece';
 
-function computeSpeed(difficulty, lvl, autofall = false) {
+function computeSpeed(difficulty, lvl, mode, autofall = false) {
+  if (mode === GAME_TYPE.CLASSIC) return 700;
   let msec = ((difficulty - ((lvl - 1) * 0.007)) ** (lvl - 1)) * 1000.0;
   if (autofall === true) {
     msec = CONFIG.FALL_SPEED;
@@ -21,7 +22,7 @@ function computeSpeed(difficulty, lvl, autofall = false) {
 class Game {
   constructor(type, difficulty, players) {
     this.running = false;
-    this._type = type;
+    this.type = type;
     this._difficulty = difficulty;
     this._bag = new Bag();
     this._instances = {};
@@ -42,6 +43,14 @@ class Game {
     });
   }
 
+  addUnbreakLines(instance, n) {
+    for (const player of Object.values(this._instances)) {
+      if (instance.player.id !== player.player.id) {
+        player.field.addUnbreakLines(n);
+      }
+    }
+  }
+
   actionDown(instance) {
     const r = instance.field.moveDown();
     if (r === false && instance.lock === false) {
@@ -54,6 +63,9 @@ class Game {
           // linebreak
           instance.field.breakLines(n);
           instance.score.addLineBreak(n.length);
+          if (this.mode === GAME_TYPE.CLASSIC) {
+            this.addUnbreakLines(instance, n);
+          }
         }
         instance.pieceId += 1;
         instance.lock = false;
@@ -77,7 +89,8 @@ class Game {
       if (action.key === KEYS.DOWN && instance.hitDown === false) {
         doSmth = () => {
           instance.hitDown = true;
-          instance.speed = computeSpeed(this._difficulty, instance.score.lvl, true);
+          instance.speed = computeSpeed(this._difficulty, instance.score.lvl, this.type,
+            true);
           this.cancelTimer(instance);
           this.startTimer(instance);
           return false;
@@ -87,7 +100,7 @@ class Game {
       if (action.key === KEYS.DOWN) {
         doSmth = () => {
           instance.hitDown = false;
-          instance.speed = computeSpeed(this._difficulty, instance.score.lvl);
+          instance.speed = computeSpeed(this._difficulty, instance.score.lvl, this.type);
           this.cancelTimer(instance);
           this.startTimer(instance);
           return false;
@@ -197,7 +210,7 @@ class Game {
     this.running = true;
     for (const instance of Object.values(this._instances)) {
       instance.field.spawn(this._bag.piece(instance.pieceId));
-      instance.speed = computeSpeed(this._difficulty, instance.score.lvl);
+      instance.speed = computeSpeed(this._difficulty, instance.score.lvl, this.type);
       this.send(instance, true);
       this.startTimer(instance);
     }
