@@ -95,7 +95,7 @@ export default class Field {
     return linebreak;
   }
 
-  addUnbreakLine(n) {
+  addUnbreakLines(n) {
     const oldHard = this._hardline;
     this._hardline += n;
     if (this._hardline > 20) {
@@ -103,7 +103,9 @@ export default class Field {
     }
     for (let i = oldHard + 1; i < 20; ++i) {
       this._map[i] = Array.from(this._map[i - 1]);
+      this._map[i - 1].fill(10);
     }
+    dbg.info("Ok");
   }
 
   _move(to) {
