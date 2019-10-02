@@ -41,6 +41,7 @@ class Game {
         lockTimer: null,
         speed: 0, // Current speed timer
         run: true, // false when end of party
+        harddrop: false, // For scoring
         player, // Player instance
       };
     });
@@ -65,11 +66,14 @@ class Game {
         if (n !== null) {
           // linebreak
           instance.field.breakLines(n);
-          instance.score.addLineBreak(n.length);
+          instance.score.compute(n.length, instance.harddrop);
           if (this.type === GAME_TYPE.CLASSIC) {
             this.addUnbreakLines(instance, n.length);
           }
+        } else {
+          instance.score.compute(0, instance.harddrop);
         }
+        instance.harddrop = false;
         instance.pieceId += 1;
         instance.lock = false;
         if (instance.field.spawn(this._bag.piece(instance.pieceId)) === false) {
@@ -117,6 +121,7 @@ class Game {
       } else if (action.key === KEYS.SPACE) {
         doSmth = () => {
           instance.field.goToShadow();
+          instance.harddrop = true;
           this.actionDown(instance);
           return true;
         };
