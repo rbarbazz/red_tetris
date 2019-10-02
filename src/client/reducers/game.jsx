@@ -1,9 +1,14 @@
 import { msgType } from '../../common/enums';
 
+
 const initialState = {
   board: Array(20).fill(Array(10).fill(0)),
   nextPiece: 'O',
-  score: 0,
+  score: {
+    lines: 0,
+    lvl: 0,
+    pts: 0,
+  },
   spectrums: [],
 };
 

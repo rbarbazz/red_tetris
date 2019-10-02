@@ -536,7 +536,7 @@ div .list-item:last-of-type {
 	font-weight: 600;
 }
 .score-display .score-label:last-of-type {
-	font-size: 41px;
+	font-size: 35px;
 	color: #eb4d4b;
 	letter-spacing: 2px;
 }

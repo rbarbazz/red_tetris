@@ -49,7 +49,13 @@ const RoomNameInput = ({
         && (
           <div className="room-creation-container">
             <div className="room-creation-title">Create New Room</div>
-            <div className="room-creation-input-container">
+            <form
+              className="room-creation-input-container"
+              onSubmit={(event) => {
+                event.preventDefault();
+                submitRoom(roomName, roomGameMode);
+              }}
+            >
               <input
                 className="room-creation-text-input"
                 onChange={event => handleRoomSelection(event.target.value, roomGameMode)}
@@ -74,7 +80,7 @@ const RoomNameInput = ({
                 disabled={roomName === ''}
                 isLoading={isLoading}
               />
-            </div>
+            </form>
           </div>
         )}
       </div>

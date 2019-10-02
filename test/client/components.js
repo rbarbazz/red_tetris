@@ -11,6 +11,7 @@ import GameReport from '../../src/client/components/GameReport';
 import GenericButton from '../../src/client/components/GenericButton';
 import LoadingIcon from '../../src/client/components/LoadingIcon';
 import '../../src/client/components/MusicToggle';
+import NextPiece from '../../src/client/components/NextPiece';
 import PlayerInfo from '../../src/client/components/PlayerInfo';
 import PlayerList from '../../src/client/components/PlayerList';
 import PlayerNameInput from '../../src/client/components/PlayerNameInput';
@@ -21,16 +22,32 @@ import Spectrum from '../../src/client/components/Spectrum';
 
 
 export default () => describe('Components', () => {
-  it('should render <Block />', () => {
-    const wrapper = shallow(<Block />);
+  describe('Block', () => {
+    it('should render <Block />', () => {
+      const wrapper = shallow(<Block />);
 
-    expect(wrapper.exists()).to.equal(true);
-    expect(wrapper.exists('.block')).to.equal(true);
+      expect(wrapper.exists()).to.equal(true);
+      expect(wrapper.exists('.block')).to.equal(true);
+    });
+
+    it('should render <Block shadowPiece />', () => {
+      const wrapper = shallow(<Block shadowPiece />);
+
+      expect(wrapper.exists()).to.equal(true);
+      expect(wrapper.exists('.block')).to.equal(true);
+    });
   });
 
   describe('Board', () => {
     it('should render <Board />', () => {
       const wrapper = shallow(<Board />);
+
+      expect(wrapper.exists()).to.equal(true);
+    });
+
+    it('should render <Board board={board} />', () => {
+      const board = Array(20).fill(Array(10).fill(14));
+      const wrapper = shallow(<Board board={board} />);
 
       expect(wrapper.exists()).to.equal(true);
     });
@@ -77,6 +94,12 @@ export default () => describe('Components', () => {
     expect(wrapper.exists()).to.equal(true);
     expect(wrapper.exists('.loading-icon')).to.equal(true);
     expect(wrapper.find('.loading-icon').children()).to.have.lengthOf(9);
+  });
+
+  it('should render <NextPiece nextPiece="S" />', () => {
+    const wrapper = shallow(<NextPiece nextPiece="S" />);
+
+    expect(wrapper.exists()).to.equal(true);
   });
 
   it('should render <PlayerInfo />', () => {
@@ -200,7 +223,7 @@ export default () => describe('Components', () => {
   });
 
   describe('RoomNameInput', () => {
-    it('should render <RoomNameInput  roomName=""', () => {
+    it('should render <RoomNameInput roomName=""', () => {
       const wrapper = shallow(<RoomNameInput roomName="" />);
 
       expect(wrapper.exists()).to.equal(true);
@@ -286,6 +309,19 @@ export default () => describe('Components', () => {
       wrapper.find('button').simulate('click');
       expect(onButtonClick).to.have.property('callCount', 1);
     });
+
+    it('should simulate submit and call submitRoom', () => {
+      const onSubmit = sinon.spy();
+      const wrapper = mount(
+        <RoomNameInput
+          roomName="room303"
+          submitRoom={onSubmit}
+        />,
+      );
+
+      wrapper.find('button').simulate('submit', { target: { value: 'room303' } });
+      expect(onSubmit).to.have.property('callCount', 1);
+    });
   });
 
   it('should render <Score />', () => {
@@ -303,12 +339,34 @@ export default () => describe('Components', () => {
       expect(wrapper.exists('.spectrums-container')).to.equal(true);
     });
 
-    it('should render <Spectrum spectrums={Array(7).fill(Array(200))} />', () => {
-      const spectrums = Array(3).fill([...Array(125).fill(0), ...Array(75).fill(1)]);
+    it('should render <Spectrum spectrums={spectrums} />', () => {
+      const spectrums = Array(3).fill({
+        board: Array(20).fill(Array(10).fill(0)),
+      });
       const wrapper = shallow(<Spectrum spectrums={spectrums} />);
 
       expect(wrapper.find('.spectrum-container')).to.have.lengthOf(3);
       expect(wrapper.find('.spectrum-container').first().children()).to.have.lengthOf(200);
+    });
+
+    it('should render <Spectrum spectrums={spectrums} />', () => {
+      const spectrums = Array(3).fill({
+        board: Array(20).fill(Array(10).fill(1)),
+      });
+      const wrapper = shallow(<Spectrum spectrums={spectrums} />);
+
+      expect(wrapper.find('.spectrum-container')).to.have.lengthOf(3);
+      expect(wrapper.find('.spectrum-container').first().children()).to.have.lengthOf(200);
+    });
+
+    it('should render <Spectrum spectrums={spectrums} playerName="raph" />', () => {
+      const spectrums = [{
+        board: Array(20).fill(Array(10).fill(1)),
+        name: 'raph',
+      }];
+      const wrapper = shallow(<Spectrum spectrums={spectrums} playerName="raph" />);
+
+      expect(wrapper.find('.spectrum-container')).to.have.lengthOf(0);
     });
   });
 });

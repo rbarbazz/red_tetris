@@ -22,7 +22,12 @@ export default () => describe('Reducers', () => {
   describe('game', () => {
     const initialState = {
       board: Array(20).fill(Array(10).fill(0)),
-      score: 0,
+      nextPiece: 'O',
+      score: {
+        lines: 0,
+        lvl: 0,
+        pts: 0,
+      },
       spectrums: [],
     };
 
@@ -34,10 +39,17 @@ export default () => describe('Reducers', () => {
       const action = {
         type: msgType.SERVER.GAME_TICK,
         payload: {
-          board: Array(200).fill(1),
+          board: Array(20).fill(Array(10).fill(1)),
+          nextPiece: 'O',
+          score: {
+            lines: 0,
+            lvl: 0,
+            pts: 0,
+          },
+          spectrums: [],
         },
       };
-      const expectedState = { ...initialState, board: Array(200).fill(1) };
+      const expectedState = { ...initialState, board: Array(20).fill(Array(10).fill(1)) };
 
       expect(game(initialState, action)).to.deep.equal(expectedState);
     });
@@ -213,45 +225,6 @@ export default () => describe('Reducers', () => {
       expect(tetris(initialState, action)).to.deep.equal(expectedState);
     });
 
-    // it('should return the correct state for LOBBY_DATA action', () => {
-    //   const action = {
-    //     type: msgType.SERVER.LOBBY_DATA,
-    //     payload: {
-    //       players: [{
-    //         name: 'raph',
-    //         type: playerType.NONE,
-    //         room: '',
-    //       }],
-    //       rooms: [{
-    //         name: '',
-    //         players: [{
-    //           name: 'raph',
-    //           room: '',
-    //           type: 'none',
-    //         }],
-    //         state: roomState.NONE,
-    //       }],
-    //     },
-    //     msg: ['raph joined room: '],
-    //   };
-    //   const playerObject = action.payload.players[0];
-    //   const roomObject = action.payload.rooms[0];
-    //   const expectedState = {
-    //     ...initialState,
-    //     currentPlayerType: (playerObject !== undefined ? playerObject.type : playerType.NONE),
-    //     currentStep: (roomObject !== undefined && roomObject.state === roomState.BUSY)
-    //       ? 'game'
-    //       : 'roomNameSelection',
-    //     message: action.msg[0],
-    //     playerList: (roomObject !== undefined ? roomObject.players : action.payload.players),
-    //     roomList: action.payload.rooms,
-    //     roomName: (roomObject !== undefined ? roomObject.name : ''),
-    //     roomObject,
-    //   };
-
-    //   expect(tetris(initialState, action)).to.deep.equal(expectedState);
-    // });
-
     it('should return the correct state for STORE_ROOM action', () => {
       const action = {
         type: STORE_ROOM,
@@ -335,13 +308,14 @@ export default () => describe('Reducers', () => {
     });
 
     it('should return the correct state for CONNECT_TO_ROOM_ERROR action', () => {
-      const action = { type: `${msgType.CLIENT.CONNECT_TO_ROOM}_ERROR` };
+      const action = { type: `${msgType.CLIENT.CONNECT_TO_ROOM}_ERROR`, msg: 'error' };
       const expectedState = {
         ...initialState,
         currentStep: 'playerNameSelection',
         playerName: '',
         roomName: '',
         roomObject: undefined,
+        message: action.msg,
       };
 
       expect(tetris(initialState, action)).to.deep.equal(expectedState);

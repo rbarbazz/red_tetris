@@ -13,6 +13,7 @@ import controllers from './server/controllers';
 import models from './server/models';
 import '../src/client/index';
 
+
 describe('Client', () => {
   describe('React', () => {
     describe('index', () => {
