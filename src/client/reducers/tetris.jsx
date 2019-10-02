@@ -1,6 +1,6 @@
 import { DISPLAY_LOBBY } from '../actions/tetris';
 import { STORE_PLAYER_NAME, STORE_ROOM } from '../actions/lobby';
-import { msgType, playerType, roomState } from '../../common/enums';
+import { GAME_TYPE, msgType, playerType, roomState } from '../../common/enums';
 
 
 const initialState = {
@@ -13,7 +13,7 @@ const initialState = {
   playerName: '',
   roomList: [],
   roomName: '',
-  roomGameMode: 'classic',
+  roomGameMode: GAME_TYPE.CLASSIC,
   roomObject: undefined,
 };
 

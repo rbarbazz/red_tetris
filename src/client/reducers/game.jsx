@@ -3,10 +3,11 @@ import { msgType } from '../../common/enums';
 
 const initialState = {
   board: Array(20).fill(Array(10).fill(0)),
+  gameReport: [],
   nextPiece: 'O',
   score: {
     lines: 0,
-    lvl: 0,
+    lvl: 1,
     pts: 0,
   },
   spectrums: [],
@@ -14,6 +15,8 @@ const initialState = {
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
+    case msgType.SERVER.GAME_START:
+      return initialState;
     case msgType.SERVER.GAME_TICK: {
       const { spectrums } = action.payload;
       return {
@@ -24,6 +27,8 @@ const reducer = (state = initialState, action) => {
         score: action.payload.score,
       };
     }
+    case msgType.SERVER.GAME_REPORT:
+      return { ...state, gameReport: action.payload.report };
     default:
       return state;
   }

@@ -34,16 +34,14 @@ export const Tetris = ({
   currentStep,
   sendGameInput,
 }) => {
-  if (currentStep === 'game') {
-    useKeyboardEvent((event) => {
-      const { keyCode, type } = event;
-      const inputCodes = [32, 37, 38, 39, 40];
+  useKeyboardEvent((event) => {
+    const { keyCode, type } = event;
+    const inputCodes = [32, 37, 38, 39, 40];
 
-      if (inputCodes.includes(keyCode)) {
-        sendGameInput(keyCode, type);
-      }
-    });
-  }
+    if (currentStep === 'game' && inputCodes.includes(keyCode)) {
+      sendGameInput(keyCode, type);
+    }
+  });
 
   switch (currentStep) {
     case 'playerNameSelection':

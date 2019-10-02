@@ -31,7 +31,7 @@ Score.propTypes = propTypes;
 export const defaultProps = {
   score: {
     lines: 0,
-    lvl: 0,
+    lvl: 1,
     pts: 0,
   },
 };

@@ -8,6 +8,7 @@ GenericButton,
 { propTypes as GenericButtonPropTypes, defaultProps as GenericButtonDefaultProps }
   from './GenericButton';
 
+
 const PlayerList = ({
   currentPlayerType,
   isInRoom,

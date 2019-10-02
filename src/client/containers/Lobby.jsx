@@ -23,6 +23,7 @@ const mapStateToProps = state => ({
   message: state.tetris.message,
   playerList: state.tetris.playerList,
   playerName: state.tetris.playerName,
+  roomGameMode: state.tetris.roomGameMode,
   roomList: state.tetris.roomList,
   roomName: state.tetris.roomName,
   roomObject: state.tetris.roomObject,
@@ -45,6 +46,7 @@ export const Lobby = ({
   ownerIsReady,
   playerList,
   playerName,
+  roomGameMode,
   roomList,
   roomName,
   roomObject,
@@ -74,6 +76,7 @@ export const Lobby = ({
           ownerIsReady={ownerIsReady}
           playerList={playerList}
           playerName={playerName}
+          roomGameMode={roomGameMode}
           roomList={roomList}
           roomName={roomName}
           roomObject={roomObject}

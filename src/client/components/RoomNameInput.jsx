@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import * as lobbyActions from '../actions/lobby';
+import { GAME_TYPE } from '../../common/enums';
 import PlayerInfo from './PlayerInfo';
 import
 RoomList,
@@ -66,13 +67,11 @@ const RoomNameInput = ({
               />
               <select
                 className="game-mode-select"
-                defaultValue="gameMode"
                 onChange={event => handleRoomSelection(roomName, event.target.value)}
                 value={roomGameMode}
               >
-                <option disabled value="gameMode">Game Mode</option>
-                <option value="classic">Classic</option>
-                <option value="tournament">Tournament</option>
+                <option value={GAME_TYPE.CLASSIC}>Classic</option>
+                <option value={GAME_TYPE.TOURNAMENT}>Tournament</option>
               </select>
               <GenericButton
                 action={() => submitRoom(roomName, roomGameMode)}
@@ -105,6 +104,7 @@ export const propTypes = {
   handleRoomSelection: PropTypes.func,
   message: PropTypes.string,
   playerName: PropTypes.string,
+  roomGameMode: PropTypes.string,
 };
 RoomNameInput.propTypes = propTypes;
 
@@ -114,6 +114,7 @@ export const defaultProps = {
   handleRoomSelection: lobbyActions.handleRoomSelection,
   message: '',
   playerName: '',
+  roomGameMode: GAME_TYPE.CLASSIC,
 };
 RoomNameInput.defaultProps = defaultProps;
 

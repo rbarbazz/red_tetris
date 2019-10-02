@@ -5,30 +5,34 @@ import GenericButton from './GenericButton';
 import * as lobbyActions from '../actions/lobby';
 import { playerType } from '../../common/enums';
 
-const finalScores = [{
-  name: 'raph',
-  lines: 32,
-  lvl: 12,
-  pts: 3200,
-}];
 
-const GameReport = ({ currentPlayerType, resetRoom, leaveRoom }) => {
-  finalScores.unshift({
+const GameReport = ({
+  currentPlayerType,
+  gameReport,
+  resetRoom,
+  leaveRoom,
+}) => {
+  gameReport.unshift({
     name: 'Name',
-    lines: 'Lines',
-    lvl: 'Level',
-    pts: 'Score',
+    score: {
+      lines: 'Lines',
+      lvl: 'Level',
+      pts: 'Score',
+    },
   });
 
   return (
     <div className="game-report-container">
       <div className="final-scores-container">
-        {finalScores.map(player => (
-          <div className="player-score-container list-item">
+        {gameReport.map((player, index) => (
+          <div
+            className="player-score-container list-item"
+            key={`player-score${index.toString()}`}
+          >
             <div className="player-score-name">{player.name}</div>
-            <div className="player-score-pts">{player.pts}</div>
-            <div className="player-score-lines">{player.lines}</div>
-            <div className="player-score-lvl">{player.lvl}</div>
+            <div className="player-score-pts">{player.score.pts}</div>
+            <div className="player-score-lines">{player.score.lines}</div>
+            <div className="player-score-lvl">{player.score.lvl}</div>
           </div>
         ))}
       </div>
@@ -50,6 +54,14 @@ const GameReport = ({ currentPlayerType, resetRoom, leaveRoom }) => {
 
 export const propTypes = {
   currentPlayerType: PropTypes.string,
+  gameReport: PropTypes.arrayOf(PropTypes.shape({
+    name: PropTypes.string,
+    score: PropTypes.shape({
+      lines: PropTypes.number,
+      lvl: PropTypes.number,
+      pts: PropTypes.number,
+    }),
+  })),
   leaveRoom: PropTypes.func,
   resetRoom: PropTypes.func,
 };
@@ -57,6 +69,14 @@ GameReport.propTypes = propTypes;
 
 export const defaultProps = {
   currentPlayerType: playerType.NONE,
+  gameReport: {
+    name: '',
+    score: {
+      lvl: 1,
+      lines: 0,
+      pts: 0,
+    },
+  },
   leaveRoom: lobbyActions.leaveRoom,
   resetRoom: lobbyActions.leaveRoom,
 };

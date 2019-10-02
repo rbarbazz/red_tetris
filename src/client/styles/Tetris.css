@@ -610,11 +610,17 @@ div > .list-item:last-of-type {
 	margin: auto;
     width: 90%;
 }
+.final-scores-container .player-score-container:first-of-type {
+	color: #eb4d4b;
+	font-weight: 600;
+}
 .player-score-container {
 	display: flex;
 	justify-content: center;
 }
 .player-score-container > div {
+	letter-spacing: 0.05em;
+	text-align: center;
 	width: 25%;
 }
 

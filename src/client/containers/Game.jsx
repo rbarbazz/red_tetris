@@ -34,6 +34,7 @@ const mapStateToProps = state => ({
   board: state.game.board,
   currentPlayerType: state.tetris.currentPlayerType,
   currentStep: state.tetris.currentStep,
+  gameReport: state.game.gameReport,
   nextPiece: state.game.nextPiece,
   playerName: state.tetris.playerName,
   roomName: state.tetris.roomName,
@@ -50,6 +51,7 @@ export const Game = ({
   board,
   currentPlayerType,
   currentStep,
+  gameReport,
   leaveRoom,
   nextPiece,
   playerName,
@@ -66,6 +68,7 @@ export const Game = ({
     {currentStep === 'gameReport' ? (
       <GameReport
         currentPlayerType={currentPlayerType}
+        gameReport={gameReport}
         leaveRoom={leaveRoom}
         resetRoom={resetRoom}
       />

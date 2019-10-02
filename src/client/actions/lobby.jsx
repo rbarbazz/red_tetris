@@ -1,4 +1,4 @@
-import { eventType, msgType } from '../../common/enums';
+import { eventType, GAME_TYPE, msgType } from '../../common/enums';
 
 export const STORE_PLAYER_NAME = 'STORE_PLAYER_NAME';
 export const STORE_ROOM = 'STORE_ROOM';
@@ -14,7 +14,7 @@ export const submitPlayerName = playerName => ({
   eventType: eventType.LOBBY,
 });
 
-export const handleRoomSelection = (roomName, roomGameMode) => ({
+export const handleRoomSelection = (roomName, roomGameMode = GAME_TYPE.CLASSIC) => ({
   type: STORE_ROOM,
   payload: { roomName, roomGameMode },
 });
