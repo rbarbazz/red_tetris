@@ -1,5 +1,8 @@
+import fs from 'fs';
+import path from 'path';
+import { CONFIG, GAME_TYPE } from '../../common/enums';
 
-export default class Score {
+export class Score {
   constructor(lvl = 1) {
     this.lines = 0;
     this.pts = 0;
@@ -48,4 +51,32 @@ export default class Score {
   serialize() {
     return { lines: this.lines, lvl: this.lvl, pts: this.pts };
   }
+}
+
+export function makeLeaderboard(report, mode) {
+  const filename = path.join(__dirname, CONFIG.LEADERBOARD_FILE);
+  if (!fs.existsSync(filename)) return {};
+  const filedata = fs.readFileSync(filename, 'utf-8');
+  if (filedata === undefined) return {};
+  const data = JSON.parse(filedata);
+  if (data === undefined) return {};
+  const scores = data[mode];
+  for (const entry in report) {
+    const findPlayer = scores.findIndex(a => a.name === entry.name);
+    // New player
+    if (findPlayer === -1) {
+      scores.push({ name: entry.name, score: entry.score });
+    } else {
+      // Update only if highscore
+      // eslint-disable-next-line no-lonely-if
+      if (entry.score.pts > scores[findPlayer].score.pts) {
+        scores[findPlayer].score = entry.score;
+      }
+    }
+  }
+  scores.sort((a, b) => a.score.pts < b.score.pts);
+  const jsonWrite = JSON.stringify(data);
+  if (jsonWrite === undefined) return data;
+  fs.writeFileSync(filename, jsonWrite, 'utf8');
+  return scores;
 }

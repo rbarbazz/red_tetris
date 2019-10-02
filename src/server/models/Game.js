@@ -2,7 +2,7 @@ import * as dbg from '../../common/devLog';
 import * as comm from '../../common/sockWrapper';
 import { eventType, msgType, GAME_TYPE, CONFIG, KEYS } from '../../common/enums';
 import Field from './Field';
-import Score from './Score';
+import { Score, makeLeaderboard  } from './Score';
 import timeNow from '../controllers/time';
 import Bag from './7bag';
 import { TETROS } from './Piece';
@@ -162,10 +162,12 @@ class Game {
   }
 
   checkEndParty(instance) {
+    const report = this.makeReport();
+    const leaderboard = makeLeaderboard(report, this.type);
     // Go to report directly
     if (this.soloMode()) {
       comm.sendRequest(instance.player.socket, eventType.GAME,
-        msgType.SERVER.GAME_REPORT, { report: this.makeReport() });
+        msgType.SERVER.GAME_REPORT, { report, leaderboard });
     } else {
       let stillRunning = 0;
       for (const player of Object.values(this._instances)) {
@@ -177,7 +179,7 @@ class Game {
           this.cancelTimer(player);
           this.cancelLockTimer(player);
           comm.sendRequest(player.player.socket, eventType.GAME,
-            msgType.SERVER.GAME_REPORT, { report: this.makeReport() });
+            msgType.SERVER.GAME_REPORT, { report, leaderboard });
         }
       // 2 or more players left, go to end for the current player
       } else {

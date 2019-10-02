@@ -24,6 +24,7 @@ export const CONFIG = {
   FALL_SPEED: 16.7,
   DEFAULT_SPEED: 700,
   START_DELAY: 1000, // ms
+  LEADERBOARD_FILE: '../../leaderboard.json',
 };
 
 export const GAME_TYPE = {
