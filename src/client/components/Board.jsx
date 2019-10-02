@@ -13,6 +13,7 @@ const colors = {
   5: 'red',
   6: 'blue',
   7: 'orange',
+  10: 'black',
 };
 
 const Board = ({

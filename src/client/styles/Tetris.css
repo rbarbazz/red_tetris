@@ -14,6 +14,11 @@ html, body {
 	justify-content: center;
 	align-items: center;
 }
+.black {
+	background-color: #2d3436;
+	border: solid 0.75px #636e72;
+
+}
 .white {
 	background-color: white;
 	border: solid 0.75px #f5f6fa;
