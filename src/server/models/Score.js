@@ -1,6 +1,8 @@
 import fs from 'fs';
 import path from 'path';
 import { CONFIG, GAME_TYPE } from '../../common/enums';
+import * as dbg from '../../common/devLog';
+
 
 export class Score {
   constructor(lvl = 1) {
@@ -61,7 +63,7 @@ export function makeLeaderboard(report, mode) {
   const data = JSON.parse(filedata);
   if (data === undefined) return {};
   const scores = data[mode];
-  for (const entry in report) {
+  for (const entry of report) {
     const findPlayer = scores.findIndex(a => a.name === entry.name);
     // New player
     if (findPlayer === -1) {
@@ -74,7 +76,7 @@ export function makeLeaderboard(report, mode) {
       }
     }
   }
-  scores.sort((a, b) => a.score.pts < b.score.pts);
+  scores.sort((a, b) => a.score.pts > b.score.pts);
   const jsonWrite = JSON.stringify(data);
   if (jsonWrite === undefined) return data;
   fs.writeFileSync(filename, jsonWrite, 'utf8');

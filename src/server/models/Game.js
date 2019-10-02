@@ -2,7 +2,7 @@ import * as dbg from '../../common/devLog';
 import * as comm from '../../common/sockWrapper';
 import { eventType, msgType, GAME_TYPE, CONFIG, KEYS } from '../../common/enums';
 import Field from './Field';
-import { Score, makeLeaderboard  } from './Score';
+import { Score, makeLeaderboard } from './Score';
 import timeNow from '../controllers/time';
 import Bag from './7bag';
 import { TETROS } from './Piece';
