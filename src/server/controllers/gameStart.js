@@ -6,7 +6,7 @@ export function gameStart(room) {
   const { game } = room;
   Object.values(room.players).forEach(player => (
     comm.sendRequest(player.socket, eventType.GAME, msgType.SERVER.GAME_START,
-      { timer: CONFIG.START_DELAY, mode: game.type })
+      { timer: CONFIG.START_DELAY, mode: game.type, nextPiece: game._bag.piece(0) })
   ));
   setTimeout(() => game.start(), CONFIG.START_DELAY);
 }

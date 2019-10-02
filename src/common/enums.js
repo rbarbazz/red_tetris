@@ -21,13 +21,14 @@ export const CONFIG = {
   SLOTS_PER_ROOM: 8,
   COOLDOWN: 6666, // In microseconds
   LOCK_COOLDOWN: 500,
-  FALL_SPEED: 16.667,
-  START_DELAY: 3000, // ms
+  FALL_SPEED: 16.7,
+  DEFAULT_SPEED: 700,
+  START_DELAY: 1000, // ms
 };
 
 export const GAME_TYPE = {
-  CLASSIC: 'classic',
-  TOURNAMENT: 'tournament',
+  CLASSIC: 'CLASSIC',
+  TOURNAMENT: 'TOURNAMENT',
 };
 
 export const GAME_SPEED = {
