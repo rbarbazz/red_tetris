@@ -14,71 +14,62 @@ html, body {
 	justify-content: center;
 	align-items: center;
 }
-.black {
-	background-color: #636e72;
-	border: solid 0.75px #dfe6e9;
-}
-.black .inner-block {
-	background-color: #2d3436;
+.shadow-color {
+	opacity: 0.2;
 }
 .white {
 	background-color: #dfe6e9;
 }
+.dark {
+	background-color: #454545;
+}
+.black {
+	background-color: #636e72;
+}
+.black .inner-block {
+	background-color: #2d3436;
+}
 .cyan {
 	background-color: #60a3bc;
-	border: solid 0.75px #dfe6e9;
 }
 .cyan .inner-block {
 	background-color: #82ccdd;
 }
 .yellow {
 	background-color: #f6b93b;
-	border: solid 0.75px #dfe6e9;
 }
 .yellow .inner-block {
 	background-color: #fad390;
 }
 .purple {
 	background-color: #8e44ad;
-	border: solid 0.75px #dfe6e9;
 }
 .purple .inner-block {
 	background-color: #9b59b6;
 }
 .green {
 	background-color: #009432;
-	border: solid 0.75px #dfe6e9;
 }
 .green .inner-block {
 	background-color: #6ab04c;
 }
 .red {
 	background-color: #c23616;
-	border: solid 0.75px #dfe6e9;
 }
 .red .inner-block {
 	background-color: #e84118;
 }
 .blue {
 	background-color: #4a69bd;
-	border: solid 0.75px #dfe6e9;
 }
 .blue .inner-block {
 	background-color: #6a89cc;
 }
 .orange {
 	background-color: #e58e26;
-	border: solid 0.75px #dfe6e9;
 }
 .orange .inner-block {
 	background-color: #fa983a;
-}
-.dark {
-	background-color: #454545;
-	border: solid 0.75px #dfe6e9;
-}
-.shadow-color {
-	opacity: 0.2;
 }
 .loading-icon {
 	width: 3em;
@@ -150,10 +141,10 @@ html, body {
 	font-size: 22px;
 	font-weight: 600;
 	letter-spacing: 0.05em;
+	min-width: 135px;
 	padding: 10px 15px;
 	text-transform: uppercase;
 	transition: 0.1s;
-	min-width: 135px;
 }
 .generic-button:disabled {
 	opacity: 0.7;
@@ -454,12 +445,6 @@ div > .list-item:last-of-type {
    Board
    ========================================================================== */
 
-.block {
-	border-radius: 3px;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-}
 .board-container {
 	background-color: #dfe6e9;
 	border-radius: 5px;
@@ -467,21 +452,9 @@ div > .list-item:last-of-type {
 	display: flex;
 	flex-wrap: wrap;
 	height: 600px;
+	justify-content: center;
 	position: relative;
 	width: 300px;
-}
-.board-container .block {
-	width: 27.5px;
-	height: 27.5px;
-}
-.board-container .block.white {
-	height: 29px;
-	width: 29px;
-}
-.inner-block {
-	border-radius: 3px;
-	height: 60%;
-	width: 60%;
 }
 .game-end-screen {
 	align-items: center;
@@ -509,6 +482,26 @@ div > .list-item:last-of-type {
 	font-family: 'Open Sans', sans-serif;
 	font-size: 30px;
 	font-weight: 500;
+}
+
+/* Block
+   ========================================================================== */
+
+.block {
+	align-items: center;
+	border-color: #dfe6e9;
+	border-radius: 3px;
+	border-style: solid;
+	border-width: 0.75px;
+	display: flex;
+	height: 27.5px;
+	justify-content: center;
+	width: 27.5px;
+}
+.inner-block {
+	border-radius: 3px;
+	height: 60%;
+	width: 60%;
 }
 
 /* ==========================================================================
@@ -575,14 +568,6 @@ div > .list-item:last-of-type {
 	padding: 10px 0 10px;
 	width: 33.33%;
 }
-.next-piece-display {
-	flex-wrap: wrap;
-	flex-direction: row;
-	padding: 15px;
-}
-.next-piece-container {
-	min-height: 80px
-}
 .score-label {
 	color: #EFF1F3;
 	font-family: 'Open Sans', sans-serif;
@@ -597,14 +582,20 @@ div > .list-item:last-of-type {
 .stats-container .generic-button {
 	width: 100%;
 }
+
+/* Next Piece
+   ========================================================================== */
+
+.next-piece-display {
+	flex-wrap: wrap;
+	flex-direction: row;
+	padding: 15px;
+}
+.next-piece-container {
+	min-height: 80px
+}
 .next-piece-display .block {
 	border-color: #454545;
-	width: 27.5px;
-	height: 27.5px;
-}
-.next-piece-display .block.white {
-	height: 29px;
-	width: 29px;
 }
 
 /* ==========================================================================
@@ -631,10 +622,14 @@ div > .list-item:last-of-type {
 	border: #454545 solid 7px;
 	border-radius: 5px;
 }
-.spectrum-container .block{
+.spectrum-container .block {
 	border: none;
+	border-radius: 0;
 	height: 6px;
 	width: 6px;
+}
+.spectrum-container .inner-block {
+	display: none;
 }
 .spectrum-player-name {
 	font-family: 'Open Sans', sans-serif;
@@ -662,8 +657,11 @@ div > .list-item:last-of-type {
     flex-direction: column;
 }
 .final-scores-container {
-	margin: auto;
-    width: 90%;
+	margin: 0 auto 20px;
+	width: 90%;
+}
+.final-scores-container:first-of-type {
+	margin-bottom: 40px;
 }
 .final-scores-container .player-score-container:first-of-type {
 	color: #eb4d4b;
@@ -677,6 +675,13 @@ div > .list-item:last-of-type {
 	letter-spacing: 0.05em;
 	text-align: center;
 	width: 25%;
+}
+.final-scores-title {
+	color: #eb4d4b;
+	font-family: 'Open Sans', sans-serif;
+	font-size: 24px;
+	margin: 0 0 20px;
+	text-align: center;
 }
 
 /* ==========================================================================
@@ -768,10 +773,6 @@ div > .list-item:last-of-type {
 		border-width: 1px;
 		height: 37px;
 		width: 37px;
-	}
-	.board-container .block.white {
-		height: 39px;
-		width: 39px;
 	}
 	.stats-container {
 		height: 800px;

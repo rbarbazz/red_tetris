@@ -84,7 +84,10 @@ export const Game = ({
           startTimer={startTimer}
         />
         <div className="stats-container">
-          <Score score={score} roomGameMode={roomGameMode} />
+          <Score
+            score={score}
+            roomGameMode={roomGameMode}
+          />
           <NextPiece nextPiece={nextPiece} />
           <Spectrum
             playerName={playerName}

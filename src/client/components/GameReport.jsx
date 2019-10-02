@@ -11,57 +11,66 @@ const GameReport = ({
   gameReport,
   resetRoom,
   leaveRoom,
-}) => {
-  gameReport.unshift({
-    name: 'Name',
-    score: {
-      lines: 'Lines',
-      lvl: 'Level',
-      pts: 'Score',
-    },
-  });
-
-  return (
-    <div className="game-report-container">
-      <div className="final-scores-container">
-        {gameReport.map((player, index) => (
-          <div
-            className="player-score-container list-item"
-            key={`player-score${index.toString()}`}
-          >
-            <div className="player-score-name">{player.name}</div>
-            <div className="player-score-pts">{player.score.pts}</div>
-            <div className="player-score-lines">{player.score.lines}</div>
-            <div className="player-score-lvl">{player.score.lvl}</div>
-          </div>
-        ))}
-      </div>
-      <div className="button-container">
+}) => (
+  <div className="game-report-container">
+    {gameReport.map((table, tableIndex) => {
+      table.unshift({
+        name: 'Name',
+        score: {
+          lines: 'Lines',
+          lvl: 'Level',
+          pts: 'Score',
+        },
+      });
+      return (
+        <div
+          className="final-scores-container"
+          key={`final-scores${tableIndex.toString()}`}
+        >
+          <h3 className="final-scores-title">{tableIndex === 0 ? 'Game Report' : 'Leaderboard'}</h3>
+          {table.map((player, playerIndex) => (
+            <div
+              className="player-score-container list-item"
+              key={`player-score${tableIndex.toString()}${playerIndex.toString()}`}
+            >
+              <div className="player-score-name">{player.name}</div>
+              <div className="player-score-pts">{player.score.pts}</div>
+              <div className="player-score-lines">{player.score.lines}</div>
+              <div className="player-score-lvl">{player.score.lvl}</div>
+            </div>
+          ))}
+        </div>
+      );
+    })}
+    <div className="button-container">
+      <GenericButton
+        action={leaveRoom}
+        contentText="Leave"
+      />
+      {currentPlayerType === playerType.MASTER && (
         <GenericButton
-          action={leaveRoom}
-          contentText="Leave"
+          action={resetRoom}
+          contentText="Restart"
         />
-        {currentPlayerType === playerType.MASTER && (
-          <GenericButton
-            action={resetRoom}
-            contentText="Restart"
-          />
-        )}
-      </div>
+      )}
     </div>
-  );
-};
+  </div>
+);
 
 export const propTypes = {
   currentPlayerType: PropTypes.string,
-  gameReport: PropTypes.arrayOf(PropTypes.shape({
-    name: PropTypes.string,
-    score: PropTypes.shape({
-      lines: PropTypes.number,
-      lvl: PropTypes.number,
-      pts: PropTypes.number,
-    }),
-  })),
+  gameReport: PropTypes.arrayOf(
+    PropTypes.arrayOf(
+      PropTypes.shape({
+        name: PropTypes.string,
+        score: PropTypes.shape({
+          lines: PropTypes.number,
+          lvl: PropTypes.number,
+          pts: PropTypes.number,
+        }),
+      }),
+    ),
+  ),
   leaveRoom: PropTypes.func,
   resetRoom: PropTypes.func,
 };
@@ -69,14 +78,7 @@ GameReport.propTypes = propTypes;
 
 export const defaultProps = {
   currentPlayerType: playerType.NONE,
-  gameReport: {
-    name: '',
-    score: {
-      lvl: 1,
-      lines: 0,
-      pts: 0,
-    },
-  },
+  gameReport: [],
   leaveRoom: lobbyActions.leaveRoom,
   resetRoom: lobbyActions.leaveRoom,
 };

@@ -33,7 +33,7 @@ const reducer = (state = initialState, action) => {
       };
     }
     case msgType.SERVER.GAME_REPORT:
-      return { ...state, gameReport: action.payload.report };
+      return { ...state, gameReport: [action.payload.report, action.payload.leaderboard] };
     default:
       return state;
   }

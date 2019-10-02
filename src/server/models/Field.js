@@ -181,7 +181,7 @@ export default class Field {
         board[i][j] = write === true ? 1 : 0;
       }
     }
-    return board.reverse();
+    return board.slice(0, 20).reverse();
   }
 
   serialize() {
