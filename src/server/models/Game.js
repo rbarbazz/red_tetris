@@ -8,10 +8,13 @@ import Bag from './7bag';
 import { TETROS } from './Piece';
 
 function computeSpeed(difficulty, lvl, mode, autofall = false) {
-  if (mode === GAME_TYPE.CLASSIC) return 700;
-  let msec = ((difficulty - ((lvl - 1) * 0.007)) ** (lvl - 1)) * 1000.0;
+  let msec;
   if (autofall === true) {
     msec = CONFIG.FALL_SPEED;
+  } else if (mode === GAME_TYPE.CLASSIC) {
+    msec = CONFIG.DEFAULT_SPEED;
+  } else {
+    msec = ((difficulty - ((lvl - 1) * 0.007)) ** (lvl - 1)) * 1000.0;
   }
   return parseInt(Math.floor(msec), 10);
 }
@@ -64,7 +67,7 @@ class Game {
           instance.field.breakLines(n);
           instance.score.addLineBreak(n.length);
           if (this.type === GAME_TYPE.CLASSIC) {
-            this.addUnbreakLines(instance, n);
+            this.addUnbreakLines(instance, n.length);
           }
         }
         instance.pieceId += 1;

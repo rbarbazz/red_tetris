@@ -71,6 +71,9 @@ export default class Field {
     for (let i = 0; i < this._tetros.shape.length; ++i) {
       const y = this._pos[1] - i;
       if (y < 0) break;
+      if (this._map[y][0] === 10) {
+        continue; // Unbreakable line
+      }
       let full = true;
       for (let x = 0; x < this._size.width; ++x) {
         if (this._map[y][x] === 0) {
