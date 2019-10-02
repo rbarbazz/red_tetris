@@ -22,6 +22,7 @@ export const CONFIG = {
   COOLDOWN: 6666, // In microseconds
   LOCK_COOLDOWN: 500,
   FALL_SPEED: 16.667,
+  START_DELAY: 3000, // ms
 };
 
 export const GAME_TYPE = {

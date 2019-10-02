@@ -143,7 +143,7 @@ class Game {
     // Go to report directly
     if (this.soloMode()) {
       comm.sendRequest(instance.player.socket, eventType.GAME,
-        msgType.SERVER.GAME_REPORT);
+        msgType.SERVER.GAME_REPORT, { report: this.makeReport() });
     } else {
       let stillRunning = 0;
       for (const player of Object.values(this._instances)) {
@@ -155,7 +155,7 @@ class Game {
           this.cancelTimer(player);
           this.cancelLockTimer(player);
           comm.sendRequest(player.player.socket, eventType.GAME,
-            msgType.SERVER.GAME_REPORT, { });
+            msgType.SERVER.GAME_REPORT, { report: this.makeReport() });
         }
       // 2 or more players left, go to end for the current player
       } else {
@@ -163,6 +163,15 @@ class Game {
           msgType.SERVER.GAME_END);
       }
     }
+  }
+
+  makeReport() {
+    const report = [];
+    for (const player of Object.values(this._instances)) {
+      report.push(player.score.serialize());
+    }
+    report.sort((a, b) => (a.pts < b.pts));
+    return report;
   }
 
   // eslint-disable-next-line class-methods-use-this

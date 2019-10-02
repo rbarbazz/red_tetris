@@ -13,11 +13,11 @@ export default class Score {
   }
 
   updateLvl() {
-    if (this.lines < 2) this.lvl = 1;
-    else if (this.lines < 3) this.lvl = 2;
-    else if (this.lines < 5) this.lvl = 3;
-    else if (this.lines < 7) this.lvl = 4;
-    else if (this.lines < 10) this.lvl = 5;
+    if (this.lines < 1) this.lvl = 1;
+    else if (this.lines < 2) this.lvl = 2;
+    else if (this.lines < 4) this.lvl = 3;
+    else if (this.lines < 6) this.lvl = 4;
+    else if (this.lines < 9) this.lvl = 5;
     else this.lvl = 6;
   }
 
