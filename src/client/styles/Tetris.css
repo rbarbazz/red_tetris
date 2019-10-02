@@ -21,7 +21,6 @@ html, body {
 }
 .white {
 	background-color: white;
-	border: solid 0.75px #f5f6fa;
 }
 .cyan {
 	background-color: #81ecec;
@@ -447,8 +446,8 @@ div > .list-item:last-of-type {
 	height: 26px;
 }
 .board-container .block.white {
-	height: 28.5px;
-	width: 28.5px;
+	height: 30px;
+	width: 30px;
 }
 .game-end-screen {
 	align-items: center;
@@ -498,6 +497,9 @@ div > .list-item:last-of-type {
 	margin-bottom: 10px;
 	width: 100%;
 }
+.score-container {
+	flex-wrap: wrap;
+}
 .player-base-info {
 	align-items: center;
 	background-color: #454545;
@@ -519,17 +521,30 @@ div > .list-item:last-of-type {
 .player-base-info .player-base-info-label:nth-of-type(3) {
 	margin: 0 5px;
 }
+.game-mode-label {
+	color: #eb4d4b;
+	font-family: 'Open Sans', sans-serif;
+	font-size: 26px;
+	font-weight: 600;
+	padding-top: 15px;
+	text-align: center;
+	width: 100%;
+}
 .score-display,
 .next-piece-display {
 	align-items: center;
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
-	padding: 15px;
+}
+.score-display {
+	padding: 10px 0 10px;
+	width: 33.33%;
 }
 .next-piece-display {
 	flex-wrap: wrap;
 	flex-direction: row;
+	padding: 15px;
 }
 .next-piece-container {
 	min-height: 80px
@@ -553,8 +568,8 @@ div > .list-item:last-of-type {
 	height: 26px;
 }
 .next-piece-display .block.white {
-	height: 28.5px;
-	width: 28.5px;
+	height: 30px;
+	width: 30px;
 }
 
 /* ==========================================================================
@@ -699,6 +714,15 @@ div > .list-item:last-of-type {
 		min-width: 100vw;
 		min-height: 100vh;
 	}
+	.game-container {
+		justify-content: initial;
+	}
+	.player-score-container > div {
+		font-size: 16px;
+	}
+	.game-report-container {
+		margin-top: 15px;
+	}
 }
 
 /* Larger Screen
@@ -711,9 +735,8 @@ div > .list-item:last-of-type {
 		width: 34px;
 	}
 	.board-container .block.white {
-		border-width: 1px;
-		height: 38px;
-		width: 38px;
+		height: 40px;
+		width: 40px;
 	}
 	.stats-container {
 		height: 800px;

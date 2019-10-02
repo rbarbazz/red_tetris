@@ -37,6 +37,7 @@ const mapStateToProps = state => ({
   gameReport: state.game.gameReport,
   nextPiece: state.game.nextPiece,
   playerName: state.tetris.playerName,
+  roomGameMode: state.tetris.roomGameMode,
   roomName: state.tetris.roomName,
   score: state.game.score,
   spectrums: state.game.spectrums,
@@ -57,6 +58,7 @@ export const Game = ({
   nextPiece,
   playerName,
   resetRoom,
+  roomGameMode,
   roomName,
   score,
   spectrums,
@@ -82,7 +84,7 @@ export const Game = ({
           startTimer={startTimer}
         />
         <div className="stats-container">
-          <Score score={score} />
+          <Score score={score} roomGameMode={roomGameMode} />
           <NextPiece nextPiece={nextPiece} />
           <Spectrum
             playerName={playerName}
