@@ -110,10 +110,7 @@ class Lobby {
       return false;
     }
     timeline.push(`Room has been destroyed: ${this._rooms[id].name}`);
-    Object.values(this._rooms[id].spectators).forEach((spec) => {
-      spec.leaveRoom();
-      comm.sendResponse(spec.socket, eventType.LOBBY, msgType.CLIENT.CONNECT_TO_LOBBY);
-    });
+    this._rooms[id].stop();
     delete this._rooms[id];
     return true;
   }
