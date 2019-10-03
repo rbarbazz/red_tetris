@@ -56,12 +56,16 @@ const reducer = (state = initialState, action) => {
       const roomObject = (!playerObject || !playerObject.room)
         ? undefined
         : action.payload.rooms.find(room => room.name === playerObject.room);
+      let currentStep = 'roomNameSelection';
+
+      if (roomObject !== undefined && roomObject.state === roomState.BUSY) currentStep = 'game';
+      // eslint-disable-next-line prefer-destructuring
+      if (state.currentStep === 'endGame' || state.currentStep === 'gameReport') currentStep = state.currentStep;
+
       return {
         ...state,
         currentPlayerType: (playerObject !== undefined ? playerObject.type : playerType.NONE),
-        currentStep: (roomObject !== undefined && roomObject.state === roomState.BUSY)
-          ? 'game'
-          : 'roomNameSelection',
+        currentStep,
         message: action.msg[0],
         playerList: (roomObject !== undefined ? roomObject.players : action.payload.players),
         roomList: action.payload.rooms,

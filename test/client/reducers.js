@@ -296,6 +296,49 @@ export default () => describe('Reducers', () => {
       expect(tetris(initialState, action)).to.deep.equal(expectedState);
     });
 
+    it('should return the correct state for LOBBY_DATA action', () => {
+      const endGameState = {
+        currentPlayerType: playerType.NONE,
+        currentStep: 'endGame',
+        isInRoom: false,
+        isLoading: false,
+        message: '',
+        playerList: [],
+        playerName: '',
+        roomList: [],
+        roomName: '',
+        roomGameMode: GAME_TYPE.CLASSIC,
+        roomObject: undefined,
+      };
+      const action = {
+        type: msgType.SERVER.LOBBY_DATA,
+        payload: {
+          players: [{
+            name: '',
+            type: playerType.NONE,
+            room: 'room303',
+          }],
+          rooms: [{
+            name: 'room303',
+            state: roomState.BUSY,
+          }],
+        },
+        msg: ['nothing happened here'],
+      };
+      const expectedState = {
+        ...initialState,
+        currentPlayerType: (playerType.NONE),
+        currentStep: 'endGame',
+        message: action.msg[0],
+        playerList: undefined,
+        roomList: action.payload.rooms,
+        roomName: 'room303',
+        roomObject: action.payload.rooms[0],
+      };
+
+      expect(tetris(endGameState, action)).to.deep.equal(expectedState);
+    });
+
     it('should return the correct state for STORE_ROOM action', () => {
       const action = {
         type: STORE_ROOM,

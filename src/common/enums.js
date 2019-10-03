@@ -23,7 +23,7 @@ export const CONFIG = {
   LOCK_COOLDOWN: 500,
   FALL_SPEED: 16.7,
   DEFAULT_SPEED: 700,
-  START_DELAY: 1000, // ms
+  START_DELAY: 3000, // ms
   LEADERBOARD_FILE: '../../../static/leaderboard.json',
 };
 

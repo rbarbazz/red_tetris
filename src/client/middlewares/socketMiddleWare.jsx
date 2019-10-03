@@ -12,18 +12,22 @@ const clientSideActions = [
   STORE_ROOM,
 ];
 const fromServerActions = [
-  msgType.PONG,
-  msgType.SERVER.LOBBY_DATA,
+  `${msgType.CLIENT.CONNECT_TO_LOBBY}_ERROR`,
   `${msgType.CLIENT.CONNECT_TO_LOBBY}_SUCCESS`,
-  `${msgType.CLIENT.CREATE_ROOM}_SUCCESS`,
-  `${msgType.CLIENT.JOIN_PARTY}_SUCCESS`,
-  `${msgType.CLIENT.CONNECT_TO_PARTY}_SUCCESS`,
+  `${msgType.CLIENT.CONNECT_TO_ROOM}_ERROR`,
+  `${msgType.CLIENT.CONNECT_TO_ROOM}_SUCCESS`,
+  `${msgType.CLIENT.JOIN_ROOM}_ERROR`,
+  `${msgType.CLIENT.JOIN_ROOM}_SUCCESS`,
+  `${msgType.CLIENT.RESET_ROOM}_SUCCESS`,
+  `${msgType.CLIENT.START_PARTY}_ERROR`,
   `${msgType.CLIENT.START_PARTY}_SUCCESS`,
-  msgType.SERVER.GAME_TICK,
+  msgType.DISCONNECT,
+  msgType.PONG,
   msgType.SERVER.GAME_END,
   msgType.SERVER.GAME_REPORT,
-  `${msgType.CLIENT.RESET_ROOM}_SUCCESS`,
-  msgType.SERVER.DISCONNECT_CLIENT,
+  msgType.SERVER.GAME_START,
+  msgType.SERVER.GAME_TICK,
+  msgType.SERVER.LOBBY_DATA,
 ];
 
 export default () => {
