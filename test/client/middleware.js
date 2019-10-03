@@ -3,7 +3,7 @@ import sinon from 'sinon';
 import { applyMiddleware, createStore } from 'redux';
 
 import { msgType } from '../../src/common/enums';
-import createSocket from '../../src/client/middleware/socketMiddleWare';
+import createSocket from '../../src/client/middlewares/socketMiddleWare';
 
 export default () => describe('Middleware', () => {
   let mockConsoleError;

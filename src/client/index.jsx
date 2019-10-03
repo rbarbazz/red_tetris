@@ -4,7 +4,7 @@ import thunk from 'redux-thunk';
 import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
 
-import createSocket from './middleware/socketMiddleWare';
+import createSocket from './middlewares/socketMiddleWare';
 import reducers from './reducers';
 import ConnectedApp from './containers/App';
 
