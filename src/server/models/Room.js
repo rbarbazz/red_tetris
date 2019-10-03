@@ -76,6 +76,10 @@ export default class Room {
     return false;
   }
 
+  get game() {
+    return this._game;
+  }
+
   getPlayerType(player) {
     if (this.isMaster(player)) {
       return playerType.MASTER;
@@ -89,10 +93,6 @@ export default class Room {
       }
     }
     return playerType.NONE;
-  }
-
-  get game() {
-    return this._game;
   }
 
   // Create a new game instance

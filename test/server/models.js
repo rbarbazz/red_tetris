@@ -338,12 +338,15 @@ export default () => describe('Models', () => {
       expect(roo.removePlayer(p2)).to.equal(true);
       expect(roo.master).to.not.equal(null);
       roo.isMaster(p1);
-      roo.getPlayerType(p1);
+      expect(roo.getPlayerType(p1)).to.not.equal(2);
       roo.start(p1);
+      const { game } = roo;
+      game.playerAction(p1, { event: 'keydown', key: 'okok' });
       roo.stop();
       roo.restart(p1);
-      roo.getPlayerType(p1);
     });
+
+
   });
 
 });
