@@ -1,6 +1,10 @@
 import * as dbg from '../../common/devLog';
-import { roomState, playerType, GAME_SPEED, GAME_TYPE } from '../../common/enums';
+import {
+  eventType, msgType, roomState,
+  playerType, GAME_SPEED,
+} from '../../common/enums';
 import Game from './Game';
+import * as comm from '../../common/sockWrapper';
 
 export default class Room {
   constructor(lobby, name, slots, mode) {
@@ -112,10 +116,6 @@ export default class Room {
   }
 
   stop() {
-  //    Object.values(this._rooms[id].spectators).forEach((spec) => {
-  //   spec.leaveRoom();
-  //   comm.sendResponse(spec.socket, eventType.LOBBY, msgType.CLIENT.CONNECT_TO_LOBBY);
-  // });
     if (this.state === roomState.BUSY) {
       this._game.stop();
       delete this._game;
