@@ -76,7 +76,7 @@ export function makeLeaderboard(report, mode) {
       }
     }
   }
-  scores.sort((a, b) => a.score.pts > b.score.pts);
+  scores.sort((a, b) => a.score.pts < b.score.pts);
   const jsonWrite = JSON.stringify(data);
   if (jsonWrite === undefined) return data;
   fs.writeFileSync(filename, jsonWrite, 'utf8');

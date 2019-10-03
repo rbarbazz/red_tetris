@@ -13,35 +13,32 @@ const GameReport = ({
   leaveRoom,
 }) => (
   <div className="game-report-container">
-    {gameReport.map((table, tableIndex) => {
-      table.unshift({
-        name: 'Name',
-        score: {
-          lines: 'Lines',
-          lvl: 'Level',
-          pts: 'Score',
-        },
-      });
-      return (
-        <div
-          className="final-scores-container"
-          key={`final-scores${tableIndex.toString()}`}
-        >
-          <h3 className="final-scores-title">{tableIndex === 0 ? 'Game Report' : 'Leaderboard'}</h3>
-          {table.map((player, playerIndex) => (
-            <div
-              className="player-score-container list-item"
-              key={`player-score${tableIndex.toString()}${playerIndex.toString()}`}
-            >
-              <div className="player-score-name">{player.name}</div>
-              <div className="player-score-pts">{player.score.pts}</div>
-              <div className="player-score-lines">{player.score.lines}</div>
-              <div className="player-score-lvl">{player.score.lvl}</div>
-            </div>
-          ))}
-        </div>
-      );
-    })}
+    {gameReport.map((table, tableIndex) => (
+      <div
+        className="final-scores-container"
+        key={`final-scores${tableIndex.toString()}`}
+      >
+        <h3 className="final-scores-title">{tableIndex === 0 ? 'Game Report' : 'Leaderboard'}</h3>
+        {[{
+          name: 'Name',
+          score: {
+            lines: 'Lines',
+            lvl: 'Level',
+            pts: 'Score',
+          },
+        }, ...table].map((player, playerIndex) => (
+          <div
+            className="player-score-container list-item"
+            key={`player-score${tableIndex.toString()}${playerIndex.toString()}`}
+          >
+            <div className="player-score-name">{player.name}</div>
+            <div className="player-score-pts">{player.score.pts}</div>
+            <div className="player-score-lines">{player.score.lines}</div>
+            <div className="player-score-lvl">{player.score.lvl}</div>
+          </div>
+        ))}
+      </div>
+    ))}
     <div className="button-container">
       <GenericButton
         action={leaveRoom}
