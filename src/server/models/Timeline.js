@@ -1,5 +1,5 @@
 
-class Timeline {
+export class Timeline {
   constructor() {
     this._queue = [];
   }
@@ -21,5 +21,4 @@ class Timeline {
   }
 }
 
-const timeline = new Timeline();
-export default timeline;
+export const timeline = new Timeline();

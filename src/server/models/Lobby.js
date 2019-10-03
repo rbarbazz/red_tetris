@@ -3,7 +3,7 @@ import { CONFIG, eventType, msgType, GAME_TYPE } from '../../common/enums';
 import Room from './Room';
 import Player from './Player';
 import * as comm from '../../common/sockWrapper';
-import timeline from './Timeline';
+import { timeline } from './Timeline';
 
 function checkName(name) {
   if (name.length < CONFIG.NAME_MIN || name.length > CONFIG.NAME_MAX) {

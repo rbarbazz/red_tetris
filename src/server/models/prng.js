@@ -1,4 +1,4 @@
-import timeNow from './time';
+import timeNow from '../controllers/time';
 
 /*
   Simple implementation of a PRNG
@@ -30,15 +30,5 @@ export default class PNRG {
     this._state = (7 * this._state) % CYCLE;
     const r = min + ((this._state - 1) % (max - min));
     return r;
-  }
-
-  // Quick test
-  test(min, max) {
-    let c = 0;
-    for (let i = 0; i < CYCLE + 1; i += 1) {
-      const r = this.rand(min, max);
-      if (r < min || r > max - 1) c += 1;
-    }
-    return c;
   }
 }

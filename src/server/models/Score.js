@@ -55,6 +55,15 @@ export class Score {
   }
 }
 
+export function resetLeaderboard() {
+  const filename = path.join(__dirname, CONFIG.LEADERBOARD_FILE);
+  const data = { CLASSIC: [], TOURNAMENT: [] };
+  const jsonWrite = JSON.stringify(data);
+  if (jsonWrite === undefined) return false;
+  fs.writeFileSync(filename, jsonWrite, 'utf8');
+  return true;
+}
+
 export function makeLeaderboard(report, mode) {
   const filename = path.join(__dirname, CONFIG.LEADERBOARD_FILE);
   if (!fs.existsSync(filename)) return {};
