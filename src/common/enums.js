@@ -94,6 +94,7 @@ export const msgType = {
     GAME_TICK: 'GAME_TICK', // Tick to refresh the client
     GAME_END: 'GAME_END', // Party is over for the client, waiting for the report
     GAME_REPORT: 'GAME_REPORT', // Party is over, print scores
+    GAME_KICK: 'GAME_KICK',
   },
 };
 

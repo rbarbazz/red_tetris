@@ -292,7 +292,7 @@ class Game {
     }
     for (const spectator of Object.values(this._spectators)) {
       spectator.player.leaveRoom();
-      comm.sendResponse(spectator.player.socket, eventType.LOBBY, msgType.CLIENT.LEAVE_ROOM);
+      comm.sendResponse(spectator.player.socket, eventType.GAME, msgType.CLIENT.LEAVE_ROOM);
     }
     delete this._instances;
     delete this._bag;
