@@ -64,6 +64,7 @@ class Game {
     if (!this._spectators.hasOwnProperty(player.id)) {
       return false;
     }
+    this._spectators[player.id].player._room = null;
     delete this._spectators[player.id];
     return true;
   }
@@ -134,7 +135,7 @@ class Game {
     }
     if (to !== null) {
       spectator.lookingat = to;
-      this.sendFirstSpecta(player, to);
+      this.send(this._instances[to], false);
     }
     return true;
   }
@@ -276,6 +277,7 @@ class Game {
       for (const instance of Object.values(this._instances)) {
         instance.field.spawn(this._bag.piece(instance.pieceId));
         instance.speed = computeSpeed(this._difficulty, instance.score.lvl, this.type);
+        this.computeSpectrums();
         this.send(instance, true);
         this.startTimer(instance);
       }
@@ -287,6 +289,10 @@ class Game {
     this.running = false;
     for (const instance of Object.values(this._instances)) {
       this.removePlayer(instance.player, false);
+    }
+    for (const spectator of Object.values(this._spectators)) {
+      spectator.player.leaveRoom();
+      comm.sendResponse(spectator.player.socket, eventType.LOBBY, msgType.CLIENT.LEAVE_ROOM);
     }
     delete this._instances;
     delete this._bag;
@@ -304,16 +310,20 @@ class Game {
     }
   }
 
-  send(instance, spectrums, firstTick = false) {
+  computeSpectrums() {
     const specs = [];
+    for (const player of Object.values(this._instances)) {
+      specs.push({
+        board: player.field.spectrum(),
+        name: player.player.name,
+      });
+    }
+    this._spectrumsCache = specs;
+  }
+
+  send(instance, spectrums, firstTick = false) {
     if (spectrums === true) {
-      for (const player of Object.values(this._instances)) {
-        specs.push({
-          board: player.field.spectrum(),
-          name: player.player.name,
-        });
-      }
-      this._spectrumsCache = specs;
+      this.computeSpectrums();
       for (const player of Object.values(this._instances)) {
         const pid = (firstTick === true) ? 0 : player.pieceId + 1;
         const data = {

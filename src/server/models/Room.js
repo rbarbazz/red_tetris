@@ -120,8 +120,8 @@ export default class Room {
       this._game.stop();
       delete this._game;
       this._game = null;
-      this.state = roomState.FREE; // Sera set quand le master relance la partie
     }
+    this.state = roomState.FREE; // Sera set quand le master relance la partie
   }
 
   serialize() {
