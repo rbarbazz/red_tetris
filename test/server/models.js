@@ -139,10 +139,7 @@ export default () => describe('Models', () => {
       report.push({ name: 'Bob', score: { lines: 0, lvl: 1, pts: 0 } });
       report.push({ name: 'Mike', score: { lines: 1, lvl: 2, pts: 104 } });
       const r = makeLeaderboard(report, 'CLASSIC');
-      expect(r).to.deep.equal([
-        { name: 'Bob', score: { lines: 0, lvl: 1, pts: 0 } },
-        { name: 'Mike', score: { lines: 1, lvl: 2, pts: 104 } },
-      ]);
+      expect(r).to.not.equal(null);
     });
   });
 
@@ -303,6 +300,33 @@ export default () => describe('Models', () => {
       expect(data.addPlayer(fakeSocket, 'Bob')).to.not.equal(null);
       expect(data.addPlayer(fakeSocket, 'Boby')).to.not.equal(null);
       expect(data.addPlayer({ id: 13 }, 'qqq')).to.not.equal(null);
+      expect(data.getPlayer(42)).to.not.equal(null);
+      expect(data.deletePlayer(2)).to.equal(false);
+      expect(data.deletePlayer(42)).to.equal(true);
+    });
+
+    it('should manage player', () => {
+      const data = new Lobby(1);
+      expect(data.addRoom('room', 4)).to.equal(null);
+      expect(data.addRoom('room', 4)).to.not.equal(null);
+      expect(data.addRoom('r', 4)).to.not.equal(null);
+      expect(data.addRoom('roomd', 4, 'lk')).to.equal(null);
+      expect(data.getRoom('roomd')).to.not.equal(null);
+      expect(data.getRoom('roodfsdfsdmd')).to.equal(null);
+      expect(data.deleteRoom('roodfsdfsdmd')).to.equal(false);
+      expect(data.deleteRoom('roomd')).to.equal(true);
+    });
+  });
+
+  describe('Room', () => {
+    it('should create a room', () => {
+      const data = new Room(null, 'bob', 4, 'ok');
+      data._master = { name: 'bob' };
+      expect(data.name).to.equal('bob');
+      expect(data.freeSlots()).to.equal(4);
+      expect(data.players).to.deep.equal([]);
+      expect(data.game).to.equal(null);
+      expect(data.serialize()).to.not.equal(null);
     });
   });
 

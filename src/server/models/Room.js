@@ -124,7 +124,7 @@ export default class Room {
       name: this.name,
       state: this.state,
       slots: [this.freeSlots(), this._players.length, this.slots],
-      master: this.master.name,
+      master: (this.master === null) ? '' : this.master.name,
       players: Object.values(this._players).map(v => v.serialize()),
     };
   }

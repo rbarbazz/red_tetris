@@ -68,7 +68,7 @@ export class Lobby {
 
   deletePlayer(id) {
     const player = this._players[id];
-    if (player === null) {
+    if (player === undefined) {
       return false;
     }
     if (player.room !== null) {
