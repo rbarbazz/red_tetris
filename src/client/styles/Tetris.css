@@ -4,7 +4,6 @@
 
 html, body {
 	height: 100%;
-	margin: 0;
 }
 #root {
 	background-color: #9AADBF;
@@ -489,14 +488,10 @@ div > .list-item:last-of-type {
 
 .block {
 	align-items: center;
-	border-color: #dfe6e9;
-	border-radius: 3px;
-	border-style: solid;
-	border-width: 0.75px;
 	display: flex;
-	height: 27.5px;
+	height: 5%;
 	justify-content: center;
-	width: 27.5px;
+	width: 10%;
 }
 .inner-block {
 	border-radius: 3px;
@@ -511,7 +506,6 @@ div > .list-item:last-of-type {
 .stats-container {
 	display: flex;
 	flex-direction: column;
-	padding: 0 10px;
 	width: 310px;
 }
 .score-container,
@@ -596,6 +590,8 @@ div > .list-item:last-of-type {
 }
 .next-piece-display .block {
 	border-color: #454545;
+	height: 30px;
+	width: 30px;
 }
 
 /* ==========================================================================
@@ -621,12 +617,6 @@ div > .list-item:last-of-type {
 	display: flex;
 	border: #454545 solid 7px;
 	border-radius: 5px;
-}
-.spectrum-container .block {
-	border: none;
-	border-radius: 0;
-	height: 6px;
-	width: 6px;
 }
 .spectrum-container .inner-block {
 	display: none;
@@ -672,6 +662,7 @@ div > .list-item:last-of-type {
 	justify-content: center;
 }
 .player-score-container > div {
+	font-weight: 600;
 	letter-spacing: 0.05em;
 	text-align: center;
 	width: 25%;
@@ -682,6 +673,15 @@ div > .list-item:last-of-type {
 	font-size: 24px;
 	margin: 0 0 20px;
 	text-align: center;
+}
+.final-scores-container .player-score-container:nth-of-type(2) {
+	background-color: #ebc600;
+}
+.final-scores-container .player-score-container:nth-of-type(3) {
+	background-color: silver;
+}
+.final-scores-container .player-score-container:nth-of-type(4) {
+	background-color: #cd7f32;
 }
 
 /* ==========================================================================
@@ -702,11 +702,14 @@ div > .list-item:last-of-type {
 		transform: none;
 	}
 }
-@media (max-width: 745px) {
+@media (max-width: 726px) {
 	.board-stats-container {
 		flex-wrap: wrap;
 		justify-content: center;
+		padding: 0 0 30px;
 	}
+}
+@media (max-width: 662px) {
 	.stats-container {
 		margin-top: 20px;
 	}
@@ -744,9 +747,6 @@ div > .list-item:last-of-type {
 	.player-base-info-label {
 		display: none;
 	}
-	.board-stats-container {
-		padding: 0 0 30px;
-	}
 	.username-input-container,
 	.room-selection-wrapper,
 	.game-container {
@@ -763,31 +763,31 @@ div > .list-item:last-of-type {
 	.game-report-container {
 		margin-top: 15px;
 	}
+	.score-container, .next-piece-container {
+		width: 90%
+	}
+	.stats-container {
+		align-items: center;
+	}
+}
+@media (max-width: 400px) {
+	.board-container {
+		height: 460px;
+		width: 230px;
+	}
 }
 
 /* Larger Screen
    ========================================================================== */
 
-@media (min-width: 915px) and (min-height: 935px) {
-	.board-container .block {
-		border-width: 1px;
-		height: 37px;
-		width: 37px;
-	}
+@media (min-width: 950px) and (min-height: 935px) {
+	.board-container,
 	.stats-container {
-		height: 800px;
-		width: 360px;
-	}
-	.board-container {
 		height: 800px;
 		width: 400px;
 	}
 	.spectrum-container {
 		height: 160px;
 		width: 80px;
-	}
-	.spectrum-container .block {
-		height: 8px;
-		width: 8px;
 	}
 }

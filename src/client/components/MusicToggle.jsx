@@ -24,6 +24,7 @@ const MusicToggle = ({ url }) => {
   return (
     <button
       onClick={toggle}
+      onFocus={event => event.target.blur()}
       type="button"
       className="music-toggle"
     >

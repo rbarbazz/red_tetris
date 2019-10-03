@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
+import 'normalize.css';
+import '../styles/Tetris.css';
 import ConnectedTetris from './Tetris';
 import MusicToggle from '../components/MusicToggle';
 import * as serverActions from '../actions/server';

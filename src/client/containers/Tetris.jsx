@@ -3,7 +3,6 @@ import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import '../styles/Tetris.css';
 import * as gameActions from '../actions/game';
 import ConnectedGame from './Game';
 import ConnectedLobby from './Lobby';
