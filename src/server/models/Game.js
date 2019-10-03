@@ -4,7 +4,7 @@ import { eventType, msgType, GAME_TYPE, CONFIG, KEYS, playerType } from '../../c
 import Field from './Field';
 import { Score, makeLeaderboard } from './Score';
 import timeNow from '../controllers/time';
-import Bag from './7bag';
+import { Bag } from './7bag';
 import { TETROS } from './Piece';
 
 function computeSpeed(difficulty, lvl, mode, autofall = false) {

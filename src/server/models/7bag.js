@@ -1,4 +1,4 @@
-import PNRG from '../controllers/prng';
+import PNRG from './prng';
 import { TETROS } from './Piece';
 import * as dbg from '../../common/devLog';
 
@@ -9,7 +9,7 @@ const permutations = 127;
   Generate a 7-bag
   Get the tetronimos list, and perform random permutation
 */
-class RandomBag {
+export class RandomBag {
   constructor() {
     this._bag = Array.from(Object.keys(TETROS)).map(k => parseInt(k, 10));
     for (let i = 0; i < permutations; ++i) {
@@ -27,7 +27,7 @@ class RandomBag {
   }
 }
 
-export default class Bag {
+export class Bag {
   constructor() {
     this._bag = [];
   }
