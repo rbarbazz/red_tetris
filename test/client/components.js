@@ -360,6 +360,13 @@ export default () => describe('Components', () => {
       expect(wrapper.exists('.spectrums-container')).to.equal(true);
     });
 
+    it('should render <Spectrum currentPlayerType={playerType.SPECTATOR} />', () => {
+      const wrapper = shallow(<Spectrum currentPlayerType={playerType.SPECTATOR} />);
+
+      expect(wrapper.exists()).to.equal(true);
+      expect(wrapper.exists('.spectrums-container')).to.equal(true);
+    });
+
     it('should render <Spectrum spectrums={spectrums} />', () => {
       const spectrums = Array(3).fill({
         board: Array(20).fill(Array(10).fill(0)),
@@ -380,14 +387,70 @@ export default () => describe('Components', () => {
       expect(wrapper.find('.spectrum-container').first().children()).to.have.lengthOf(200);
     });
 
-    it('should render <Spectrum spectrums={spectrums} playerName="raph" />', () => {
+    it('should render <Spectrum spectrums={spectrums} playerName="raph" lookingAt="raph" />', () => {
       const spectrums = [{
         board: Array(20).fill(Array(10).fill(1)),
         name: 'raph',
+      }, {
+        board: Array(20).fill(Array(10).fill(1)),
+        name: 'joe',
       }];
-      const wrapper = shallow(<Spectrum spectrums={spectrums} playerName="raph" />);
+      const wrapper = shallow(
+        <Spectrum
+          spectrums={spectrums}
+          playerName="raph"
+          lookingAt="joe"
+          currentPlayerType={playerType.SPECTATOR}
+        />,
+      );
 
-      expect(wrapper.find('.spectrum-container')).to.have.lengthOf(0);
+      expect(wrapper.find('.spectrum-container')).to.have.lengthOf(1);
+    });
+
+    it('should simulate click and call selectPlayerToSpectate', () => {
+      const spectrums = [{
+        board: Array(20).fill(Array(10).fill(1)),
+        name: 'raph',
+      }, {
+        board: Array(20).fill(Array(10).fill(1)),
+        name: 'joe',
+      }];
+      const onSpectrumClick = sinon.spy();
+      const wrapper = mount(
+        <Spectrum
+          spectrums={spectrums}
+          playerName="raph"
+          lookingAt="joe"
+          currentPlayerType={playerType.SPECTATOR}
+          selectPlayerToSpectate={onSpectrumClick}
+        />,
+      );
+
+      wrapper.find('.spectrum-wrapper').simulate('click');
+      expect(onSpectrumClick).to.have.property('callCount', 1);
+    });
+
+    it('should simulate click and not call selectPlayerToSpectate', () => {
+      const spectrums = [{
+        board: Array(20).fill(Array(10).fill(1)),
+        name: 'raph',
+      }, {
+        board: Array(20).fill(Array(10).fill(1)),
+        name: 'joe',
+      }];
+      const onSpectrumClick = sinon.spy();
+      const wrapper = mount(
+        <Spectrum
+          spectrums={spectrums}
+          playerName="raph"
+          lookingAt="joe"
+          currentPlayerType={playerType.SLAVE}
+          selectPlayerToSpectate={onSpectrumClick}
+        />,
+      );
+
+      wrapper.find('.spectrum-wrapper').simulate('click');
+      expect(onSpectrumClick).to.have.property('callCount', 0);
     });
   });
 });

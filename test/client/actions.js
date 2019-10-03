@@ -10,6 +10,17 @@ import * as tetrisActions from '../../src/client/actions/tetris';
 export default () => describe('Actions', () => {
   describe('game', () => {
     it('should call sendGameInput and return the correct input', () => {
+      const playerName = 'raph';
+      const expectedAction = {
+        eventType: eventType.GAME,
+        type: msgType.CLIENT.GAME_INPUT,
+        payload: { key: KEYS.CLICK, name: playerName },
+      };
+
+      expect(gameActions.selectPlayerToSpectate('raph')).to.deep.equal(expectedAction);
+    });
+
+    it('should call sendGameInput and return the correct input', () => {
       const key = 37;
       const event = 'keydown';
       const expectedAction = {

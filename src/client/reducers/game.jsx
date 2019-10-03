@@ -29,7 +29,7 @@ const reducer = (state = initialState, action) => {
         ...state,
         board: action.payload.board,
         nextPiece: action.payload.nextPiece,
-        lookingAt: action.payload.lookingat,
+        lookingAt: action.payload.lookingat || '',
         spectrums: spectrums.length > 0 ? spectrums : state.spectrums,
         score: action.payload.score,
       };
