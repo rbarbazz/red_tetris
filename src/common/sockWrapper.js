@@ -1,6 +1,4 @@
-
 function emitMessage(socket, type, data) {
-  // dbg.info(`${JSON.stringify(data, null, 2)}`);
   socket.emit(type, data);
 }
 
