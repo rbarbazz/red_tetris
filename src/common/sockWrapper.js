@@ -1,4 +1,3 @@
-import * as dbg from './devLog';
 
 function emitMessage(socket, type, data) {
   // dbg.info(`${JSON.stringify(data, null, 2)}`);

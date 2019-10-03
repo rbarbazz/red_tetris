@@ -99,6 +99,9 @@ export default class Field {
   }
 
   addUnbreakLines(n) {
+    if (n < 1) {
+      return false;
+    }
     this._hardline += n;
     if (this._hardline > 20) {
       this._hardline = 20;
@@ -109,6 +112,7 @@ export default class Field {
     for (let i = 0; i < n; ++i) {
       this._map[i].fill(10);
     }
+    return true;
   }
 
   _move(to) {

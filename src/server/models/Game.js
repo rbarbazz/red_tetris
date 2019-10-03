@@ -100,7 +100,7 @@ class Game {
           instance.field.breakLines(n);
           instance.score.compute(n.length, instance.harddrop);
           if (this.type === GAME_TYPE.CLASSIC) {
-            this.addUnbreakLines(instance, n.length);
+            this.addUnbreakLines(instance, n.length - 1);
           }
         } else {
           instance.score.compute(0, instance.harddrop);

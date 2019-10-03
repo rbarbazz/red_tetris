@@ -1,12 +1,13 @@
 import { expect } from 'chai';
+import sinon from 'sinon';
 
 import { RandomBag, Bag } from '../../src/server/models/7bag';
 import * as Field from '../../src/server/models/Field';
 import * as Game from '../../src/server/models/Game';
 import * as Lobby from '../../src/server/models/Lobby';
 import { Piece } from '../../src/server/models/Piece';
-import * as Player from '../../src/server/models/Player';
-import * as Room from '../../src/server/models/Room';
+import Player from '../../src/server/models/Player';
+import Room from '../../src/server/models/Room';
 import { Score, makeLeaderboard, resetLeaderboard } from '../../src/server/models/Score';
 import { Timeline } from '../../src/server/models/Timeline';
 import PRNG from '../../src/server/models/prng';
@@ -192,4 +193,44 @@ export default () => describe('Models', () => {
       expect(data._bag.length).to.equal(2);
     });
   });
+
+  describe('Player', () => {
+    sinon.stub(Room.prototype, 'getPlayerType').callsFake(() => 'master');
+    sinon.stub(Room.prototype, 'removePlayer');
+    const room = new Room(null, 'room', 10, null);
+
+    it('should instanciate a player', () => {
+      const fakeSocket = { id: 42 };
+      const data = new Player('Bob', fakeSocket);
+      expect(data.name).to.equal('Bob');
+      expect(data.id).to.equal(fakeSocket.id);
+      expect(data.socket).to.deep.equal(fakeSocket);
+      expect(data.room).to.equal(null);
+      expect(data.type).to.equal('none');
+      expect(data.serialize()).to.deep.equal({ name: 'Bob', type: 'none', room: null });
+      data._room = room;
+      expect(data.serialize()).to.deep.equal({ name: 'Bob', type: 'master', room: 'room' });
+      expect(data.type).to.equal('master');
+    });
+
+    it('should join a room', () => {
+      const data = new Player('Bob', null);
+      sinon.stub(Room.prototype, 'addPlayer').callsFake(() => true);
+      expect(data.joinRoom(room)).to.equal(true);
+      Room.prototype.addPlayer.restore();
+      expect(data.room).to.deep.equal(room);
+      sinon.stub(Room.prototype, 'addPlayer').callsFake(() => false);
+      expect(data.joinRoom(room)).to.equal(false);
+    });
+
+    it('should leave a room', () => {
+      const data = new Player('Bob', null);
+      data.leaveRoom();
+      expect(data.room).to.equal(null);
+      data._room = room;
+      data.leaveRoom();
+      expect(data.room).to.equal(null);
+    });
+  });
+
 });

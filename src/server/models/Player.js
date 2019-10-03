@@ -1,4 +1,3 @@
-import * as dbg from '../../common/devLog';
 import { playerType } from '../../common/enums';
 
 export default class Player {
@@ -40,8 +39,10 @@ export default class Player {
   }
 
   leaveRoom() {
-    this._room.removePlayer(this);
-    this._room = null;
+    if (this._room !== null) {
+      this._room.removePlayer(this);
+      this._room = null;
+    }
   }
 
   serialize() {
