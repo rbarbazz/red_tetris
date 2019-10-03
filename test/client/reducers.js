@@ -34,6 +34,7 @@ export default () => describe('Reducers', () => {
         lvl: 1,
         pts: 0,
       },
+      lookingAt: '',
       spectrums: [],
       startTimer: 3000,
     };

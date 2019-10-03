@@ -485,7 +485,7 @@ div > .list-item:last-of-type {
 .stats-container {
 	display: flex;
 	flex-direction: column;
-	width: 310px;
+	width: 320px;
 }
 .score-container,
 .next-piece-container {
@@ -585,6 +585,7 @@ div > .list-item:last-of-type {
 }
 .spectrum-wrapper {
 	border-radius: 4px;
+	border: solid 3px #383838;
 	display: flex;
 	flex-direction: column;
     align-items: center;
@@ -683,7 +684,7 @@ div > .list-item:last-of-type {
 		transform: none;
 	}
 }
-@media (max-width: 726px) {
+@media (max-width: 735px) {
 	.board-stats-container {
 		flex-wrap: wrap;
 		justify-content: center;

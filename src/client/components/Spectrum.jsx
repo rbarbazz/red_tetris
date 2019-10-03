@@ -29,7 +29,7 @@ const Spectrum = ({
             onClick={() => {
               if (currentPlayerType === playerType.SPECTATOR) selectPlayerToSpectate(spectrum.name);
             }}
-            style={spectrum.name === lookingAt ? { ...style, border: 'solid 3px #eb4d4b' } : style}
+            style={spectrum.name === lookingAt ? { ...style, borderColor: '#eb4d4b' } : style}
           >
             <div className="spectrum-player-name">{spectrum.name}</div>
             <div className="spectrum-container">
