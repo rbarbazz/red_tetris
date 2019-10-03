@@ -1,6 +1,6 @@
 import * as dbg from '../../common/devLog';
 import * as comm from '../../common/sockWrapper';
-import { eventType, msgType, GAME_TYPE, CONFIG, KEYS } from '../../common/enums';
+import { eventType, msgType, GAME_TYPE, CONFIG, KEYS, playerType } from '../../common/enums';
 import Field from './Field';
 import { Score, makeLeaderboard } from './Score';
 import timeNow from '../controllers/time';
@@ -29,6 +29,8 @@ class Game {
     this._difficulty = difficulty;
     this._bag = new Bag();
     this._instances = {};
+    this._spectrumsCache = [];
+    this._startTimer = null;
     Object.values(players).forEach((player) => {
       this._instances[player.id] = {
         field: new Field(10, 24), // Field of the player
@@ -117,7 +119,30 @@ class Game {
     return r;
   }
 
+  spectatorAction(player, action) {
+    if (action.key !== KEYS.CLICK) return false;
+    const { name } = action;
+    if (name === undefined) return false;
+    const spectator = this._spectators[player.id];
+    if (spectator === undefined) return false;
+    let to = null;
+    for (const instance of Object.values(this._instances)) {
+      if (name === instance.player.name) {
+        to = instance.player.id;
+        break;
+      }
+    }
+    if (to !== null) {
+      spectator.lookingat = to;
+      this.sendFirstSpecta(player, to);
+    }
+    return true;
+  }
+
   playerAction(player, action) {
+    if (player.type === playerType.SPECTATOR) {
+      return this.spectatorAction(player, action);
+    }
     const instance = this._instances[player.id];
     if (instance.run === false) return false;
     let doSmth = null;
@@ -246,16 +271,19 @@ class Game {
   }
 
   start() {
-    this.running = true;
-    for (const instance of Object.values(this._instances)) {
-      instance.field.spawn(this._bag.piece(instance.pieceId));
-      instance.speed = computeSpeed(this._difficulty, instance.score.lvl, this.type);
-      this.send(instance, true);
-      this.startTimer(instance);
-    }
+    this._startTimer = setTimeout(() => {
+      this.running = true;
+      for (const instance of Object.values(this._instances)) {
+        instance.field.spawn(this._bag.piece(instance.pieceId));
+        instance.speed = computeSpeed(this._difficulty, instance.score.lvl, this.type);
+        this.send(instance, true);
+        this.startTimer(instance);
+      }
+    }, CONFIG.START_DELAY);
   }
 
   stop() {
+    clearTimeout(this._startTimer);
     this.running = false;
     for (const instance of Object.values(this._instances)) {
       this.removePlayer(instance.player, false);
@@ -285,13 +313,14 @@ class Game {
           name: player.player.name,
         });
       }
+      this._spectrumsCache = specs;
       for (const player of Object.values(this._instances)) {
         const pid = (firstTick === true) ? 0 : player.pieceId + 1;
         const data = {
           board: player.field.serialize(),
           score: player.score.serialize(),
           nextPiece: TETROS[this._bag.piece(pid)][0],
-          spectrums: specs,
+          spectrums: this._spectrumsCache,
         };
         comm.sendRequest(player.player.socket, eventType.GAME, msgType.SERVER.GAME_TICK,
           data);
@@ -303,7 +332,7 @@ class Game {
         board: instance.field.serialize(),
         score: instance.score.serialize(),
         nextPiece: TETROS[this._bag.piece(pid)][0],
-        spectrums: specs,
+        spectrums: this._spectrumsCache,
       };
       comm.sendRequest(instance.player.socket, eventType.GAME, msgType.SERVER.GAME_TICK,
         data);
@@ -312,6 +341,7 @@ class Game {
   }
 
   sendToSpectators(to, data) {
+    data.lookingat = to.player.name;
     for (const spectator of Object.values(this._spectators)) {
       if (to.player.id === spectator.lookingat) {
         comm.sendRequest(spectator.player.socket, eventType.GAME,

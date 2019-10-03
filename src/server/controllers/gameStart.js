@@ -10,7 +10,7 @@ export function gameStart(data) {
       { timer: CONFIG.START_DELAY, mode: game.type });
     game.send(player, true, true);
   });
-  setTimeout(() => game.start(), CONFIG.START_DELAY);
+  game.start();
 }
 
 export const a = true;
