@@ -45,6 +45,12 @@ export default () => describe('Components', () => {
       expect(wrapper.exists()).to.equal(true);
     });
 
+    it('should mount <Board />', () => {
+      const wrapper = mount(<Board />);
+
+      expect(wrapper.exists()).to.equal(true);
+    });
+
     it('should render <Board board={board} />', () => {
       const board = Array(20).fill(Array(10).fill(14));
       const wrapper = shallow(<Board board={board} />);
@@ -61,8 +67,15 @@ export default () => describe('Components', () => {
   });
 
   describe('GameReport', () => {
-    it('should render <GameReport />', () => {
-      const wrapper = shallow(<GameReport />);
+    it('should render <GameReport gameReport={gameReport} />', () => {
+      const gameReport = [[{
+        name: 'raph',
+        score: { lines: 0, lvl: 1, pts: 48 },
+      }], [{
+        name: 'raph',
+        score: { lines: 0, lvl: 1, pts: 48 },
+      }]];
+      const wrapper = shallow(<GameReport gameReport={gameReport} />);
 
       expect(wrapper.exists()).to.equal(true);
     });
@@ -96,10 +109,18 @@ export default () => describe('Components', () => {
     expect(wrapper.find('.loading-icon').children()).to.have.lengthOf(9);
   });
 
-  it('should render <NextPiece nextPiece="S" />', () => {
-    const wrapper = shallow(<NextPiece nextPiece="S" />);
+  describe('NextPiece', () => {
+    it('should render <NextPiece nextPiece="S" />', () => {
+      const wrapper = shallow(<NextPiece nextPiece="S" />);
 
-    expect(wrapper.exists()).to.equal(true);
+      expect(wrapper.exists()).to.equal(true);
+    });
+
+    it('should render <NextPiece nextPiece="X" />', () => {
+      const wrapper = shallow(<NextPiece nextPiece="X" />);
+
+      expect(wrapper.exists()).to.equal(true);
+    });
   });
 
   it('should render <PlayerInfo />', () => {

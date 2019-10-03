@@ -70,8 +70,15 @@ export default () => describe('Containers', () => {
       const initialState = {
         game: {
           board: Array(20).fill(Array(10).fill(0)),
-          score: 0,
+          gameReport: [],
+          nextPiece: 'O',
+          score: {
+            lines: 0,
+            lvl: 1,
+            pts: 0,
+          },
           spectrums: [],
+          startTimer: 3000,
         },
         tetris: {
           currentPlayerType: playerType.SLAVE,
@@ -84,8 +91,11 @@ export default () => describe('Containers', () => {
       const connectedWrapper = shallow(<ConnectedGame store={store} />).dive();
 
       expect(connectedWrapper.props().board).to.deep.equal(Array(20).fill(Array(10).fill(0)));
-      expect(connectedWrapper.props().score).to.equal(0);
+      expect(connectedWrapper.props().gameReport).to.deep.equal([]);
+      expect(connectedWrapper.props().nextPiece).to.equal('O');
+      expect(connectedWrapper.props().score).to.deep.equal({ lines: 0, lvl: 1, pts: 0 });
       expect(connectedWrapper.props().spectrums).to.deep.equal([]);
+      expect(connectedWrapper.props().startTimer).to.equal(3000);
       expect(connectedWrapper.props().currentPlayerType).to.equal(playerType.SLAVE);
       expect(connectedWrapper.props().currentStep).to.equal('game');
       expect(connectedWrapper.props().playerName).to.equal('raph');
@@ -211,8 +221,15 @@ export default () => describe('Containers', () => {
       const initialState = {
         game: {
           board: Array(20).fill(Array(10).fill(0)),
-          score: 0,
+          gameReport: [],
+          nextPiece: 'O',
+          score: {
+            lines: 0,
+            lvl: 1,
+            pts: 0,
+          },
           spectrums: [],
+          startTimer: 3000,
         },
         tetris: {
           currentPlayerType: playerType.SLAVE,
@@ -239,8 +256,15 @@ export default () => describe('Containers', () => {
       const initialState = {
         game: {
           board: Array(20).fill(Array(10).fill(0)),
-          score: 0,
+          gameReport: [],
+          nextPiece: 'O',
+          score: {
+            lines: 0,
+            lvl: 1,
+            pts: 0,
+          },
           spectrums: [],
+          startTimer: 3000,
         },
         tetris: {
           currentPlayerType: playerType.SLAVE,

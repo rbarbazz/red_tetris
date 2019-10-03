@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 
 import { GAME_TYPE } from '../../common/enums';
 
+
 const Score = ({ roomGameMode, score }) => (
   <div className="score-container">
     <div className="game-mode-label">{roomGameMode}</div>

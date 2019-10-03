@@ -51,8 +51,6 @@ const Board = ({
         line.map((num, indexBlock) => (
           <Block
             color={colors[num] || colors[num - 10]}
-            isOnLeftSide={indexBlock === 0}
-            isOnRightSide={indexBlock === 9}
             key={`game-block-${indexLine.toString()}${indexBlock.toString()}`}
             shadowPiece={num > 10}
           />

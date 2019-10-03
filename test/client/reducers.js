@@ -1,6 +1,11 @@
 import { expect } from 'chai';
 
-import { playerType, msgType, roomState } from '../../src/common/enums';
+import {
+  GAME_TYPE,
+  playerType,
+  msgType,
+  roomState,
+} from '../../src/common/enums';
 import reducers from '../../src/client/reducers';
 import game from '../../src/client/reducers/game';
 import tetris from '../../src/client/reducers/tetris';
@@ -22,17 +27,32 @@ export default () => describe('Reducers', () => {
   describe('game', () => {
     const initialState = {
       board: Array(20).fill(Array(10).fill(0)),
+      gameReport: [],
       nextPiece: 'O',
       score: {
         lines: 0,
-        lvl: 0,
+        lvl: 1,
         pts: 0,
       },
       spectrums: [],
+      startTimer: 3000,
     };
 
     it('should return the initial state', () => {
       expect(game(undefined, {})).to.deep.equal(initialState);
+    });
+
+    it('should return the correct state for GAME_START action', () => {
+      const action = {
+        type: msgType.SERVER.GAME_START,
+        payload: {
+          nextPiece: 'I',
+          timer: 1000,
+        },
+      };
+      const expectedState = { ...initialState, nextPiece: 'I', startTimer: 1000 };
+
+      expect(game(initialState, action)).to.deep.equal(expectedState);
     });
 
     it('should return the correct state for GAME_TICK action', () => {
@@ -43,7 +63,7 @@ export default () => describe('Reducers', () => {
           nextPiece: 'O',
           score: {
             lines: 0,
-            lvl: 0,
+            lvl: 1,
             pts: 0,
           },
           spectrums: [],
@@ -53,8 +73,58 @@ export default () => describe('Reducers', () => {
 
       expect(game(initialState, action)).to.deep.equal(expectedState);
     });
-  });
 
+    it('should return the correct state for GAME_TICK action', () => {
+      const action = {
+        type: msgType.SERVER.GAME_TICK,
+        payload: {
+          board: Array(20).fill(Array(10).fill(1)),
+          nextPiece: 'O',
+          score: {
+            lines: 0,
+            lvl: 1,
+            pts: 0,
+          },
+          spectrums: [Array(20).fill(Array(10).fill(1))],
+        },
+      };
+      const expectedState = {
+        ...initialState,
+        board: Array(20).fill(Array(10).fill(1)),
+        spectrums: [Array(20).fill(Array(10).fill(1))],
+      };
+
+      expect(game(initialState, action)).to.deep.equal(expectedState);
+    });
+
+    it('should return the correct state for GAME_REPORT action', () => {
+      const action = {
+        type: msgType.SERVER.GAME_REPORT,
+        payload: {
+          report: [{
+            name: 'raph',
+            score: { lines: 0, lvl: 1, pts: 48 },
+          }],
+          leaderboard: [{
+            name: 'raph',
+            score: { lines: 0, lvl: 1, pts: 48 },
+          }],
+        },
+      };
+      const expectedState = {
+        ...initialState,
+        gameReport: [[{
+          name: 'raph',
+          score: { lines: 0, lvl: 1, pts: 48 },
+        }], [{
+          name: 'raph',
+          score: { lines: 0, lvl: 1, pts: 48 },
+        }]],
+      };
+
+      expect(game(initialState, action)).to.deep.equal(expectedState);
+    });
+  });
 
   describe('server', () => {
     const initialState = { clientInit: false };
@@ -82,7 +152,7 @@ export default () => describe('Reducers', () => {
       playerName: '',
       roomList: [],
       roomName: '',
-      roomGameMode: 'classic',
+      roomGameMode: GAME_TYPE.CLASSIC,
       roomObject: undefined,
     };
 
@@ -230,7 +300,7 @@ export default () => describe('Reducers', () => {
         type: STORE_ROOM,
         payload: {
           roomName: 'room303',
-          roomGameMode: 'classic',
+          roomGameMode: GAME_TYPE.CLASSIC,
         },
       };
       const expectedState = {
