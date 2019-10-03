@@ -12,6 +12,7 @@ import serverIndex from './server/index';
 import controllers from './server/controllers';
 import models from './server/models';
 import '../src/client/index';
+import common from './common';
 
 
 describe('Client', () => {
@@ -37,4 +38,8 @@ describe('Server', () => {
   serverIndex();
   controllers();
   models();
+});
+
+describe('Common', () => {
+  common();
 });
