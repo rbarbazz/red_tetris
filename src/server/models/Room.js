@@ -9,7 +9,6 @@ export default class Room {
     this._name = name;
     this.state = roomState.FREE;
     this._players = []; // In order of arrival
-    this._spectators = []; // Order does not matter
     this.slots = slots;
     this._game = null;
   }
@@ -26,29 +25,22 @@ export default class Room {
     return this._players;
   }
 
-  get spectators() {
-    return this._spectators;
-  }
-
   addPlayer(player) {
     if (this.state === roomState.FREE && this.freeSlots() === 0) {
       return false;
     }
     if (this.state === roomState.BUSY) {
-      this._spectators.push(player);
-    } else {
-      this._players.push(player);
+      return this._game.addSpectator(this.master, player);
     }
+    this._players.push(player);
     return true;
   }
 
   removePlayer(player) {
     if (player.type === playerType.SPECTATOR) {
-      const toRm = this._spectators.findIndex(p => player.id === p.id);
-      if (toRm === -1) {
-        return false;
+      if (this.state === roomState.BUSY) {
+        this._game.removeSpectator(player);
       }
-      this._spectators.splice(toRm, 1);
     } else {
       const toRm = this._players.findIndex(p => player.id === p.id);
       if (toRm === -1) {
@@ -85,18 +77,19 @@ export default class Room {
     return false;
   }
 
-  isSpectator(player) {
-    return this._spectators.findIndex(p => player.id === p.id) !== -1;
-  }
-
   getPlayerType(player) {
     if (this.isMaster(player)) {
       return playerType.MASTER;
     }
-    if (this.isSpectator(player)) {
-      return playerType.SPECTATOR;
+    if (this.state === roomState.BUSY) {
+      if (this._game.isSpectator(player) === true) {
+        return playerType.SPECTATOR;
+      }
+      if (this._game.isPlayer(player) === true) {
+        return playerType.SLAVE;
+      }
     }
-    return playerType.SLAVE;
+    return playerType.NONE;
   }
 
   get game() {
@@ -119,6 +112,10 @@ export default class Room {
   }
 
   stop() {
+  //    Object.values(this._rooms[id].spectators).forEach((spec) => {
+  //   spec.leaveRoom();
+  //   comm.sendResponse(spec.socket, eventType.LOBBY, msgType.CLIENT.CONNECT_TO_LOBBY);
+  // });
     if (this.state === roomState.BUSY) {
       this._game.stop();
       delete this._game;
@@ -134,7 +131,6 @@ export default class Room {
       slots: [this.freeSlots(), this._players.length, this.slots],
       master: this.master.name,
       players: Object.values(this._players).map(v => v.serialize()),
-      spectators: Object.values(this._spectators).map(v => v.serialize()),
     };
   }
 }

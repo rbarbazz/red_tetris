@@ -45,6 +45,35 @@ class Game {
         player, // Player instance
       };
     });
+    this._spectators = {}; // { name: {player, lookingto} }
+  }
+
+  addSpectator(master, player) {
+    // eslint-disable-next-line no-prototype-builtins
+    if (this._spectators.hasOwnProperty(player.id)) {
+      return false;
+    }
+    this._spectators[player.id] = { player, lookingat: master.id };
+    return true;
+  }
+
+  removeSpectator(player) {
+    // eslint-disable-next-line no-prototype-builtins
+    if (!this._spectators.hasOwnProperty(player.id)) {
+      return false;
+    }
+    delete this._spectators[player.id];
+    return true;
+  }
+
+  isSpectator(player) {
+    // eslint-disable-next-line no-prototype-builtins
+    return this._spectators.hasOwnProperty(player.id);
+  }
+
+  isPlayer(player) {
+    // eslint-disable-next-line no-prototype-builtins
+    return this._instances.hasOwnProperty(player.id);
   }
 
   addUnbreakLines(instance, n) {
@@ -258,23 +287,36 @@ class Game {
       }
       for (const player of Object.values(this._instances)) {
         const pid = (firstTick === true) ? 0 : player.pieceId + 1;
+        const data = {
+          board: player.field.serialize(),
+          score: player.score.serialize(),
+          nextPiece: TETROS[this._bag.piece(pid)][0],
+          spectrums: specs,
+        };
         comm.sendRequest(player.player.socket, eventType.GAME, msgType.SERVER.GAME_TICK,
-          {
-            board: player.field.serialize(),
-            score: player.score.serialize(),
-            nextPiece: TETROS[this._bag.piece(pid)][0],
-            spectrums: specs,
-          });
+          data);
+        this.sendToSpectators(player, data);
       }
     } else {
       const pid = (firstTick === true) ? 0 : instance.pieceId + 1;
+      const data = {
+        board: instance.field.serialize(),
+        score: instance.score.serialize(),
+        nextPiece: TETROS[this._bag.piece(pid)][0],
+        spectrums: specs,
+      };
       comm.sendRequest(instance.player.socket, eventType.GAME, msgType.SERVER.GAME_TICK,
-        {
-          board: instance.field.serialize(),
-          score: instance.score.serialize(),
-          nextPiece: TETROS[this._bag.piece(pid)][0],
-          spectrums: specs,
-        });
+        data);
+      this.sendToSpectators(instance, data);
+    }
+  }
+
+  sendToSpectators(to, data) {
+    for (const spectator of Object.values(this._spectators)) {
+      if (to.player.id === spectator.lookingat) {
+        comm.sendRequest(spectator.player.socket, eventType.GAME,
+          msgType.SERVER.GAME_TICK, data);
+      }
     }
   }
 }

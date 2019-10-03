@@ -5,7 +5,6 @@ export default class Player {
   constructor(name, sock) {
     this._name = name;
     this._sock = sock;
-    this._type = playerType.NONE;
     this._room = null;
   }
 
