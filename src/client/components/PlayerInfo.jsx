@@ -4,11 +4,6 @@ import PropTypes from 'prop-types';
 
 const PlayerInfo = ({ playerName, roomName }) => (
   <div className="player-base-info">
-    <div className="three-dots-container">
-      <div />
-      <div />
-      <div />
-    </div>
     {playerName !== '' && roomName !== ''
       && (
         <React.Fragment>

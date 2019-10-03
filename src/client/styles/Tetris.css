@@ -109,26 +109,6 @@ html, body {
 		opacity: 0.2;
 	}
 }
-.three-dots-container {
-	display: flex;
-	justify-content: space-between;
-	left: 20px;
-	position: absolute;
-	top: calc(50% - 5px);
-	width: 50px;
-}
-.three-dots-container div {
-	background-color: rgb(252, 98, 93);
-	border-radius: 50%;
-	height: 12px;
-	width: 12px;
-}
-.three-dots-container div:nth-of-type(2) {
-	background-color: rgb(253, 190, 65);
-}
-.three-dots-container div:last-of-type {
-	background-color: rgb(53, 203, 75);
-}
 .generic-button {
 	background-color: #eb4d4b;
 	border: solid 1px #383838;
@@ -220,7 +200,6 @@ select {
 	border-radius: 5px;
 	border: solid 3px #454545;
 	color: #eb4d4b;
-	cursor: pointer;
 	font-family: 'Open Sans', sans-serif;
 	font-size: 20px;
 	font-weight: 600;

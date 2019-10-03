@@ -2,6 +2,8 @@ import React from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
+import { playerType } from '../../common/enums';
+import * as gameActions from '../actions/game';
 import * as lobbyActions from '../actions/lobby';
 import GenericButton from '../components/GenericButton';
 import
@@ -45,6 +47,7 @@ const mapStateToProps = state => ({
 });
 const mapDispatchToProps = dispatch => (
   bindActionCreators({
+    ...gameActions,
     ...lobbyActions,
   }, dispatch)
 );
@@ -61,6 +64,7 @@ export const Game = ({
   roomGameMode,
   roomName,
   score,
+  selectPlayerToSpectate,
   spectrums,
   startTimer,
 }) => (
@@ -81,7 +85,7 @@ export const Game = ({
         <Board
           board={board}
           currentStep={currentStep}
-          startTimer={startTimer}
+          startTimer={currentPlayerType === playerType.SPECTATOR ? 0 : startTimer}
         />
         <div className="stats-container">
           <Score
@@ -90,8 +94,10 @@ export const Game = ({
           />
           <NextPiece nextPiece={nextPiece} />
           <Spectrum
+            currentPlayerType={currentPlayerType}
             playerName={playerName}
             spectrums={spectrums}
+            selectPlayerToSpectate={selectPlayerToSpectate}
           />
           <GenericButton
             action={leaveRoom}

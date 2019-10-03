@@ -19,4 +19,12 @@ export const sendGameInput = (key, event) => ({
   eventType: eventType.GAME,
 });
 
+export const selectPlayerToSpectate = playerName => ({
+  type: msgType.CLIENT.GAME_INPUT,
+  payload: {
+    key: KEYS.CLICK,
+    name: playerName,
+  },
+});
+
 export default sendGameInput;

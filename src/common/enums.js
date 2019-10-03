@@ -46,6 +46,7 @@ export const KEYS = {
   LEFT: 'LEFT',
   UP: 'UP',
   DOWN: 'DOWN',
+  CLICK: 'CLICK',
 };
 
 // Type of player when he join a party
