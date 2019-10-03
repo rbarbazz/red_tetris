@@ -1,18 +1,16 @@
-import * as dbg from '../../common/devLog';
-import { CONFIG, eventType, msgType, GAME_TYPE } from '../../common/enums';
+import { CONFIG, GAME_TYPE } from '../../common/enums';
 import Room from './Room';
 import Player from './Player';
-import * as comm from '../../common/sockWrapper';
 import { timeline } from './Timeline';
 
-function checkName(name) {
+export function checkName(name) {
   if (name.length < CONFIG.NAME_MIN || name.length > CONFIG.NAME_MAX) {
     return false;
   }
   return true;
 }
 
-class Lobby {
+export class Lobby {
   constructor(slots) {
     this._slots = slots;
     this._players = {}; // key = sock.id, value = Player()

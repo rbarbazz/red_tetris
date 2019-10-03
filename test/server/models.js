@@ -1,10 +1,11 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 
+import { tryTranslate, tryRotate } from '../../src/server/controllers/srs';
 import { RandomBag, Bag } from '../../src/server/models/7bag';
-import * as Field from '../../src/server/models/Field';
+import Field from '../../src/server/models/Field';
 import * as Game from '../../src/server/models/Game';
-import * as Lobby from '../../src/server/models/Lobby';
+import { checkName, Lobby} from '../../src/server/models/Lobby';
 import { Piece } from '../../src/server/models/Piece';
 import Player from '../../src/server/models/Player';
 import Room from '../../src/server/models/Room';
@@ -195,7 +196,6 @@ export default () => describe('Models', () => {
   });
 
   describe('Player', () => {
-    sinon.stub(Room.prototype, 'getPlayerType').callsFake(() => 'master');
     sinon.stub(Room.prototype, 'removePlayer');
     const room = new Room(null, 'room', 10, null);
 
@@ -206,9 +206,12 @@ export default () => describe('Models', () => {
       expect(data.id).to.equal(fakeSocket.id);
       expect(data.socket).to.deep.equal(fakeSocket);
       expect(data.room).to.equal(null);
+      sinon.stub(Room.prototype, 'getPlayerType').callsFake(() => 'none');
       expect(data.type).to.equal('none');
       expect(data.serialize()).to.deep.equal({ name: 'Bob', type: 'none', room: null });
       data._room = room;
+      Room.prototype.getPlayerType.restore();
+      sinon.stub(Room.prototype, 'getPlayerType').callsFake(() => 'master');
       expect(data.serialize()).to.deep.equal({ name: 'Bob', type: 'master', room: 'room' });
       expect(data.type).to.equal('master');
     });
@@ -230,6 +233,76 @@ export default () => describe('Models', () => {
       data._room = room;
       data.leaveRoom();
       expect(data.room).to.equal(null);
+    });
+    Room.prototype.removePlayer.restore();
+  });
+
+  describe('Field', () => {
+    it('should instanciate a field', () => {
+      const data = new Field(10, 24);
+      expect(data.size).to.deep.equal({ width: 10, height: 24 });
+      expect(data.pos).to.equal(null);
+      expect(data._shadow).to.equal(null);
+      expect(data._hardline).to.equal(0);
+      expect(data._tetros).to.equal(null);
+      expect(data.field).to.not.equal(null);
+      expect(data.serialize().length).to.equal(20);
+    });
+
+    it('should spawn a piece', () => {
+      const data = new Field(10, 24);
+      expect(data.spawn(1)).to.equal(true);
+      expect(data.lock()).to.equal(null);
+      expect(data.spawn(1)).to.equal(false);
+      data.spawn(1);
+      data._pos = [0, 0];
+      expect(data.lock()).to.equal(null);
+      data.spawn(4);
+      data._map[5].fill(1);
+      data._pos = [4, 5];
+      data.lock();
+      data.spawn(4);
+      expect(typeof data.moveLeft()).to.equal('boolean');
+      expect(typeof data.moveRight()).to.equal('boolean');
+      expect(typeof data.moveDown()).to.equal('boolean');
+      expect(typeof data.turnRight()).to.equal('boolean');
+      expect(typeof data.turnLeft()).to.equal('boolean');
+      data._map[5].fill(10);
+      data._pos = [4, 5];
+      data.lock();
+      data.breakLines([1, 2, 3]);
+      expect(data.addUnbreakLines(0)).to.equal(false);
+      expect(data.addUnbreakLines(1)).to.equal(true);
+      expect(data.spectrum().length).to.equal(20);
+      data.spawn(1);
+      data.goToShadow();
+    });
+  });
+
+  describe('Lobby', () => {
+    it('should create a lobby', () => {
+      const data = new Lobby(10);
+      expect(data.slots).to.equal(10);
+      expect(data.freeSlots()).to.equal(10);
+      expect(data.players).to.deep.equal({});
+      expect(data.rooms).to.deep.equal({});
+      expect(data.serialize()).to.deep.equal({ slots: 10, players: [], rooms: [] });
+    });
+
+    it('should check name', () => {
+      expect(checkName('okf')).to.equal(true);
+      expect(checkName('')).to.equal(false);
+      expect(checkName('sdfgdsfgsdfgsdfsdfsdfgsdfgsdfsdfg')).to.equal(false);
+    });
+
+    it('should manage player', () => {
+      const data = new Lobby(1);
+      const fakeSocket = { id: 42 };
+      expect(data.addPlayer(fakeSocket, 'B')).to.not.equal(null);
+      expect(data.addPlayer(fakeSocket, 'Bob')).to.equal(null);
+      expect(data.addPlayer(fakeSocket, 'Bob')).to.not.equal(null);
+      expect(data.addPlayer(fakeSocket, 'Boby')).to.not.equal(null);
+      expect(data.addPlayer({ id: 13 }, 'qqq')).to.not.equal(null);
     });
   });
 

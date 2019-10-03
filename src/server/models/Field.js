@@ -2,7 +2,7 @@ import { Piece } from './Piece';
 import { tryTranslate, tryRotate } from '../controllers/srs';
 import * as dbg from '../../common/devLog';
 
-function pasteTetros(board, field, tetros, pos, shadow = false) {
+export function pasteTetros(board, field, tetros, pos, shadow = false) {
   if (tetros !== null) {
     const { shape } = tetros;
     for (let y = 0; y < shape.length; ++y) {
@@ -194,7 +194,7 @@ export default class Field {
       board[i] = Array.from(this._map[i]);
     }
     pasteTetros(board, this, this._tetros, this._shadow, true);
-    pasteTetros(board, this, this._tetros, this._pos, false);
+    pasteTetros(board, this, this._tetros, this._pos);
     return board.slice(0, 20).reverse();
   }
 }
