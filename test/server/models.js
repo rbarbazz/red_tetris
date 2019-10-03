@@ -1,10 +1,8 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import { tryTranslate, tryRotate } from '../../src/server/controllers/srs';
 import { RandomBag, Bag } from '../../src/server/models/7bag';
 import Field from '../../src/server/models/Field';
-import * as Game from '../../src/server/models/Game';
 import { checkName, Lobby} from '../../src/server/models/Lobby';
 import { Piece } from '../../src/server/models/Piece';
 import Player from '../../src/server/models/Player';
