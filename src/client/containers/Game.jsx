@@ -37,6 +37,7 @@ const mapStateToProps = state => ({
   currentPlayerType: state.tetris.currentPlayerType,
   currentStep: state.tetris.currentStep,
   gameReport: state.game.gameReport,
+  lookingAt: state.game.lookingAt,
   nextPiece: state.game.nextPiece,
   playerName: state.tetris.playerName,
   roomGameMode: state.tetris.roomGameMode,
@@ -58,6 +59,7 @@ export const Game = ({
   currentStep,
   gameReport,
   leaveRoom,
+  lookingAt,
   nextPiece,
   playerName,
   resetRoom,
@@ -95,6 +97,7 @@ export const Game = ({
           <NextPiece nextPiece={nextPiece} />
           <Spectrum
             currentPlayerType={currentPlayerType}
+            lookingAt={lookingAt}
             playerName={playerName}
             spectrums={spectrums}
             selectPlayerToSpectate={selectPlayerToSpectate}
