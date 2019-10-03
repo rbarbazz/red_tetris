@@ -221,6 +221,7 @@ export default () => describe('Models', () => {
       expect(data.room).to.deep.equal(room);
       sinon.stub(Room.prototype, 'addPlayer').callsFake(() => false);
       expect(data.joinRoom(room)).to.equal(false);
+      Room.prototype.addPlayer.restore();
     });
 
     it('should leave a room', () => {
@@ -320,13 +321,28 @@ export default () => describe('Models', () => {
 
   describe('Room', () => {
     it('should create a room', () => {
-      const data = new Room(null, 'bob', 4, 'ok');
-      data._master = { name: 'bob' };
-      expect(data.name).to.equal('bob');
-      expect(data.freeSlots()).to.equal(4);
-      expect(data.players).to.deep.equal([]);
-      expect(data.game).to.equal(null);
-      expect(data.serialize()).to.not.equal(null);
+      const lob = new Lobby(2);
+      const roo = new Room(lob, 'bob', 4, 'ok');
+      expect(roo.name).to.equal('bob');
+      expect(roo.freeSlots()).to.equal(4);
+      expect(roo.players).to.deep.equal([]);
+      expect(roo.game).to.equal(null);
+      expect(roo.serialize()).to.not.equal(null);
+      lob._rooms.bob = roo;
+      const p1 = new Player('qwe', { id: 42 });
+      const p2 = new Player('ghj', { id: 13 });
+      const p3 = new Player('ffff', { id: 56 });
+      expect(roo.addPlayer(p1)).to.equal(true);
+      expect(roo.addPlayer(p2)).to.equal(true);
+      expect(roo.addPlayer(p3)).to.equal(true);
+      expect(roo.removePlayer(p2)).to.equal(true);
+      expect(roo.master).to.not.equal(null);
+      roo.isMaster(p1);
+      roo.getPlayerType(p1);
+      roo.start(p1);
+      roo.stop();
+      roo.restart(p1);
+      roo.getPlayerType(p1);
     });
   });
 

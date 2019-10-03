@@ -15,24 +15,24 @@ import '../src/client/index';
 import common from './common';
 
 
-// describe('Client', () => {
-//   describe('React', () => {
-//     describe('index', () => {
-//       it('should call ReactDom.render once', () => {
-//         expect(mockReactDomRender).to.have.property('callCount', 1);
-//         mockReactDomRender.restore();
-//       });
-//     });
-//     components();
-//     containers();
-//   });
+describe('Client', () => {
+  describe('React', () => {
+    describe('index', () => {
+      it('should call ReactDom.render once', () => {
+        expect(mockReactDomRender).to.have.property('callCount', 1);
+        mockReactDomRender.restore();
+      });
+    });
+    components();
+    containers();
+  });
 
-//   describe('Redux', () => {
-//     actions();
-//     middleware();
-//     reducers();
-//   });
-// });
+  describe('Redux', () => {
+    actions();
+    middleware();
+    reducers();
+  });
+});
 
 describe('Server', () => {
   serverIndex();
