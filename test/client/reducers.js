@@ -451,6 +451,13 @@ export default () => describe('Reducers', () => {
       expect(tetris(initialState, action)).to.deep.equal(expectedState);
     });
 
+    it('should return the correct state for GAME_START action', () => {
+      const action = { type: msgType.SERVER.GAME_START };
+      const expectedState = { ...initialState, currentStep: 'game' };
+
+      expect(tetris(initialState, action)).to.deep.equal(expectedState);
+    });
+
     it('should return the correct state for GAME_END action', () => {
       const action = { type: msgType.SERVER.GAME_END };
       const expectedState = { ...initialState, currentStep: 'endGame' };
