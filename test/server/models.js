@@ -140,6 +140,7 @@ export default () => describe('Models', () => {
       report.push({ name: 'Mike', score: { lines: 1, lvl: 2, pts: 104 } });
       const r = makeLeaderboard(report, 'CLASSIC');
       expect(r).to.not.equal(null);
+      expect(resetLeaderboard()).to.equal(true);
     });
   });
 
@@ -346,6 +347,7 @@ export default () => describe('Models', () => {
       roo.stop();
       roo.restart(p1);
       sockWrapper.sendRequest.restore();
+      resetLeaderboard();
     });
   });
 
