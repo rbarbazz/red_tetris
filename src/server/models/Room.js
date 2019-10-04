@@ -50,7 +50,7 @@ export default class Room {
         return false;
       }
       if (this._game !== null) {
-        this._game.removePlayer(this._players[toRm]);
+        this._game.removePlayer(this._players[toRm], true);
       }
       this._players.splice(toRm, 1);
       // Solo, player left so just delete the party and the room

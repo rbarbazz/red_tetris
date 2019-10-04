@@ -234,7 +234,10 @@ class Game {
     } else {
       let stillRunning = 0;
       for (const player of Object.values(this._instances)) {
-        if (player.run === true) stillRunning += 1;
+        if (player.run === true) {
+          stillRunning += 1;
+          dbg.info(player.player.name);
+        }
       }
       // 0 or 1 player left, go to report for ALL
       if (stillRunning < 2) {
@@ -308,8 +311,10 @@ class Game {
 
   removePlayer(player, ping = true) {
     const instance = this._instances[player.id];
+    instance.run = false;
     this.cancelTimer(instance);
     this.cancelLockTimer(instance);
+    this.checkEndParty(instance);
     delete instance.field;
     delete instance.score;
     delete this._instances[instance.player.id];
