@@ -66,6 +66,12 @@ export default () => describe('Containers', () => {
       expect(wrapper.exists()).to.equal(true);
     });
 
+    it('should render <Game currentPlayerType={playerType.SPECTATOR} />', () => {
+      const wrapper = shallow(<Game currentPlayerType={playerType.SPECTATOR} />);
+
+      expect(wrapper.exists()).to.equal(true);
+    });
+
     it('should get the correct props from mapStateToProps and mapDispatchToProps', () => {
       const initialState = {
         game: {
