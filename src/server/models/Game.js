@@ -94,6 +94,13 @@ class Game {
       instance.lock = true;
       // Add this part in lock timer function
       instance.lockTimer = setTimeout(() => {
+        if (instance.field.canMoveDown() !== false) {
+          instance.harddrop = false;
+          instance.lock = false;
+          this.cancelTimer(instance);
+          this.startTimer(instance);
+          return false;
+        }
         const n = instance.field.lock();
         if (n !== null) {
           // linebreak
@@ -115,6 +122,7 @@ class Game {
           this.send(instance, true);
           this.startTimer(instance);
         }
+        return true;
       }, CONFIG.LOCK_COOLDOWN);
     }
     return r;
@@ -249,7 +257,7 @@ class Game {
     for (const player of Object.values(this._instances)) {
       report.push({ name: player.player.name, score: player.score.serialize() });
     }
-    report.sort((a, b) => (a.pts < b.pts));
+    report.sort((a, b) => (a.score.pts < b.score.pts));
     return report;
   }
 

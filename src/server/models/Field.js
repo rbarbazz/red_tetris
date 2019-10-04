@@ -139,6 +139,14 @@ export default class Field {
     return this._move(to);
   }
 
+  canMoveDown() {
+    if (this._tetros === null) return false;
+    const to = [this._pos[0], this._pos[1] - 1];
+    const r = tryTranslate(this, this._tetros.shape, to);
+    if (r === null) return false;
+    return true;
+  }
+
   moveRight() {
     const to = [this._pos[0] + 1, this._pos[1]];
     return this._move(to);
