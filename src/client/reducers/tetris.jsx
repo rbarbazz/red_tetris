@@ -123,6 +123,8 @@ const reducer = (state = initialState, action) => {
       };
     case msgType.CLIENT.START_PARTY:
       return { ...state, currentStep: 'loading' };
+    case msgType.SERVER.GAME_START:
+      return { ...state, currentStep: 'game' };
     case msgType.SERVER.GAME_END:
       return { ...state, currentStep: 'endGame' };
     case msgType.SERVER.GAME_REPORT:

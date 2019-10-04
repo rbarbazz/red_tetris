@@ -71,6 +71,7 @@ export function makeLeaderboard(report, mode) {
   if (filedata === undefined) return {};
   const data = JSON.parse(filedata);
   if (data === undefined) return {};
+  if (!(mode in data)) return {};
   const scores = data[mode];
   for (const entry of report) {
     const findPlayer = scores.findIndex(a => a.name === entry.name);

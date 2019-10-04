@@ -1,8 +1,8 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
-
 import { RandomBag, Bag } from '../../src/server/models/7bag';
 import Field from '../../src/server/models/Field';
+import Game, { computeSpeed } from '../../src/server/models/Game';
 import { checkName, Lobby} from '../../src/server/models/Lobby';
 import { Piece } from '../../src/server/models/Piece';
 import Player from '../../src/server/models/Player';
@@ -10,6 +10,8 @@ import Room from '../../src/server/models/Room';
 import { Score, makeLeaderboard, resetLeaderboard } from '../../src/server/models/Score';
 import { Timeline } from '../../src/server/models/Timeline';
 import PRNG from '../../src/server/models/prng';
+import * as sockWrapper from '../../src/common/sockWrapper';
+import { CONFIG } from '../../src/common/enums';
 
 export default () => describe('Models', () => {
   describe('Prng', () => {
@@ -319,8 +321,9 @@ export default () => describe('Models', () => {
 
   describe('Room', () => {
     it('should create a room', () => {
+      sinon.stub(sockWrapper, 'sendRequest');
       const lob = new Lobby(2);
-      const roo = new Room(lob, 'bob', 4, 'ok');
+      const roo = new Room(lob, 'bob', 4, 'CLASSIC');
       expect(roo.name).to.equal('bob');
       expect(roo.freeSlots()).to.equal(4);
       expect(roo.players).to.deep.equal([]);
@@ -342,9 +345,17 @@ export default () => describe('Models', () => {
       game.playerAction(p1, { event: 'keydown', key: 'okok' });
       roo.stop();
       roo.restart(p1);
+      sockWrapper.sendRequest.restore();
     });
-
-
   });
 
+  describe('Game', () => {
+    expect(computeSpeed(0.8, 1, 'TOURNAMENT', false)).to.equal(1000);
+    expect(computeSpeed(0.8, 1, 'CLASSIC', false)).to.equal(
+      Math.floor(CONFIG.DEFAULT_SPEED));
+    expect(computeSpeed(0.8, 1, 'TOURNAMENT', true)).to.equal(
+      Math.floor(CONFIG.FALL_SPEED));
+    expect(computeSpeed(0.8, 1, 'CLASSIC', true)).to.equal(
+      Math.floor(CONFIG.FALL_SPEED));
+  });
 });

@@ -7,7 +7,7 @@ import timeNow from '../controllers/time';
 import { Bag } from './7bag';
 import { TETROS } from './Piece';
 
-function computeSpeed(difficulty, lvl, mode, autofall = false) {
+export function computeSpeed(difficulty, lvl, mode, autofall = false) {
   let msec;
   if (autofall === true) {
     msec = CONFIG.FALL_SPEED;
@@ -314,7 +314,7 @@ class Game {
     instance.run = false;
     this.cancelTimer(instance);
     this.cancelLockTimer(instance);
-    // this.checkEndParty(instance);
+    this.checkEndParty(instance);
     delete instance.field;
     delete instance.score;
     delete this._instances[instance.player.id];

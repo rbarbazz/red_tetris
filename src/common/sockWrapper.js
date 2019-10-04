@@ -1,4 +1,4 @@
-function emitMessage(socket, type, data) {
+export function emitMessage(socket, type, data) {
   socket.emit(type, data);
 }
 
