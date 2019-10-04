@@ -314,7 +314,7 @@ class Game {
     instance.run = false;
     this.cancelTimer(instance);
     this.cancelLockTimer(instance);
-    this.checkEndParty(instance);
+    // this.checkEndParty(instance);
     delete instance.field;
     delete instance.score;
     delete this._instances[instance.player.id];
