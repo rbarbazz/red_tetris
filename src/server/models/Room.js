@@ -12,6 +12,10 @@ export default class Room {
     this._game = null;
   }
 
+  get mode() {
+    return this._mode;
+  }
+
   get name() {
     return this._name;
   }
@@ -126,6 +130,7 @@ export default class Room {
       slots: [this.freeSlots(), this._players.length, this.slots],
       master: (this.master === null) ? '' : this.master.name,
       players: Object.values(this._players).map(v => v.serialize()),
+      mode: this.mode,
     };
   }
 }

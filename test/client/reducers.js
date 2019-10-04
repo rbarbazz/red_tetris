@@ -278,6 +278,7 @@ export default () => describe('Reducers', () => {
           rooms: [{
             name: 'room303',
             state: roomState.BUSY,
+            mode: GAME_TYPE.CLASSIC,
           }],
         },
         msg: ['nothing happened here'],
@@ -321,6 +322,7 @@ export default () => describe('Reducers', () => {
           rooms: [{
             name: 'room303',
             state: roomState.BUSY,
+            mode: GAME_TYPE.CLASSIC,
           }],
         },
         msg: ['nothing happened here'],

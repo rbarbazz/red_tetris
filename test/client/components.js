@@ -213,7 +213,7 @@ export default () => describe('Components', () => {
       }, {
         name: 'room304',
         state: roomState.BUSY,
-        slots: [7, 1, 8],
+        slots: [0, 8, 8],
       }];
       const wrapper = shallow(<RoomList roomList={roomList} />);
 
@@ -225,10 +225,6 @@ export default () => describe('Components', () => {
         name: 'room303',
         state: roomState.FREE,
         slots: [7, 1, 8],
-      }, {
-        name: 'room304',
-        state: roomState.BUSY,
-        slots: [0, 8, 8],
       }];
       const onButtonClick = sinon.spy();
       const wrapper = mount(

@@ -64,13 +64,14 @@ const reducer = (state = initialState, action) => {
 
       return {
         ...state,
-        currentPlayerType: (playerObject !== undefined ? playerObject.type : playerType.NONE),
+        currentPlayerType: playerObject !== undefined ? playerObject.type : playerType.NONE,
         currentStep,
         message: action.msg[0],
-        playerList: (roomObject !== undefined ? roomObject.players : action.payload.players),
+        playerList: roomObject !== undefined ? roomObject.players : action.payload.players,
         roomList: action.payload.rooms,
-        roomName: (roomObject !== undefined ? roomObject.name : ''),
+        roomName: roomObject !== undefined ? roomObject.name : '',
         roomObject,
+        roomGameMode: roomObject !== undefined ? roomObject.mode : initialState.roomGameMode,
       };
     }
     case STORE_ROOM:

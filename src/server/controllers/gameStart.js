@@ -1,4 +1,3 @@
-import * as dbg from '../../common/devLog';
 import { eventType, msgType, CONFIG } from '../../common/enums';
 import * as comm from '../../common/sockWrapper';
 

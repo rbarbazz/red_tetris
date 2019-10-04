@@ -1,5 +1,3 @@
-import * as dbg from '../../common/devLog';
-
 /*
   Test if a piece can be translate
 

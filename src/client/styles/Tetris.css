@@ -518,7 +518,7 @@ div > .list-item:last-of-type {
 	font-size: 20px;
 	font-weight: 600;
 }
-.player-base-info .player-base-info-label:nth-of-type(3) {
+.player-base-info .player-base-info-label:nth-of-type(2) {
 	margin: 0 5px;
 }
 .game-mode-label {

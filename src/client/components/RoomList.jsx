@@ -34,11 +34,11 @@ const RoomList = ({
             <div className="room-item-info">{roomItem.state === roomState.FREE ? 'In Lobby' : 'In Game'}</div>
             <div className="room-item-info">{`Slots ${roomItem.slots[1]}/${roomItem.slots[2]}`}</div>
           </div>
-          {!isInRoom && roomItem.slots[0] > 0
-          && (
+          {!isInRoom && (
             <GenericButton
               action={() => submitRoom(roomItem.name)}
               isLoading={isLoading}
+              disabled={roomItem.slots[0] === 0 && roomItem.state === roomState.FREE}
               contentText={roomItem.state === roomState.BUSY ? (
                 'Join as spectator'
               ) : (

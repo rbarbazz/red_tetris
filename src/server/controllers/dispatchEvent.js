@@ -1,6 +1,6 @@
 import * as dbg from '../../common/devLog';
 import * as comm from '../../common/sockWrapper';
-import { eventType, msgType, roomState } from '../../common/enums';
+import { eventType, msgType } from '../../common/enums';
 import {
   sendLobbyToClients, clientDisconnect,
   clientConnectLobby, clientConnectRoom,
@@ -9,7 +9,6 @@ import {
 } from './clientConnect';
 import { gameStart } from './gameStart';
 import { gameInput } from './gameInput';
-import lobby from '../models/Lobby';
 
 function onLobbyEvent(socket, data) {
   if (data.type === msgType.PING) {
@@ -39,8 +38,6 @@ function onLobbyEvent(socket, data) {
 
 function onGameEvent(socket, data) {
   if (data.type === msgType.CLIENT.GAME_INPUT) {
-    // comm.sendRequest(socket, eventType.GAME, msgType.SERVER.GAME_END, {});
-    // comm.sendRequest(socket, eventType.GAME, msgType.SERVER.GAME_REPORT, {});
     gameInput(socket, data);
   }
   return true;
@@ -55,7 +52,6 @@ export default function dispatchEvent(io) {
       sendLobbyToClients();
     });
     socket.on(eventType.GAME, (data) => {
-      // dbg.info(`Event ${eventType.GAME} from ${socket.id}: ${JSON.stringify(data, null, 2)}`);
       onGameEvent(socket, data);
       sendLobbyToClients();
     });

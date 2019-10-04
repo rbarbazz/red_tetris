@@ -1,5 +1,5 @@
 /* eslint-disable import/prefer-default-export */
-import { playerType, eventType, msgType, CONFIG } from '../../common/enums';
+import { playerType } from '../../common/enums';
 import lobby from '../models/Lobby';
 
 export function gameInput(socket, data) {
