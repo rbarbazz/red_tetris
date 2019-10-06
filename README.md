@@ -29,7 +29,7 @@ Server:
 ```
 npm run srv-dev
 ```
-Then access ```http://localhost:8080/``` on your browser.
+Then access ```http://localhost:8080/``` in your browser.
 
 ### Prod:
 Change the url in ```src/params.js```.
@@ -43,4 +43,4 @@ Start:
 ```
 npm start
 ```
-Then access the url you have chosen on your browser.
+Then access the url you have chosen in your browser.
