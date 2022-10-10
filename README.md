@@ -16,8 +16,6 @@ The client and the server communicate through a websocket (Socket.io).
 - Code coverage over 70%
 - Connection with a hash-based url, ex: ```http://localhost:8080/#roomname[username]```
 
-A [hosted](https://redtetris-42.herokuapp.com/) version of the program is available, give it a few seconds to wake up.
-
 ## Usage:
 ### Dev:
 Client:
